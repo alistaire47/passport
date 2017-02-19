@@ -22,7 +22,7 @@ country_names <- 'https://www.cia.gov/library/publications/the-world-factbook/fi
            key = ifelse(country == 'Curacao',
                         gsub('Dutch', 'conventional', key),
                         gsub('Dutch', 'local', key)),
-           country = ifelse(gec == 'as', 'Australia', country)) %>%
+           country = ifelse(gec == 'AS', 'Australia', country)) %>%
     spread(key, value)
 
 
@@ -38,7 +38,7 @@ country_codes <- 'https://www.cia.gov/library/publications/the-world-factbook/ap
     simplify_all() %>%
     setNames(c('country', 'gec', 'iso2c', 'iso3c', 'iso3n', 'stanag', 'internet', 'comment')) %>%
     as_data_frame() %>%
-    mutate_all(na_if, '-') %>%
+    mutate_all(na_if, y = '-') %>%
     mutate(comment = na_if(comment, ''))
 
 
@@ -60,7 +60,18 @@ w <- 'https://en.wikipedia.org/wiki/Category:Lists_of_country_codes' %>%
     ), .id = 'row') %>%
     map_df(spread, key, value) %>%
     select(-row) %>%
-    mutate_all(na_if, '—') %>%
+    mutate_all(na_if, y = '—') %>%
     setNames(c('internet', 'phone', 'mcc', 'gec', 'gs1.gtin', 'icao.aircraft', 'icao.airport', 'ioc', 'iso2c', 'iso3c', 'iso3n', 'itu.callsign', 'itu.letter', 'itu.maritime', 'license.plate', 'marc', 'stanag', 'nato2c', 'undp', 'wmo'))
 
 
+# Wikipedia FIFA codes
+fifa <- 'https://en.wikipedia.org/wiki/List_of_FIFA_country_codes' %>%
+    read_html() %>%
+    html_nodes('table.wikitable') %>%
+    map(html_table, fill = TRUE) %>%
+    .[-7:-9] %>%    # remove obsolete codes tables
+    reduce(full_join) %>%
+    mutate(FIFA = coalesce(Code, FIFA)) %>%
+    select(-Code, -Confederation) %>%
+    mutate_all(funs(gsub('\\[.*\\]', '', .))) %>% mutate_all(na_if, y = '') %>%
+    setNames(tolower(names(.))) %>% rename(iso3c = iso)
