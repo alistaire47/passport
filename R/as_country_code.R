@@ -12,6 +12,8 @@
 #' @param ... Other arguments passed to \code{\link[countrycode]{countrycode}}.
 #'
 #' @return A vector of country codes.
+#'
+#' @export
 as_country_code <- function(
     x,
     to = c("iso3c", "ar5", "cowc", "cown", "eu28", "fao", "fips105", "icao",

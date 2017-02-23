@@ -14,6 +14,8 @@
 #'
 #' @return A character vector of ISO 3-character country codes, unless
 #' \code{factor = TRUE}. Warns of any parsing failure.
+#'
+#' @export
 parse_country <- function(
     x,
     to = c("iso3c", "ar5", "continent", "cowc", "cown", "eu28",

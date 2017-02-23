@@ -1,11 +1,19 @@
 Package: countries
 Type: Package
-Title: Tidy munging of country names and codes
+Title: Tidy parsing and converting of country names and codes
 Version: 0.1.0
-Author: Edward Visel
-Maintainer: Edward Visel <edward.visel@gmail.com>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Authors@R: 
+    person("Edward", "Visel", 
+        email = "edward.visel@gmail.com", 
+        role = c("aut", "cre"))
+Description: countries is an alternate API to Vincent Arel-Bundock's 
+    countrycodes package, supplying simple functions for parsing irregular 
+    country names and converting names and codes, as well as ggplot2 scale 
+    functions for presenting country names or codes in a different format from 
+    that in which they are stored.
+Depends: R (>= 3.1.0)
+Imports: countrycode
+Suggests: ggplot2
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
