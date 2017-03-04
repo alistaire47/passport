@@ -1,0 +1,310 @@
+---
+title: "Country name and code aggregation"
+author: "Edward Visel"
+output: html_notebook
+---
+
+# Intro
+
+This is the script that scrapes and assembles the data used by the package. 
+While both the script and the data are included, this script has a very high 
+chance of breaking, given the likelihood of websites or URLs changing, locales 
+differing, etc. If you'd like to assemble the data differently, though, it can 
+probably be updated without too much work.
+
+# Setup
+
+Packages required: 
+
+- rvest
+- tidyverse (dplyr, purrr, readr, tidyr), 
+- rio (wrapping readxl)
+- jsonlite (for fromJSON)
+- NLP (for parse_IETF_language_tag)
+- janitor (for clean_names)
+
+Aside from rvest and tidyverse, most could be fairly easily refactored into an 
+alternative, if you like.
+
+```{r setup}
+library(rvest)
+library(tidyverse)
+```
+
+# Scraping
+## CIA World Factbook
+```{r cia}
+# CIA World Factbook country names
+country_names <- 'https://www.cia.gov/library/publications/the-world-factbook/fields/2142.html' %>%
+    read_html() %>%
+    html_nodes('table tr[id]') %>%
+    { setNames(map(., html_nodes, 'td'), toupper(html_attr(., 'id'))) } %>%
+    map_df(~data_frame(
+        country = html_text(.x[1]),
+        key = map(.x[2], html_nodes, css = 'strong') %>% map(html_text),
+        value = map(.x[2], html_nodes, xpath = 'text()') %>%
+            map(html_text, trim = TRUE) %>%
+            map(discard, `==`, '')
+    ), .id = 'gec') %>%
+    unnest() %>%
+    mutate(key = gsub(':\\s+$|`', '', key),
+           key = gsub('etymolgy', 'etymology', key),
+           key = gsub('official|Papiamentu', 'local', key),
+           key = gsub('English', 'conventional', key),
+           key = ifelse(country == 'Curacao',
+                        gsub('Dutch', 'conventional', key),
+                        gsub('Dutch', 'local', key)),
+           country = ifelse(gec == 'AS', 'Australia', country)) %>%
+    spread(key, value)
+
+
+# CIA World Factbook country codes
+
+country_codes <- 'https://www.cia.gov/library/publications/the-world-factbook/appendix/appendix-d.html' %>%
+    read_html() %>%
+    html_nodes('ul#GetAppendix_D li') %>%
+    map(html_nodes, css = 'td') %>%
+    map(html_text, trim = TRUE) %>%
+    map(~.[c(-3, -10)]) %>%
+    transpose() %>%
+    simplify_all() %>%
+    setNames(c('country', 'gec', 'iso2c', 'iso3c', 'iso3n', 'stanag', 'tld', 'comment')) %>%
+    as_data_frame() %>%
+    mutate_all(na_if, y = '-') %>%
+    mutate(comment = na_if(comment, ''))
+```
+
+## National Geospatial-Intelligence Agency
+```{r genc}
+# http://geonames.nga.mil/gns/html/countrycodes.html
+# http://geonames.nga.mil/gns/html/docs/GENC_ED3U5_GEC_XWALK.xlsx
+
+genc <- rio::import('http://geonames.nga.mil/gns/html/docs/GENC_ED3U5_GEC_XWALK.xlsx', 
+                          skip = 2, setclass = 'tbl_df', na = '--') %>% 
+    dmap(na_if, '[None]')
+```
+
+## Wikipedia
+```{r wikipedia}
+# Wikipedia country codes
+w <- 'https://en.wikipedia.org/wiki/Category:Lists_of_country_codes' %>%
+    read_html() %>%
+    html_nodes('a[title*="Country codes:"]') %>%
+    html_attr('href') %>%
+    paste0('https://en.wikipedia.org', .) %>%
+    map(read_html) %>%
+    map(html_nodes, 'h2 + table') %>%
+    at_depth(2, html_nodes, 'td') %>%
+    map(map_df, ~list(
+        key = map(.x, html_nodes, xpath = 'a|text()') %>%
+            map(html_text) %>%
+            map_chr(paste, collapse = '') %>%
+            trimws(),
+        value = html_nodes(.x, 'p') %>% html_text()
+    ), .id = 'row') %>%
+    map_df(spread, key, value) %>%
+    select(-row) %>%
+    mutate_all(na_if, y = '—') %>% dmap(na_if, '-') %>%
+    dmap(~gsub('\\n', ', ', .x)) %>%
+    setNames(c('tld', 'calling', 'mcc', 'gec', 'gs1.gtin', 'icao.aircraft', 'icao.airport', 'ioc', 'iso2c', 'iso3c', 'iso3n', 'itu.callsign', 'itu.letter', 'itu.maritime', 'license.plate', 'marc', 'stanag', 'nato2c', 'undp', 'wmo'))
+
+
+# Wikipedia FIFA codes
+fifa <- 'https://en.wikipedia.org/wiki/List_of_FIFA_country_codes' %>%
+    read_html() %>%
+    html_nodes('table.wikitable') %>%
+    map(html_table, fill = TRUE) %>%
+    .[-7:-9] %>%    # remove obsolete codes tables
+    reduce(full_join) %>%
+    mutate(FIFA = coalesce(Code, FIFA)) %>%
+    select(-Code, -Confederation) %>%
+    mutate_all(funs(gsub('\\[.*\\]', '', .))) %>% mutate_all(na_if, y = '') %>%
+    setNames(tolower(names(.))) %>% rename(iso3c = iso)
+```
+
+## UN ISO regions
+```{r regions}
+# UN iso3n w/regions
+l <- 'https://unstats.un.org/unsd/methods/m49/m49regin.htm' %>% 
+    read_html() %>% 
+    html_nodes('h2 ~ table') %>% 
+    map(html_table)
+regions <- l[[1]] %>%
+    filter(grepl('\\d{3}', X1)) %>%
+    mutate(X1 = gsub('\\s{2,}', ' ', X1),
+           X1 = sub(' a/', '', X1)) %>%
+    separate(X1, c('iso3n', 'region'), extra = 'merge')
+devpmt <- l[[2]] %>%
+    filter(grepl('\\d{3}', X1)) %>%
+    separate(X1, c('iso3n', 'region'), extra = 'merge')
+countries <- l[[4]] %>%
+    filter(grepl('\\d{3}', X1), !grepl('\\d{3}', X2)) %>%
+    mutate(X2 = sub('^.{3}land ', 'Åland ', X2),
+           X2 = gsub('\\s{2,}', ' ', X2),
+           X2 = sub(' a/', '', X2)) %>%
+    setNames(c('iso3n', 'region'))
+un_iso3n <- list(regions, devpmt, countries) %>%
+    reduce(full_join) %>%
+    group_by(iso3n) %>%
+    slice(1) %>%
+    ungroup()
+```
+
+## OKFN
+```{r okfn}
+okfn <- read_csv('https://github.com/datasets/country-codes/raw/master/data/country-codes.csv')
+```
+
+## Unicode CLDR
+```{r unicode}
+# http://unicode.org/copyright.html
+# http://unicode.org/repos/cldr/trunk/unicode-license.txt
+
+# modern
+langs_modern <- 'https://github.com/unicode-cldr/cldr-localenames-modern/tree/master/main' %>%
+    read_html() %>%
+    html_nodes('.content span a') %>% html_text()
+
+unicode_modern <- langs_modern %>%
+    set_names(
+        paste0('https://github.com/unicode-cldr/cldr-localenames-modern/raw/master/main/',
+               ., '/territories.json'),
+        .) %>%
+    map(jsonlite::fromJSON) %>%
+    map(c(1, 1, 2, 1)) %>%
+    simplify_all() %>%
+    map2(names(.),
+         ~set_names(data_frame(names(.x), .x),
+                    c('code', .y))) %>%
+    reduce(full_join)
+
+lang_codes <- 'https://github.com/unicode-cldr/cldr-localenames-modern/raw/master/main/en-US-POSIX/languages.json' %>%
+    jsonlite::fromJSON() %>%
+    map(c(1,2,1)) %>% .[[1]] %>%
+    simplify()
+
+lang_code_df <- data_frame(language = lang_codes,
+                           code = names(lang_codes))
+
+# parse language codes. need to standardize country names (and langs?) to Unicode.
+unicode_modern[-1] %>%
+    names() %>%
+    NLP::parse_IETF_language_tag(expand = TRUE) %>%
+    map(~map2(.x, names(.x),
+              ~head(.x %||% strsplit(.y, '=')[[1]][2], 1))) %>%
+    map_chr(paste, collapse = '-')
+
+# x <- unicode_modern %>%
+#     select(code, `en-US-POSIX`) %>%
+#     group_by(iso3n = if_else(grepl('\\d{3}', code), code, NA_character_),
+#              iso2c = if_else(grepl('^[A-Z]{2}', code), gsub('^(..).*', '\\1', code), NA_character_)) %>%
+#     mutate(short = if (n() == 1) {NA} else {grepl('short', code)},
+#            variant = if (n() == 1) {NA} else {grepl('variant', code)})
+# 
+# ucm <- unicode_modern %>%
+#     separate(code, c('code2', 'alt'), sep = '-alt-', remove = FALSE, fill = 'right')
+
+# unicode codes
+unicode_codes <- 'https://github.com/unicode-cldr/cldr-core/raw/master/supplemental/codeMappings.json' %>% 
+    jsonlite::fromJSON() %>% 
+    .[[1]] %>% .[[2]] %>% 
+    bind_rows(.id = 'iso2c') %>% 
+    set_names(c('iso2c', 'iso3n', 'iso3c', 'gec', 'tld')) %>% 
+    select(-tld) %>% 
+    mutate(iso3c = coalesce(iso3c, iso2c), 
+           iso2c = ifelse(nchar(iso2c) > 2, NA, iso2c))
+```
+
+# Cleaning
+```{r cleaning}
+# cleaning
+country_codes_c <- country_codes %>% select(-country, -comment)
+country_names_c <- country_names %>%
+    select(-country, -etymology, -note, -former) %>%
+    mutate_all(funs(na_if(., 'none'))) %>%
+    janitor::clean_names() %>%
+    setNames(c('gec', paste0('en_cia_', sub('_form', '', names(.)[-1]))))
+genc_c <- genc %>%
+    janitor::clean_names() %>% select(-name) %>%
+    setNames(c('iso3c', 'iso2c', 'iso3n', 'gec'))
+okfn_c <- okfn %>% select(en_iso = 2, fr_iso = 3, iso2c = 4, iso3c = 5, iso3n = 6,
+                          7:10, calling = Dial, 12, gec = FIPS, 14:15, iso4217_3c = 16,
+                          iso4217_name = 19, iso4217_3n = 20, 21:24, 27) %>%
+    janitor::clean_names()
+w_c <- w %>% select(tld, 2:4, 6:20) %>%
+    mutate(license.plate = gsub(' \\(.*\\)', '', license.plate)) %>%
+    janitor::clean_names()
+unicode_modern_c <- unicode_modern %>%
+    separate(code, c('code', 'alt'), sep = '-alt-', fill = 'right') %>% 
+    mutate(iso3n = ifelse(nchar(code) == 3, code, NA), 
+           iso2c = ifelse(nchar(code) == 2, code, NA)) %>% 
+    select(-code) %>%
+    janitor::clean_names()
+```
+
+# Joining
+```{r joining}
+cia <- inner_join(country_codes_c, country_names_c)
+
+usg <- full_join(genc_c, cia, by = 'gec') %>%
+    mutate(iso3c = coalesce(iso3c.x, iso3c.y),
+           iso2c = coalesce(iso2c.x, iso2c.y),
+           iso3n = coalesce(iso3n.x, iso3n.y)) %>%
+    select(-matches('\\.'))
+
+us_ok <- full_join(okfn_c, usg, by = 'iso3n') %>%
+    mutate(iso3c = coalesce(iso3c.x, iso3c.y),
+           iso2c = coalesce(iso2c.x, iso2c.y),
+           gec = coalesce(gec.x, gec.y),
+           tld = coalesce(tld.x, tld.y)) %>%
+    select(-matches('\\.'))
+
+us_ok_w <- full_join(us_ok, w_c, by = 'iso2c') %>%
+    mutate(iso3c = coalesce(iso3c.x, iso3c.y),
+           iso3n = coalesce(iso3n.x, iso3n.y),
+           gec = coalesce(gec.x, gec.y),
+           marc = coalesce(marc.x, marc.y),
+           wmo = coalesce(wmo.x, wmo.y),
+           calling = coalesce(calling.x, calling.y),
+           ioc = coalesce(ioc.x, ioc.y),
+           stanag = coalesce(stanag.x, stanag.y),
+           tld = coalesce(tld.x, tld.y)) %>%
+    select(-matches('\\.'))
+
+unicode <- unicode_codes %>% 
+    drop_na(iso2c) %>% 
+    right_join(unicode_modern_c, by = 'iso2c') %>% 
+    mutate(iso3n = coalesce(iso3n.x, iso3n.y)) %>% 
+    select(-matches('\\.')) %>% 
+    mutate(iso3n = case_when(iso2c == 'CP' ~ '905',
+                             iso2c == 'DG' ~ '908',
+                             iso2c == 'XK' ~ '901',
+                             TRUE ~ iso3n),
+           iso3c = ifelse(iso2c == 'XK', NA, iso3c))
+
+countries <- full_join(unicode, us_ok_w, by = 'iso3n') %>% 
+    mutate(iso2c = coalesce(iso2c.x, iso2c.y), 
+           iso3c = coalesce(iso3c.x, iso3c.y), 
+           gec = coalesce(gec.x, gec.y)) %>% 
+    select(-matches('\\.'))
+```
+
+```{r function}
+# convert from code to name, accounting for short and variant alt names
+f <- function(x, from = 'code2', to = 'en-US-POSIX', short = TRUE, variant = FALSE){
+    df <- ucm[ucm[[from]] %in% x, c('alt', from, to)]    # filter countries
+
+    # fill short and variant names
+    df_sub <- df[Reduce(`|`, Map(function(country, s, v){
+        s <- ifelse(s, 'short', NA)
+        v <- ifelse(v, 'variant', NA)
+        df[[from]] == country & (df$alt == s | df$alt == v)
+    }, x, short, variant)), c(to, from)]
+    result <- setNames(df_sub[[to]], df_sub[[from]])[x]
+
+    # fill non-alternate names
+    df_sub <- df[df[[from]] %in% x[is.na(result)] & is.na(df$alt), c(to, from)]
+    result[is.na(result)] <- setNames(df_sub[[to]], df_sub[[from]])[x[is.na(result)]]
+    unname(result)
+}
+```
