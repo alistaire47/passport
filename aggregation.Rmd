@@ -55,7 +55,8 @@ country_names <- 'https://www.cia.gov/library/publications/the-world-factbook/fi
                         gsub('Dutch', 'conventional', key),
                         gsub('Dutch', 'local', key)),
            country = ifelse(gec == 'AS', 'Australia', country)) %>%
-    spread(key, value)
+    spread(key, value) %>% 
+    mutate(abbreviation = ifelse(country == 'Australia', NA, abbreviation))
 
 
 # CIA World Factbook country codes
@@ -80,7 +81,7 @@ country_codes <- 'https://www.cia.gov/library/publications/the-world-factbook/ap
 # http://geonames.nga.mil/gns/html/docs/GENC_ED3U5_GEC_XWALK.xlsx
 
 genc <- rio::import('http://geonames.nga.mil/gns/html/docs/GENC_ED3U5_GEC_XWALK.xlsx', 
-                          skip = 2, setclass = 'tbl_df', na = '--') %>% 
+                    skip = 2, setclass = 'tbl_df', na = '--') %>% 
     dmap(na_if, '[None]')
 ```
 
@@ -106,10 +107,10 @@ w <- 'https://en.wikipedia.org/wiki/Category:Lists_of_country_codes' %>%
     select(-row) %>%
     mutate_all(na_if, y = '—') %>% dmap(na_if, '-') %>%
     dmap(~gsub('\\n', ', ', .x)) %>%
-    setNames(c('tld', 'calling', 'mcc', 'gec', 'gs1.gtin', 'icao.aircraft', 'icao.airport', 'ioc', 'iso2c', 'iso3c', 'iso3n', 'itu.callsign', 'itu.letter', 'itu.maritime', 'license.plate', 'marc', 'stanag', 'nato2c', 'undp', 'wmo'))
+    setNames(c('tld', 'calling', 'mcc', 'gec', 'gs1_gtin', 'icao_aircraft', 'icao_airport', 'ioc', 'iso2c', 'iso3c', 'iso3n', 'itu_callsign', 'itu', 'itu_maritime', 'license_plate', 'marc', 'stanag', 'nato2c', 'undp', 'wmo'))
 
 
-# Wikipedia FIFA codes
+# Wikipedia FIFA codes - unused
 fifa <- 'https://en.wikipedia.org/wiki/List_of_FIFA_country_codes' %>%
     read_html() %>%
     html_nodes('table.wikitable') %>%
@@ -122,7 +123,21 @@ fifa <- 'https://en.wikipedia.org/wiki/List_of_FIFA_country_codes' %>%
     setNames(tolower(names(.))) %>% rename(iso3c = iso)
 ```
 
+## ITU
+unused except for corrections of Wikipedia innacuracies
+```{r itu}
+itu <- 'https://www.itu.int/online/mm/scripts/gensel8' %>% 
+    read_html() %>% 
+    html_node('table') %>% 
+    html_table(header = TRUE) %>% 
+    select(-5) %>% 
+    set_names(c('en_iso', 'itu_region', 'itu', 'tld')) %>% 
+    mutate(tld = tolower(tld))
+```
+
+
 ## UN ISO regions
+unused
 ```{r regions}
 # UN iso3n w/regions
 l <- 'https://unstats.un.org/unsd/methods/m49/m49regin.htm' %>% 
@@ -219,21 +234,32 @@ unicode_codes <- 'https://github.com/unicode-cldr/cldr-core/raw/master/supplemen
 ```{r cleaning}
 # cleaning
 country_codes_c <- country_codes %>% select(-country, -comment)
+
 country_names_c <- country_names %>%
     select(-country, -etymology, -note, -former) %>%
     mutate_all(funs(na_if(., 'none'))) %>%
     janitor::clean_names() %>%
     setNames(c('gec', paste0('en_cia_', sub('_form', '', names(.)[-1]))))
+
 genc_c <- genc %>%
     janitor::clean_names() %>% select(-name) %>%
-    setNames(c('iso3c', 'iso2c', 'iso3n', 'gec'))
+    setNames(c('iso3c', 'iso2c', 'iso3n', 'gec')) %>% 
+        filter(!gec %in% c('GZ', 'SV'))
+
 okfn_c <- okfn %>% select(en_iso = 2, fr_iso = 3, iso2c = 4, iso3c = 5, iso3n = 6,
-                          7:10, calling = Dial, 12, gec = FIPS, 14:15, iso4217_3c = 16,
+                          8:9, calling = Dial, 12, gec = FIPS, 14:15, iso4217_3c = 16,
                           iso4217_name = 19, iso4217_3n = 20, 21:24, 27) %>%
+    mutate(gec = ifelse(iso3c == 'BES', NA, gec)) %>% 
     janitor::clean_names()
+
 w_c <- w %>% select(tld, 2:4, 6:20) %>%
-    mutate(license.plate = gsub(' \\(.*\\)', '', license.plate)) %>%
-    janitor::clean_names()
+    mutate(license_plate = gsub(' \\(.*\\)', '', license_plate),
+           itu = case_when(iso2c == 'TL' ~ 'TLS',
+                           iso2c == 'KN' ~ 'KNA',
+                           TRUE ~ itu),
+           nato2c = ifelse(iso2c == 'RU', 'RU', nato2c)) %>% 
+    drop_na(iso2c)
+
 unicode_modern_c <- unicode_modern %>%
     separate(code, c('code', 'alt'), sep = '-alt-', fill = 'right') %>% 
     mutate(iso3n = ifelse(nchar(code) == 3, code, NA), 
@@ -288,6 +314,20 @@ countries <- full_join(unicode, us_ok_w, by = 'iso3n') %>%
            gec = coalesce(gec.x, gec.y)) %>% 
     select(-matches('\\.'))
 ```
+
+```{r}
+# check code duplication
+us_ok_w %>% names() %>% 
+    map_int(~ countries %>% 
+                filter(is.na(alt)) %>% 
+                group_by_(.dots = .x) %>% 
+                filter(n() > 1) %>% 
+                select(gec, en, iso3c, iso2c, iso3n) %>% 
+                .[!is.na(.[[.x]]),] %>% 
+                nrow()) %>% 
+    set_names(names(us_ok_w))
+```
+
 
 ```{r function}
 # convert from code to name, accounting for short and variant alt names
