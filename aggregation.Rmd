@@ -20,6 +20,7 @@ Packages required:
 - tidyverse (dplyr, purrr, readr, tidyr), 
 - rio (wrapping readxl)
 - jsonlite (for fromJSON)
+- countrycode (for regex data)
 - NLP (for parse_IETF_language_tag)
 - janitor (for clean_names)
 
@@ -266,6 +267,11 @@ unicode_modern_c <- unicode_modern %>%
            iso2c = ifelse(nchar(code) == 2, code, NA)) %>% 
     select(-code) %>%
     janitor::clean_names()
+
+countrycode_data_c <- countrycode::countrycode_data %>% 
+    select(iso2c, matches('regex')) %>% 
+    drop_na(iso2c) %>%
+    janitor::clean_names()
 ```
 
 # Joining
@@ -290,7 +296,7 @@ us_ok_w <- full_join(us_ok, w_c, by = 'iso2c') %>%
            iso3n = coalesce(iso3n.x, iso3n.y),
            gec = coalesce(gec.x, gec.y),
            marc = coalesce(marc.x, marc.y),
-           wmo = coalesce(wmo.x, wmo.y),
+           # wmo = coalesce(wmo.x, wmo.y),    # w/okfn codes differ, and no official list to verify
            calling = coalesce(calling.x, calling.y),
            ioc = coalesce(ioc.x, ioc.y),
            stanag = coalesce(stanag.x, stanag.y),
@@ -313,6 +319,8 @@ countries <- full_join(unicode, us_ok_w, by = 'iso3n') %>%
            iso3c = coalesce(iso3c.x, iso3c.y), 
            gec = coalesce(gec.x, gec.y)) %>% 
     select(-matches('\\.'))
+
+countries <- left_join(countries, countrycode_data_c)
 ```
 
 ```{r}
