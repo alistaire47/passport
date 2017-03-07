@@ -12,9 +12,9 @@ Description: countries is an alternate API to Vincent Arel-Bundock's
     functions for presenting country names or codes in a different format from 
     that in which they are stored.
 Depends: R (>= 3.1.0)
-Imports: countrycode
 Suggests: ggplot2
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
+Roxygen: list(markdown = TRUE)

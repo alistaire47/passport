@@ -1,41 +1,34 @@
 #' Convert standardized country names to country codes
 #'
-#' \code{as_country_code} converts a vector of standardized country names to
+#' `as_country_code` converts a vector of standardized country names to
 #' country codes
 #'
 #' Here's a placeholder of a fuller description
 #'
-#' @param x A vector of country names
-#' @param to Code format to which to convert. Defaults to \code{"iso3c"}.
-#' @param language Language of country names supplied. Defaults to \code{"en"}.
-#' @param factor If \code{TRUE}, returns factor instead of character vector.
-#' @param ... Other arguments passed to \code{\link[countrycode]{countrycode}}.
+#' @param x A character, factor, or numeric vector of country names or codes
+#' @param from Format from which to convert. See Details for more options.
+#' @param to Code format to which to convert. Defaults to `"iso2c"`; see
+#'     Details for more options.
+#' @param factor If `TRUE`, returns factor instead of character vector.
 #'
 #' @return A vector of country codes.
 #'
 #' @export
-as_country_code <- function(
-    x,
-    to = c("iso3c", "ar5", "cowc", "cown", "eu28", "fao", "fips105", "icao",
-           "imf", "ioc", "iso2c", "iso3n", "un", "wb", "eurostat", "wb_api2c",
-           "wb_api3c", "p4_scode", "p4_ccode", "wvs"),
-    language = c('en', 'ar', 'de', 'es', 'fr', 'ru', 'zh'),
-    factor = FALSE,
-    ...
-){
-    to <- match.arg(to)
-    language <- match.arg(language)
+as_country_code <- function(x, from, to = 'iso2c', factor = is.factor(x)) {
+    to <- gsub('-|\\.', '_', to)
+    from <- gsub('-|\\.', '_', from)
 
-    countries <- countrycode::countrycode(
-        sourcevar = x,
-        origin = paste0('country.name.', language),
-        destination = to,
-        ...
-    )
-
-    if (factor) {
-        countries <- factor(countries)
+    # check arguments
+    if (!class(x) %in% c('character', 'factor', 'integer', 'numeric')) {
+        stop('Input is not an atomic vector.')
+    }
+    if (!to %in% countries:::countries_colnames) {
+        stop(paste(to, 'not in available code formats.'))
+    }
+    if (!from %in% countries:::countries_colnames) {
+        stop(paste(from, 'not in available name formats.'))
     }
 
-    countries
+    convert_countries(x = x, to = to, from = from, short = TRUE,
+                      variant = FALSE, factor = factor)
 }

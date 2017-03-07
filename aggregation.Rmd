@@ -23,6 +23,7 @@ Packages required:
 - countrycode (for regex data)
 - NLP (for parse_IETF_language_tag)
 - janitor (for clean_names)
+- devtools (to add to package)
 
 Aside from rvest and tidyverse, most could be fairly easily refactored into an 
 alternative, if you like.
@@ -323,7 +324,7 @@ countries <- full_join(unicode, us_ok_w, by = 'iso3n') %>%
 countries <- left_join(countries, countrycode_data_c)
 ```
 
-```{r}
+```{r verify}
 # check code duplication
 us_ok_w %>% names() %>% 
     map_int(~ countries %>% 
@@ -334,6 +335,14 @@ us_ok_w %>% names() %>%
                 .[!is.na(.[[.x]]),] %>% 
                 nrow()) %>% 
     set_names(names(us_ok_w))
+```
+
+# Saving
+```{r saving}
+countries_colnames <- names(countries)
+
+devtools::use_data(countries, countries_colnames, 
+                   internal = TRUE, overwrite = TRUE)
 ```
 
 
