@@ -4,24 +4,28 @@
 \alias{as_country_name}
 \title{Convert standardized country codes to country names}
 \usage{
-as_country_name(x, from = c("iso3c", "cowc", "cown", "eurostat", "fao",
-  "fips105", "imf", "ioc", "iso2c", "iso3n", "p4_ccode", "p4_scode", "un", "wb",
-  "wb_api2c", "wb_api3c", "wvs"), language = c("en", "ar", "de", "es", "fr",
-  "ru", "zh"), factor = FALSE, ...)
+as_country_name(x, to = "en", from = "iso2c", short = TRUE,
+  variant = FALSE, factor = is.factor(x))
 }
 \arguments{
-\item{x}{A vector of country codes}
+\item{x}{A character, factor, or numeric vector of country codes}
 
-\item{from}{Code format from which to convert. Defaults to \code{"iso3c"}.}
+\item{to}{Language code of country names desired. Defaults to \code{"en"};
+see Details for more options.}
 
-\item{language}{Language of country names desired. Defaults to \code{"en"}.}
+\item{from}{Code format from which to convert. Defaults to \code{"iso2c"};
+see Details for more options.}
+
+\item{short}{Whether to use short alternative name when available. Can be
+length 1 or the same length as \code{x}.}
+
+\item{variant}{Whether to use variant alternative name when available. Can
+be length 1 or the same length as \code{x}.}
 
 \item{factor}{If \code{TRUE}, returns factor instead of character vector.}
-
-\item{...}{Other arguments passed to \code{\link[countrycode]{countrycode}}.}
 }
 \value{
-A vector of country names.
+A character or factor vector of country names.
 }
 \description{
 \code{as_country_name} converts a vector of standardized country codes to

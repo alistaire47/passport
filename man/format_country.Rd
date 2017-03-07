@@ -4,18 +4,21 @@
 \alias{format_country}
 \title{Construct formatter function to format country codes as country names}
 \usage{
-format_country(from = c("iso3c", "cowc", "cown", "eurostat", "fao", "fips105",
-  "imf", "ioc", "iso2c", "iso3n", "p4_ccode", "p4_scode", "un", "wb",
-  "wb_api2c", "wb_api3c", "wvs"), language = c("en", "ar", "de", "es", "fr",
-  "ru", "zh"), factor = TRUE, ...)
+format_country(from = "iso2c", language = "en", short = TRUE,
+  variant = FALSE)
 }
 \arguments{
-\item{from}{Code format from which to convert. Defaults to \code{"iso3c"}.}
+\item{from}{Code format from which to convert. Defaults to \code{"iso2c"};
+see Details for more options.}
 
-\item{language}{Language of country names desired. Defaults to \code{"en"}.}
+\item{language}{Language code of country names desired. Defaults to \code{"en"};
+see Details for more options.}
 
-\item{...}{Other arguments passed to \code{\link{as_country_name}} and
-\code{\link[countrycode]{countrycode}}.}
+\item{short}{Whether to use short alternative name when available. Can be
+length 1 or the same length as \code{x}.}
+
+\item{variant}{Whether to use variant alternative name when available. Can
+be length 1 or the same length as \code{x}.}
 }
 \value{
 A function that accepts a vector of country codes and returns them
@@ -31,7 +34,7 @@ A frequent reason to convert country codes back to country names is to make
 data visualizations more readable. While both a code and name could be
 stored in a data.frame, the computation and extra storage required can be
 avoided by transforming codes to names directly within the visualization via
-a formatter function. \code{\link{as_country_name}} could be used without
+a formatter function. \code{\link[=as_country_name]{as_country_name()}} could be used without
 parentheses to format ISO 3-character codes as English names, but
 \code{format_country} allows greater flexibility, returning a formatter
 function with the specified parameters set.
@@ -41,5 +44,5 @@ ggplot(data.frame(iso3c = c("KOR", "MMR", "TWN", "COG"),
                   value = 1:4),
        aes(x = iso3c, y = value)) +
     geom_col() +
-    scale_x_discrete(labels = format_country())
+    scale_x_discrete(labels = format_country('iso3c'))
 }

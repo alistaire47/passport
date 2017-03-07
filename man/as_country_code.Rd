@@ -4,21 +4,17 @@
 \alias{as_country_code}
 \title{Convert standardized country names to country codes}
 \usage{
-as_country_code(x, to = c("iso3c", "ar5", "cowc", "cown", "eu28", "fao",
-  "fips105", "icao", "imf", "ioc", "iso2c", "iso3n", "un", "wb", "eurostat",
-  "wb_api2c", "wb_api3c", "p4_scode", "p4_ccode", "wvs"), language = c("en",
-  "ar", "de", "es", "fr", "ru", "zh"), factor = FALSE, ...)
+as_country_code(x, from, to = "iso2c", factor = is.factor(x))
 }
 \arguments{
-\item{x}{A vector of country names}
+\item{x}{A character, factor, or numeric vector of country names or codes}
 
-\item{to}{Code format to which to convert. Defaults to \code{"iso3c"}.}
+\item{from}{Format from which to convert. See Details for more options.}
 
-\item{language}{Language of country names supplied. Defaults to \code{"en"}.}
+\item{to}{Code format to which to convert. Defaults to \code{"iso2c"}; see
+Details for more options.}
 
 \item{factor}{If \code{TRUE}, returns factor instead of character vector.}
-
-\item{...}{Other arguments passed to \code{\link[countrycode]{countrycode}}.}
 }
 \value{
 A vector of country codes.
