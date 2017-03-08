@@ -1,48 +1,70 @@
 #' Parse country names to standardized form
 #'
-#' \code{parse_country} parses country names to the standardized ISO
+#' `parse_country` parses country names to the standardized ISO
 #' 3-character code.
 #'
 #' Here's a placeholder of a fuller description
 #'
-#' @param x A character vector of country names.
-#' @param to Output format, defaults to \code{"iso3c"}.
+#' @inheritParams as_country_name
+#' @param x A character or factor vector of country names to standardize
+#' @param to Format to which to convert. Defaults to `"iso2c"`; see Details
+#'     for more options.
 #' @param language Language from which to parse country names. Currently
-#' accepts \code{"en"} (default) and \code{"de"}.
-#' @param factor If \code{TRUE}, returns factor instead of character vector.
-#' @param ... Other arguments passed to \code{\link[countrycode]{countrycode}}.
+#' accepts `"en"` (default) and `"de"`.
 #'
 #' @return A character vector of ISO 3-character country codes, unless
 #' \code{factor = TRUE}. Warns of any parsing failure.
 #'
 #' @export
-parse_country <- function(
-    x,
-    to = c("iso3c", "ar5", "continent", "cowc", "cown", "eu28",
-           "eurocontrol_pru", "eurocontrol_statfor", "fao", "fips105", "icao",
-           "icao_region", "imf", "ioc", "iso2c", "iso3n", "region", "un", "wb",
-           "country.name.ar", "country.name.de", "country.name.en",
-           "country.name.es", "country.name.fr", "country.name.ru",
-           "country.name.zh", "eurostat", "wb_api2c", "wb_api3c", "p4_scode",
-           "p4_ccode", "wvs"),
-    language = c('en', 'de'),
-    factor = FALSE,
-    ...
-){
-    to <- match.arg(to)
-    language <- match.arg(language)
-
-    countries <- countrycode::countrycode(
-        sourcevar = x,
-        origin = c('en' = 'country.name.en',
-                   'de' = 'country.name.de')[language],
-        destination = to,
-        ...
-    )
-
-    if (factor) {
-        countries <- factor(countries)
+parse_country <- function(x,
+                          to = 'iso2c',
+                          language = c('en', 'de'),
+                          short = TRUE,
+                          variant = FALSE,
+                          factor = is.factor(x)) {
+    # parameter checking
+    to <- gsub('-|\\.', '_', to)
+    if (!to %in% countries:::countries_colnames) {
+        stop(paste(to, 'not in available code formats.'))
+    }
+    language <- paste0('country_name_', match.arg(language), '_regex')
+    if (!all(sapply(list(short, variant), length) %in% c(1, length(x)))) {
+        stop('The length of the `short` and `variant` parameters must be 1 or the same as the input vector.')
     }
 
-    countries
+    if (!is.factor(x)) {
+        x <- factor(x)
+    }
+
+    x_levels <- levels(x)
+
+    # collapse vector flags to levels
+    x_level_index <- match(x_levels, x)
+    if (length(short) > 1) { short <- short[x_level_index] }
+    if (length(variant) > 1) { variant <- variant[x_level_index] }
+
+    countries <- countries:::countries
+    countries_sub <- countries[!is.na(countries[[language]]), c('alt', language, to)]
+
+    x_mat <- sapply(countries_sub[[language]], grepl, x_levels,
+                    ignore.case = TRUE, perl = TRUE)
+    countries_sub_list <- lapply(apply(x_mat, 1, which), function(i){countries_sub[i,]})
+    new_levels <- mapply(function(country, s, v){
+        i <- 1
+        if (s & 'short' %in% country$alt) { i <- which(country$alt == 'short') }
+        if (v & 'variant' %in% country$alt) { i <- which(country$alt == 'variant') }
+        country[[to]][i]
+    }, countries_sub_list, short, variant)
+
+    levels(x) <- new_levels
+
+    new_na <- is.na(new_levels) & !is.na(x_levels)
+    if (any(new_na)) {
+        warning(paste('NAs created:', toString(x_levels[new_na])))
+    }
+
+    if (factor) {
+        return(droplevels(x))
+    }
+    as.character(x)
 }

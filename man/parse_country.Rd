@@ -4,25 +4,25 @@
 \alias{parse_country}
 \title{Parse country names to standardized form}
 \usage{
-parse_country(x, to = c("iso3c", "ar5", "continent", "cowc", "cown", "eu28",
-  "eurocontrol_pru", "eurocontrol_statfor", "fao", "fips105", "icao",
-  "icao_region", "imf", "ioc", "iso2c", "iso3n", "region", "un", "wb",
-  "country.name.ar", "country.name.de", "country.name.en", "country.name.es",
-  "country.name.fr", "country.name.ru", "country.name.zh", "eurostat",
-  "wb_api2c", "wb_api3c", "p4_scode", "p4_ccode", "wvs"), language = c("en",
-  "de"), factor = FALSE, ...)
+parse_country(x, to = "iso2c", language = c("en", "de"), short = TRUE,
+  variant = FALSE, factor = is.factor(x))
 }
 \arguments{
-\item{x}{A character vector of country names.}
+\item{x}{A character or factor vector of country names to standardize}
 
-\item{to}{Output format, defaults to \code{"iso3c"}.}
+\item{to}{Format to which to convert. Defaults to \code{"iso2c"}; see Details
+for more options.}
 
 \item{language}{Language from which to parse country names. Currently
 accepts \code{"en"} (default) and \code{"de"}.}
 
-\item{factor}{If \code{TRUE}, returns factor instead of character vector.}
+\item{short}{Whether to use short alternative name when available. Can be
+length 1 or the same length as \code{x}.}
 
-\item{...}{Other arguments passed to \code{\link[countrycode]{countrycode}}.}
+\item{variant}{Whether to use variant alternative name when available. Can
+be length 1 or the same length as \code{x}.}
+
+\item{factor}{If \code{TRUE}, returns factor instead of character vector.}
 }
 \value{
 A character vector of ISO 3-character country codes, unless

@@ -6,11 +6,9 @@ Authors@R:
     person("Edward", "Visel", 
         email = "edward.visel@gmail.com", 
         role = c("aut", "cre"))
-Description: countries is an alternate API to Vincent Arel-Bundock's 
-    countrycodes package, supplying simple functions for parsing irregular 
-    country names and converting names and codes, as well as ggplot2 scale 
-    functions for presenting country names or codes in a different format from 
-    that in which they are stored.
+Description: countries offers a tidy framework for working with country names 
+    and codes, with functions for parsing irregular country names and 
+    converting names and codes.
 Depends: R (>= 3.1.0)
 Suggests: ggplot2
 License: GPL-3
