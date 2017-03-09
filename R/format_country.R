@@ -32,7 +32,7 @@ format_country <- function(
     variant = FALSE
 ){
     function(x){
-        as_country_name(x, from = from, to = language, short = short,
+        as_country_name(x, from = from, to = to, short = short,
                         variant = variant, factor = TRUE)
     }
 }

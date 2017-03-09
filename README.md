@@ -48,18 +48,18 @@ gap %>%
     select(country, country_code, year, lifeExp) %>%
     sample_n(10)
 #> # A tibble: 10 × 4
-#>       country country_code  year lifeExp
-#>        <fctr>       <fctr> <int>   <dbl>
-#> 1        Mali           ML  1967  38.487
-#> 2       Japan           JP  2007  82.603
-#> 3        Oman           OM  1962  43.165
-#> 4    Botswana           BW  1997  52.556
-#> 5        Mali           ML  1982  43.916
-#> 6     Hungary           HU  2007  73.338
-#> 7       Libya           LY  1987  66.234
-#> 8  Bangladesh           BD  1987  52.819
-#> 9       Benin           BJ  2002  54.406
-#> 10  Guatemala           GT  1987  60.782
+#>              country country_code  year  lifeExp
+#>               <fctr>       <fctr> <int>    <dbl>
+#> 1             Jordan           JO  1992 68.01500
+#> 2        Netherlands           NL  1957 72.99000
+#> 3              China           CN  1967 58.38112
+#> 4            Tunisia           TN  1962 49.57900
+#> 5            Reunion           RE  1987 71.91300
+#> 6              Syria           SY  1972 57.29600
+#> 7          Guatemala           GT  1967 50.01600
+#> 8  Equatorial Guinea           GQ  1962 37.48500
+#> 9       Burkina Faso           BF  1987 49.55700
+#> 10           Hungary           HU  1997 71.04000
 ```
 
 2. Convert
