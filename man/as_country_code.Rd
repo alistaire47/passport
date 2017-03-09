@@ -12,17 +12,42 @@ as_country_code(x, from, to = "iso2c", factor = is.factor(x))
 \item{from}{Format from which to convert. See Details for more options.}
 
 \item{to}{Code format to which to convert. Defaults to \code{"iso2c"}; see
-Details for more options.}
+\code{\link{codes}} for more options.}
 
 \item{factor}{If \code{TRUE}, returns factor instead of character vector.}
 }
 \value{
-A vector of country codes.
+A vector of country codes. Warns if new \code{NA} values are added.
 }
 \description{
 \code{as_country_code} converts a vector of standardized country names to
 country codes
 }
 \details{
-Here's a placeholder of a fuller description
+\code{as_country_code} takes a character, factor, or numeric vector of country
+names or codes to translate into the specified code format. The default for
+\code{to} is \code{"iso2c"}, the ISO 3166-1 Alpha-2 character codes, but many
+alternatives are available.
+
+Several non-unique codes are available as well, including \code{"continent"},
+\code{"is_independent"}, ISO 4217 currency codes, etc. Backwards conversion will
+not work for such cases.
+
+If converting to country names, use \code{\link[=as_country_name]{as_country_name()}}, which offers
+control of short and variant forms.
+
+See \code{\link{codes}} for all options, or run \code{DT::datatable(codes)} for a
+searchable widget.
+}
+\examples{
+# Codifies standardized names
+as_country_code(c("US", "Taiwan", "Myanmar", "Kosovo", "South Korea"), from = 'en')
+#> [1] "US" "TW" "MM" "XK" "KR"
+
+# Translates codes; if passed a factor, returns a releveled one
+as_country_code(factor(c('SAH', 'PCN', 'OMA', 'JPN')),
+                from = 'fifa', to = 'iso4217_3c')
+#> [1] MAD NZD OMR JPY
+#> Levels: JPY OMR NZD MAD
+
 }

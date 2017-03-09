@@ -1,17 +1,20 @@
 Package: countries
 Type: Package
-Title: Tidy parsing and converting of country names and codes
+Title: Parsing and converting of country names and codes
 Version: 0.1.0
-Authors@R: 
+Authors@R:
     person("Edward", "Visel", 
         email = "edward.visel@gmail.com", 
         role = c("aut", "cre"))
-Description: countries offers a tidy framework for working with country names 
-    and codes, with functions for parsing irregular country names and 
-    converting names and codes.
+Description: countries offers a consistent framework for working with country 
+    names and codes, with functions for parsing irregular country names and 
+    converting codes and names in hundreds of languages.
 Depends: R (>= 3.1.0)
-Suggests: ggplot2
-License: GPL-3
+Suggests: 
+    DT, 
+    ggplot2,
+    testthat
+License: GPL-3 | file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1

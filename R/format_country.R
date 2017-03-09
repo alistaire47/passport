@@ -9,13 +9,11 @@
 #' stored in a data.frame, the computation and extra storage required can be
 #' avoided by transforming codes to names directly within the visualization via
 #' a formatter function. [as_country_name()] could be used without
-#' parentheses to format ISO 3-character codes as English names, but
+#' parentheses to format ISO 2-character codes as English names, but
 #' `format_country` allows greater flexibility, returning a formatter
 #' function with the specified parameters set.
 #'
 #' @inheritParams as_country_name
-#' @param language Language code of country names desired. Defaults to `"en"`;
-#'     see Details for more options.
 #'
 #' @return A function that accepts a vector of country codes and returns them
 #' as country names.
@@ -29,7 +27,7 @@
 #' @export
 format_country <- function(
     from = 'iso2c',
-    language = 'en',
+    to = 'en',
     short = TRUE,
     variant = FALSE
 ){

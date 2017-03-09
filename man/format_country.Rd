@@ -4,15 +4,14 @@
 \alias{format_country}
 \title{Construct formatter function to format country codes as country names}
 \usage{
-format_country(from = "iso2c", language = "en", short = TRUE,
-  variant = FALSE)
+format_country(from = "iso2c", to = "en", short = TRUE, variant = FALSE)
 }
 \arguments{
 \item{from}{Code format from which to convert. Defaults to \code{"iso2c"};
-see Details for more options.}
+see \code{\link{codes}} for more options.}
 
-\item{language}{Language code of country names desired. Defaults to \code{"en"};
-see Details for more options.}
+\item{to}{Language code of country names desired. Defaults to \code{"en"};
+see \code{\link{codes}} for more options.}
 
 \item{short}{Whether to use short alternative name when available. Can be
 length 1 or the same length as \code{x}.}
@@ -35,7 +34,7 @@ data visualizations more readable. While both a code and name could be
 stored in a data.frame, the computation and extra storage required can be
 avoided by transforming codes to names directly within the visualization via
 a formatter function. \code{\link[=as_country_name]{as_country_name()}} could be used without
-parentheses to format ISO 3-character codes as English names, but
+parentheses to format ISO 2-character codes as English names, but
 \code{format_country} allows greater flexibility, returning a formatter
 function with the specified parameters set.
 }

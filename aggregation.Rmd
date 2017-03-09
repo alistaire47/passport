@@ -241,7 +241,18 @@ country_names_c <- country_names %>%
     select(-country, -etymology, -note, -former) %>%
     mutate_all(funs(na_if(., 'none'))) %>%
     janitor::clean_names() %>%
-    setNames(c('gec', paste0('en_cia_', sub('_form', '', names(.)[-1]))))
+    set_names(gsub('conventional_|_form', '', names(.))) %>%
+    set_names(c('gec', paste0('en_cia_', names(.)[-1])))
+
+country_names_c <- country_names_c %>% 
+    mutate(en_cia_long = coalesce(en_cia_long, en_cia_short), 
+           en_cia_local_long = coalesce(en_cia_local_long, en_cia_local_short)) %>%
+    gather(code, name, -gec, -en_cia_abbreviation) %>% 
+    separate(code, c('code', 'alt'), sep = '_(?=short|long)') %>% 
+    spread(code, name) %>% 
+    filter(., rowSums(is.na(.[-1])) < 3) %>%
+    mutate(alt = na_if(alt, 'long'),
+           en_cia = gsub(' \\(sometimes.*|; note.*', '', en_cia))
 
 genc_c <- genc %>%
     janitor::clean_names() %>% select(-name) %>%
@@ -272,14 +283,16 @@ unicode_modern_c <- unicode_modern %>%
 countrycode_data_c <- countrycode::countrycode_data %>% 
     select(iso2c, matches('regex')) %>% 
     drop_na(iso2c) %>%
-    janitor::clean_names()
+    janitor::clean_names() %>% 
+    set_names(sub('country_name_', '', names(.)))
 ```
 
 # Joining
 ```{r joining}
-cia <- inner_join(country_codes_c, country_names_c)
+#cia <- inner_join(country_codes_c, country_names_c)
+cia <- full_join(country_codes_c %>% drop_na(gec), country_names_c)
 
-usg <- full_join(genc_c, cia, by = 'gec') %>%
+usg <- full_join(genc_c %>% drop_na(gec), cia, by = 'gec') %>%
     mutate(iso3c = coalesce(iso3c.x, iso3c.y),
            iso2c = coalesce(iso2c.x, iso2c.y),
            iso3n = coalesce(iso3n.x, iso3n.y)) %>%
@@ -315,9 +328,8 @@ unicode <- unicode_codes %>%
                              TRUE ~ iso3n),
            iso3c = ifelse(iso2c == 'XK', NA, iso3c))
 
-countries <- full_join(unicode, us_ok_w, by = 'iso3n') %>% 
-    mutate(iso2c = coalesce(iso2c.x, iso2c.y), 
-           iso3c = coalesce(iso3c.x, iso3c.y), 
+countries <- full_join(unicode, us_ok_w, by = c('iso3n', 'iso2c', 'alt')) %>% 
+    mutate(iso3c = coalesce(iso3c.x, iso3c.y), 
            gec = coalesce(gec.x, gec.y)) %>% 
     select(-matches('\\.'))
 
@@ -337,12 +349,86 @@ us_ok_w %>% names() %>%
     set_names(names(us_ok_w))
 ```
 
-# Saving
-```{r saving}
+# Documenting
+```{r}
 countries_colnames <- names(countries)
 
+codes <- data_frame(column = countries_colnames, 
+                 code = gsub('_', '-', column)) %>% 
+    mutate(expansion = map(code, safely(NLP::parse_IETF_language_tag), expand = TRUE), 
+           expansion = map(expansion, c(1, 1)), 
+           expansion = map(expansion, ~if(length(.x) == 0) {c(Language = NA_character_)} else .x), 
+           expansion = at_depth(expansion, 2, 
+                                ~suppressWarnings(na_if(toString(na.omit(.x)), ''))), 
+           expansion = map(expansion, as_data_frame), 
+           expansion = map(expansion, ~set_names(.x, sub('=.*', '', names(.x))))) %>% 
+    unnest() %>% 
+    mutate(Language = case_when(column == 'alt' ~ NA_character_,
+                                column == 'mcc' ~ NA_character_,
+                                column == 'tld' ~ NA_character_,
+                                TRUE ~ Language),
+           Variant = ifelse(column == 'en_us_posix', 'POSIX', Variant),
+           Variant = ifelse(grepl('_iso', column), 'ISO', Variant),
+           Variant = ifelse(grepl('_cia', column), 'CIA World Factbook', Variant),
+           Extension = ifelse(grepl('_cia_', column), 
+                              sub('en_cia_', '', column), Extension),
+           name = case_when(
+               column == 'iso2c' ~ 'ISO 3166-1 Alpha-2 code',
+               column == 'iso3c' ~ 'ISO 3166-1 Alpha-3 code',
+               column == 'iso3n' ~ 'ISO 3166-1 numeric code',
+               column == 'en_iso' ~ 'Official ISO (UN) English name',
+               column == 'fr_iso' ~ 'Official ISO (UN) French name',
+               column == 'gec' ~ 'Geopolitical Entities and Codes',
+               column == 'fifa' ~ 'FIFA (Fédération Internationale de Football Association) code',
+               column == 'gaul' ~ 'Global Administrative Unit Layers from the Food and Agriculture Organization (FAO) code',
+               column == 'iso4217_3c' ~ 'ISO 4217 3-character currency code',
+               column == 'iso4217_name' ~ 'ISO 4217 currency name',
+               column == 'iso4217_3n' ~ 'ISO 4217 numeric currency code',
+               column == 'is_independent' ~ 'Country sovereignty status from the CIA World Factbook',
+               column == 'capital' ~ 'Capital city',
+               column == 'edgar' ~ 'EDGAR country code from the SEC',
+               column == 'en_cia' ~ 'Country names from the CIA World Factbook',
+               column == 'en_cia_local' ~ 'Local country names from the CIA World Factbook',
+               column == 'en_cia_abbreviation' ~ 'Commonly used country abbreviations from the CIA World Factbook.',
+               column == 'mcc' ~ 'International Telecommunication Union (ITU) Telecommunication Standardization Sector (ITU-T) E.212 Mobile Country Code',
+               column == 'itu_callsign' ~ 'International Telecommunication Union (ITU) callsign prefixes for radio and television stations',
+               column == 'itu' ~ 'International Telecommunication Union (ITU) 1-3 character country code',
+               column == 'itu_maritime' ~ 'International Telecommunication Union (ITU) Maritime Identification Digits',
+               column == 'license_plate' ~ 'Motor vehicle licence plate country code',
+               column == 'stanag' ~ 'North Atlantic Treaty Organization (NATO/OTAN) STANAG 1059 Letter Codes for Geographical Entities',
+               column == 'nato2c' ~ 'North Atlantic Treaty Organization (NATO/OTAN) 2-letter code.',
+               column == 'undp' ~ 'United Nations Development Programme (UNDP) country code',
+               column == 'marc' ~ 'MAchine-Readable Cataloging (MARC) codes from the US Library of Congress',
+               column == 'calling' ~ 'International Telecommunication Union (ITU) Telecommunication Standardization Sector (ITU-T) E.164 international telephone calling code',
+               column == 'ioc' ~ 'International Olympic Committee country code',
+               column == 'tld' ~ 'Internet Assigned Numbers Authority (IANA) country code top-level domain',
+               TRUE ~ NA_character_
+           ),
+           notes = case_when(
+               column == 'gec' ~ 'Formerly FIPS Pub 10-4, which was withdrawn by NIST in 2008. Maintained until 2014 by the National Geospatial-Intelligence Agency (NGA), after which it was frozen and superceded by GENC, the US government profile of ISO 3166.',
+               column == 'en_iso' ~ 'Does not include Taiwan, which is not a member of the UN. A few use uncommon offical forms, including North and South Korea and Bolivia.',
+               column == 'fr_iso' ~ 'Does not include Taiwan, which is not a member of the UN. A few use uncommon offical forms, including North and South Korea and Bolivia.',
+               column == 'en_cia' ~ 'Many short and long forms. Uses "Burma" instead of "Myanmar".',
+               column == 'en_cia_local' ~ 'Many short and long forms. Includes alternatives inline. Transliterates to Latin script.',
+               column == 'en_cia_abbreviation' ~ 'Only included where commonly used. Includes alternatives inline.',
+               column == 'mcc' ~ 'Includes ranges.',
+               column == 'itu_callsign' ~ 'Includes ranges.',
+               column == 'itu_maritime' ~ 'Includes ranges.',
+               column == 'nato2c' ~ 'Officially deprecated in favor of STANAG 1059 (see "stanag").',
+               column == 'tld' ~ 'Includes leading period.',
+               grepl('regex', column) ~ 'Regex used for `parse_country`.',
+               TRUE ~ NA_character_
+           )) %>% 
+    janitor::clean_names() %>% 
+    arrange(column)
+```
+
+
+# Saving
+```{r saving}
 devtools::use_data(countries, countries_colnames, 
                    internal = TRUE, overwrite = TRUE)
+devtools::use_data(codes, overwrite = TRUE)
 ```
 
 

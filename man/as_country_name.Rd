@@ -8,13 +8,13 @@ as_country_name(x, to = "en", from = "iso2c", short = TRUE,
   variant = FALSE, factor = is.factor(x))
 }
 \arguments{
-\item{x}{A character, factor, or numeric vector of country codes}
+\item{x}{A character, factor, or numeric vector of country codes or names}
 
 \item{to}{Language code of country names desired. Defaults to \code{"en"};
-see Details for more options.}
+see \code{\link{codes}} for more options.}
 
 \item{from}{Code format from which to convert. Defaults to \code{"iso2c"};
-see Details for more options.}
+see \code{\link{codes}} for more options.}
 
 \item{short}{Whether to use short alternative name when available. Can be
 length 1 or the same length as \code{x}.}
@@ -25,12 +25,55 @@ be length 1 or the same length as \code{x}.}
 \item{factor}{If \code{TRUE}, returns factor instead of character vector.}
 }
 \value{
-A character or factor vector of country names.
+A character or factor vector of country names. Warns if new \code{NA}
+values are added.
 }
 \description{
 \code{as_country_name} converts a vector of standardized country codes to
 country names.
 }
 \details{
-Here's a placeholder of a fuller description
+\code{as_country_name} takes a character, factor, or numeric vector of country
+codes (or names in another standardized format) and converts them to
+country names in the specified format. If you are trying to standardize an
+existing set of names, see \code{\link[=parse_country]{parse_country()}}.
+
+The default \code{"en"} is from
+\href{http://cldr.unicode.org/}{Unicode Common Locale Data Repository (CLDR)},
+which \href{http://cldr.unicode.org/translation/country-names}{aspires to use the most customary name}
+e.g "Switzerland" instead of official ones, which are frequently awkward for
+common usage, e.g. "Swiss Confederation". CLDR also supplies names in a huge
+variety of languages, allowing for easy translation. Short and variant
+alternates are available for some countries; if not, the function will fall
+back to the standard form. See LICENSE file for terms of use.
+
+Other namesets are available from
+\itemize{
+\item \href{https://www.iso.org/home.html}{the ISO}, \code{"en_iso"} and \code{"fr_iso"}, and
+\item \href{https://www.cia.gov/library/publications/the-world-factbook/fields/2142.html#af}{the CIA World Factbook}:
+\itemize{
+\item \code{"en_cia"}, which include many longer official forms and shorter pratical
+forms,
+\item \code{"en_cia_local"}, which includes transliterations, and
+\item \code{"en_cia_abbreviation"}, which includes commonly-used abbreviations.
+}
+}
+
+See \code{\link{codes}} for all options, or run \code{DT::datatable(codes)} for a
+searchable widget.
+}
+\examples{
+# Usable names for tough-to-standardize places
+as_country_name(c('US', 'TW', 'MM', 'XK', 'KR'))
+#> [1] "US"          "Taiwan"      "Myanmar"     "Kosovo"      "South Korea"
+
+# If passed a factor, will return a releveled one
+as_country_name(factor(c('US', 'NF', 'CD', 'SJ')), short = FALSE, variant = TRUE)
+#> [1] United States        Norfolk Island       Congo (DRC)          Svalbard & Jan Mayen
+#> Levels: Congo (DRC) Norfolk Island Svalbard & Jan Mayen United States
+
+# Speaks a lot of languages, knows a lot of codes
+as_country_name(c('SAH', 'PCN', 'OMA', 'JPN'), from = 'fifa', to = 'ja')
+#> [1] "西サハラ"       "ピトケアン諸島" "オマーン"       "日本"
+
 }

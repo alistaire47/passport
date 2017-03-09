@@ -1,67 +1,62 @@
-convert_countries <- function(x, to, from, short, variant, factor) {
-    # preprocess into factor so as to only operate on levels
-    if (!is.factor(x)) {
-        x <- factor(x)
-    }
-    x_levels <- levels(x)
-
-    # collapse vector flags to levels
-    x_level_index <- match(x_levels, x)
-    if (length(short) > 1) { short <- short[x_level_index] }
-    if (length(variant) > 1) { variant <- variant[x_level_index] }
-
-    # convert names
-    countries <- countries:::countries[countries:::countries[[from]] %in% x,
-                                       c('alt', from, to)]    # filter countries
-
-    # fill short and variant names
-    countries_sub <- countries[Reduce(`|`, Map(function(country, s, v){
-        countries[[from]] == country & (countries$alt == s | countries$alt == v)
-    }, x_levels, ifelse(short, 'short', NA), ifelse(variant, 'variant', NA))),
-    c(to, from)]
-
-    new_levels <- setNames(countries_sub[[to]], countries_sub[[from]])[x_levels]
-
-    # fill non-alternate names
-    countries_sub <- countries[countries[[from]] %in% x_levels[is.na(new_levels)] &
-                                   is.na(countries$alt), c(to, from)]
-
-    new_levels[is.na(new_levels)] <- setNames(
-        countries_sub[[to]],
-        countries_sub[[from]]
-    )[x_levels[is.na(new_levels)]]
-
-    levels(x) <- new_levels
-
-    # warn if NAs created
-    new_na <- is.na(new_levels) & !is.na(x_levels)
-    if (any(new_na)) {warning(paste('NAs created:', toString(x_levels[new_na])))}
-
-    if (factor) {
-        return(droplevels(x))
-    }
-    as.character(x)
-}
-
 #' Convert standardized country codes to country names
 #'
 #' `as_country_name` converts a vector of standardized country codes to
 #' country names.
 #'
-#' Here's a placeholder of a fuller description
+#' `as_country_name` takes a character, factor, or numeric vector of country
+#' codes (or names in another standardized format) and converts them to
+#' country names in the specified format. If you are trying to standardize an
+#' existing set of names, see [parse_country()].
 #'
-#' @param x A character, factor, or numeric vector of country codes
+#' The default `"en"` is from
+#' [Unicode Common Locale Data Repository (CLDR)](http://cldr.unicode.org/),
+#' which [aspires to use the most customary name](http://cldr.unicode.org/translation/country-names)
+#' e.g "Switzerland" instead of official ones, which are frequently awkward for
+#' common usage, e.g. "Swiss Confederation". CLDR also supplies names in a huge
+#' variety of languages, allowing for easy translation. Short and variant
+#' alternates are available for some countries; if not, the function will fall
+#' back to the standard form. See LICENSE file for terms of use.
+#'
+#' Other namesets are available from
+#'
+#' - [the ISO](https://www.iso.org/home.html), `"en_iso"` and `"fr_iso"`, and
+#' - [the CIA World Factbook](https://www.cia.gov/library/publications/the-world-factbook/fields/2142.html#af):
+#'   - `"en_cia"`, which include many longer official forms and shorter pratical
+#' forms,
+#'   - `"en_cia_local"`, which includes transliterations, and
+#'   - `"en_cia_abbreviation"`, which includes commonly-used abbreviations.
+#'
+#' See [`codes`] for all options, or run `DT::datatable(codes)` for a
+#' searchable widget.
+#'
+#'
+#' @param x A character, factor, or numeric vector of country codes or names
 #' @param to Language code of country names desired. Defaults to `"en"`;
-#'     see Details for more options.
+#'     see [`codes`] for more options.
 #' @param from Code format from which to convert. Defaults to `"iso2c"`;
-#'     see Details for more options.
+#'     see [`codes`] for more options.
 #' @param short Whether to use short alternative name when available. Can be
 #'     length 1 or the same length as `x`.
 #' @param variant Whether to use variant alternative name when available. Can
 #'     be length 1 or the same length as `x`.
 #' @param factor If `TRUE`, returns factor instead of character vector.
 #'
-#' @return A character or factor vector of country names.
+#' @return A character or factor vector of country names. Warns if new `NA`
+#' values are added.
+#'
+#' @examples
+#' # Usable names for tough-to-standardize places
+#' as_country_name(c('US', 'TW', 'MM', 'XK', 'KR'))
+#' #> [1] "US"          "Taiwan"      "Myanmar"     "Kosovo"      "South Korea"
+#'
+#' # If passed a factor, will return a releveled one
+#' as_country_name(factor(c('US', 'NF', 'CD', 'SJ')), short = FALSE, variant = TRUE)
+#' #> [1] United States        Norfolk Island       Congo (DRC)          Svalbard & Jan Mayen
+#' #> Levels: Congo (DRC) Norfolk Island Svalbard & Jan Mayen United States
+#'
+#' # Speaks a lot of languages, knows a lot of codes
+#' as_country_name(c('SAH', 'PCN', 'OMA', 'JPN'), from = 'fifa', to = 'ja')
+#' #> [1] "西サハラ"       "ピトケアン諸島" "オマーン"       "日本"
 #'
 #' @export
 as_country_name <- function(x,

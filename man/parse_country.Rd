@@ -10,7 +10,7 @@ parse_country(x, to = "iso2c", language = c("en", "de"), short = TRUE,
 \arguments{
 \item{x}{A character or factor vector of country names to standardize}
 
-\item{to}{Format to which to convert. Defaults to \code{"iso2c"}; see Details
+\item{to}{Format to which to convert. Defaults to \code{"iso2c"}; see \code{\link{codes}}
 for more options.}
 
 \item{language}{Language from which to parse country names. Currently
@@ -29,9 +29,24 @@ A character vector of ISO 3-character country codes, unless
 \code{factor = TRUE}. Warns of any parsing failure.
 }
 \description{
-\code{parse_country} parses country names to the standardized ISO
-3-character code.
+\code{parse_country} parses irregular country names to the ISO 3166-1 Alpha-2 code
+or other standardized code or name format.
 }
 \details{
-Here's a placeholder of a fuller description
+\code{parse_country} tries to parse a character or factor vector of country names
+to a standardized form: by default, ISO 3166-1 Alpha-2 codes. It uses regular
+expressions, and thus is likely to be slower than \code{\link[=as_country_name]{as_country_name()}} or
+\code{\link[=as_country_code]{as_country_code()}}, but unless the data contains a very large number of
+alternatives is still likely to be reasonably quick due to its internal use
+of factors (like all countries functions).
+
+The regex are from
+\href{https://github.com/vincentarelbundock/countrycode}{countrycode}, whose
+authors deserve enormous credit, and to whom I suggest you submit regex in
+more languages if you would like to extend these packages.
+}
+\examples{
+parse_country(c('United States', 'USA', 'US', 'us', 'United States of America'))
+#> [1] "US" "US" "US" "US" "US"
+
 }
