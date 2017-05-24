@@ -25,6 +25,7 @@ Working with country data can be frustrating. Even with well-curated data like [
 library(passport)
 library(gapminder)
 library(tidyverse)    # Works equally well in any grammar.
+set.seed(47)
 
 grep('Korea', unique(gapminder$country), value = TRUE)
 #> [1] "Korea, Dem. Rep." "Korea, Rep."
@@ -48,18 +49,18 @@ gap %>%
     select(country, country_code, year, lifeExp) %>%
     sample_n(10)
 #> # A tibble: 10 x 4
-#>               country country_code  year lifeExp
-#>                <fctr>       <fctr> <int>   <dbl>
-#>  1            Lesotho           LS  1977  52.208
-#>  2             Rwanda           RW  1982  46.218
-#>  3              Gabon           GA  1977  52.790
-#>  4            Eritrea           ER  2007  58.040
-#>  5            Iceland           IS  2002  80.500
-#>  6             Malawi           MW  1967  39.487
-#>  7 Dominican Republic           DO  1982  63.727
-#>  8            Senegal           SN  1972  45.815
-#>  9               Peru           PE  2007  71.421
-#> 10               Cuba           CU  1992  74.414
+#>                  country country_code  year lifeExp
+#>                   <fctr>       <fctr> <int>   <dbl>
+#>  1    West Bank and Gaza           PS  1992  69.718
+#>  2                 Haiti           HT  1952  37.579
+#>  3 Sao Tome and Principe           ST  1952  46.471
+#>  4               Somalia           SO  1987  44.501
+#>  5             Mauritius           MU  1967  61.557
+#>  6              Pakistan           PK  2002  63.610
+#>  7      Hong Kong, China           HK  1952  60.960
+#>  8                 Japan           JP  1967  71.430
+#>  9            Madagascar           MG  1997  54.978
+#> 10               Tunisia           TN  1987  66.894
 ```
 
 2. Convert
@@ -159,7 +160,8 @@ Data
 
 The data underlying `passport` comes from a number of sources, including
 
--   [The Unicode Common Locale Data Repository (CLDR) Project](http://cldr.unicode.org/) supplies country names in many, many languages, from Afrikaans to Zulu. Even better, [CLRDR aspires to use the most customary name](http://cldr.unicode.org/translation/country-names) instead of formal or official ones, e.g. "Switzerland" instead of "Swiss Confederation". See included LICENSE for terms of use.
+-   [The Unicode Common Locale Data Repository (CLDR) Project](http://cldr.unicode.org/) supplies country names in many, many languages, from Afrikaans to Zulu. Even better, [CLRDR aspires to use the most customary name](http://cldr.unicode.org/translation/country-names) instead of formal or official ones, e.g. "Switzerland" instead of "Swiss Confederation".
+-   [The United Nations Statistics Division](https://unstats.un.org/unsd/methodology/m49/overview/) maintains and publishes the M.49 region code and the UN geoscheme region codes and names.
 -   [The CIA World Factbook](https://www.cia.gov/library/publications/the-world-factbook/index.html) supplies a standardized set of names and codes.
 -   [The National Geospatial-Intelligence Agency (NGA)](http://geonames.nga.mil/gns/html/countrycodes.html) is the organization responsible for standardizing US government use of country codes. It inherited the now-deprecated FIPS 10-4 from NIST, which it turned into the GEC, which is now also deprecated in favor of GENC, a US government profile of ISO 3166.
 -   [Wikipedia](https://en.wikipedia.org/wiki/Category:Lists_of_country_codes) offers a rich set of country codes, some of which are aggregated here.
@@ -169,4 +171,4 @@ The data underlying `passport` comes from a number of sources, including
 License
 -------
 
-`passport` is licenced as open-source software under [GPL-3](https://www.gnu.org/licenses/gpl.html).
+`passport` is licenced as open-source software under [GPL-3](https://www.gnu.org/licenses/gpl.html). Unicode CLDR data is licensed according to [its own license](https://github.com/unicode-cldr/cldr-json/blob/master/LICENSE), a copy of which is included.

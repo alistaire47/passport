@@ -9,8 +9,15 @@ output: html_notebook
 This is the script that scrapes and assembles the data used by the package. 
 While both the script and the data are included, this script has a very high 
 chance of breaking, given the likelihood of websites or URLs changing, locales 
-differing, etc. If you'd like to assemble the data differently, though, it can 
-probably be updated without too much work.
+differing, etc. If you'd like to assemble the data differently or are just 
+curious how it was assembled, though, this script will be of use.
+
+It is left out of the built package because it requires a lot of dependencies 
+(see below) and is irrelevant to the use of the package. If you do choose to 
+run it, keep in mind that it scrapes a lot of sources. Thus, please be curteous 
+and don't re-scrape more times than necessary. Due to the number and size of 
+sources, it will take a while to run, anyway, and so is probably best run by 
+chunk.
 
 ## Setup
 

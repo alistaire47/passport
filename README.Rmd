@@ -39,6 +39,7 @@ Working with country data can be frustrating. Even with well-curated data like
 library(passport)
 library(gapminder)
 library(tidyverse)    # Works equally well in any grammar.
+set.seed(47)
 
 grep('Korea', unique(gapminder$country), value = TRUE)
 grep('Yemen', unique(gapminder$country), value = TRUE)
@@ -137,8 +138,10 @@ The data underlying `passport` comes from a number of sources, including
 Project](http://cldr.unicode.org/) supplies country names in many, many
 languages, from Afrikaans to Zulu. Even better, [CLRDR aspires to use the most
 customary name](http://cldr.unicode.org/translation/country-names) instead of
-formal or official ones, e.g. "Switzerland" instead of "Swiss Confederation". 
-See included LICENSE for terms of use.
+formal or official ones, e.g. "Switzerland" instead of "Swiss Confederation".
+- [The United Nations Statistics 
+Division](https://unstats.un.org/unsd/methodology/m49/overview/) maintains and 
+publishes the M.49 region code and the UN geoscheme region codes and names.
 - [The CIA World 
 Factbook](https://www.cia.gov/library/publications/the-world-factbook/index.html)
 supplies a standardized set of names and codes. 
@@ -159,4 +162,7 @@ like to improve both packages, please contribute regex there!
 ## License
 
 `passport` is licenced as open-source software under
-[GPL-3](https://www.gnu.org/licenses/gpl.html).
+[GPL-3](https://www.gnu.org/licenses/gpl.html). Unicode CLDR data is licensed 
+according to [its own 
+license](https://github.com/unicode-cldr/cldr-json/blob/master/LICENSE), a copy 
+of which is included.
