@@ -15,7 +15,7 @@
 #'
 #' Structure:
 #'
-#' - `column`: The column name in the internal `countries:::countries`
+#' - `column`: The column name in the internal `passport:::countries`
 #'     data.frame. Valid for use in `from` and `to` parameters.
 #' - `code`: `column` with hyphens for underscores, which is a valid IANA
 #'     language tag for Unicode CLDR country names. Valid for use in `from` and
@@ -31,7 +31,7 @@
 #'
 #' @examples
 #' # A searchable widget to find a code or name
-#' \donttest{
+#' \dontrun{
 #' DT::datatable(codes)
 #' }
 "codes"

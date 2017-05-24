@@ -1,4 +1,4 @@
 library(testthat)
-library(countries)
+library(passport)
 
-test_check("countries")
+test_check("passport")

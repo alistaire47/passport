@@ -72,16 +72,16 @@ as_country_name <- function(x,
     if (!class(x) %in% c('character', 'factor', 'integer', 'numeric')) {
         stop('Input is not an atomic vector.')
     }
-    if (!to %in% countries:::countries_colnames) {
+    if (!to %in% countries_colnames) {
         stop(paste(to, 'not in available name formats.'))
     }
-    if (!from %in% countries:::countries_colnames) {
+    if (!from %in% countries_colnames) {
         stop(paste(from, 'not in available code formats.'))
     }
     if (!all(sapply(list(short, variant), length) %in% c(1, length(x)))) {
         stop('The length of the `short` and `variant` parameters must be 1 or the same as the input vector.')
     }
 
-    convert_countries(x = x, to = to, from = from, short = short,
+    convert_country(x = x, to = to, from = from, short = short,
                       variant = variant, factor = factor)
 }

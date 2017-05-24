@@ -1,6 +1,6 @@
 #' Construct formatter function to format country codes as country names
 #'
-#' `format_country` is a constructor function that returns a function
+#' `country_format` is a constructor function that returns a function
 #' to format country codes as country names suitable for passing to ggplot2's
 #' scale functions' `label` parameter.
 #'
@@ -19,13 +19,17 @@
 #' as country names.
 #'
 #' @examples
+#' \dontrun{
+#' library(ggplot2)
+#'
 #' ggplot(data.frame(iso3c = c("KOR", "MMR", "TWN", "COG"),
 #'                   value = 1:4),
 #'        aes(x = iso3c, y = value)) +
 #'     geom_col() +
-#'     scale_x_discrete(labels = format_country('iso3c'))
+#'     scale_x_discrete(labels = country_format('iso3c'))
+#' }
 #' @export
-format_country <- function(
+country_format <- function(
     from = 'iso2c',
     to = 'en',
     short = TRUE,

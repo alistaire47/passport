@@ -1,5 +1,5 @@
 ---
-title: "`countries`"
+title: "`passport`"
 tags: [r]
 output: github_document
 ---
@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-`countries` offers a consistent framework for working with country names and 
+`passport` offers a consistent framework for working with country names and 
 codes, with functions for parsing irregular country names and converting codes 
 and names in many languages and formats.
 
@@ -25,7 +25,7 @@ Install from GitHub with
 
 ```{r install, eval=FALSE}
 # install.packages("devtools")
-devtools::install_github("alistaire47/countries")
+devtools::install_github("alistaire47/passport")
 ```
 
 ---
@@ -36,7 +36,7 @@ Working with country data can be frustrating. Even with well-curated data like
 [`gapminder`](https://github.com/jennybc/gapminder), there are some oddities:
 
 ```{r, message=FALSE}
-library(countries)
+library(passport)
 library(gapminder)
 library(tidyverse)    # Works equally well in any grammar.
 
@@ -44,7 +44,7 @@ grep('Korea', unique(gapminder$country), value = TRUE)
 grep('Yemen', unique(gapminder$country), value = TRUE)
 ```
 
-`countries` offers a framework for working with country names and codes without 
+`passport` offers a framework for working with country names and codes without 
 manually editing data or scraping codes from Wikipedia.
 
 
@@ -102,8 +102,8 @@ A particularly common hangup with country data is presentation. While
 such names need to be changed to something more palatable either by editing 
 the data or manually overriding the labels directly on the plot.
 
-If the existing format is already standardized, `countries` offers another 
-option: use a formatter function created with `format_country`, just like for 
+If the existing format is already standardized, `passport` offers another 
+option: use a formatter function created with `country_format`, just like for 
 thousands separators or currency formatting:
 
 ```{r}
@@ -120,7 +120,7 @@ gap %>%
                colour = country_code)) + 
     geom_linerange(size = 20, show.legend = FALSE) + 
                      # ...just pass `labels` a formatter function!
-    scale_x_discrete(labels = format_country()) + 
+    scale_x_discrete(labels = country_format()) + 
     labs(title = 'Life gets better',
          subtitle = 'Largest increase in life expectancy',
          x = NULL, y = 'Life expectancy')
@@ -131,7 +131,7 @@ gap %>%
 
 ## Data
 
-The data underlying `countries` comes from a number of sources, including
+The data underlying `passport` comes from a number of sources, including
 
 - [The Unicode Common Locale Data Repository (CLDR)
 Project](http://cldr.unicode.org/) supplies country names in many, many
@@ -147,16 +147,16 @@ supplies a standardized set of names and codes.
 responsible for standardizing US government use of country codes. It inherited 
 the now-deprecated FIPS 10-4 from NIST, which it turned into the GEC, which is 
 now also deprecated in favor of GENC, a US government profile of ISO 3166.
-- Yes, [Wikipedia](https://en.wikipedia.org/wiki/Category:Lists_of_country_codes) 
-offers a rich set of country codes, if aggregated into a useful format.
+- [Wikipedia](https://en.wikipedia.org/wiki/Category:Lists_of_country_codes) 
+offers a rich set of country codes, some of which are aggregated here.
 - [Open Knowledge International's Frictionless Data](http://data.okfn.org/data/core/country-codes) 
 supplies a set of codes collated from a number of sources.
 - The regex powering `parse_country()` are from
 [`countrycode`](https://github.com/vincentarelbundock/countrycode). If you would
-like to improve both packages, please contribute there!
+like to improve both packages, please contribute regex there!
 
 
 ## License
 
-`countries` is licenced as open-source software under
+`passport` is licenced as open-source software under
 [GPL-3](https://www.gnu.org/licenses/gpl.html).

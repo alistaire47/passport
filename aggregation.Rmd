@@ -4,7 +4,7 @@ author: "Edward Visel"
 output: html_notebook
 ---
 
-# Intro
+## Intro
 
 This is the script that scrapes and assembles the data used by the package. 
 While both the script and the data are included, this script has a very high 
@@ -12,7 +12,7 @@ chance of breaking, given the likelihood of websites or URLs changing, locales
 differing, etc. If you'd like to assemble the data differently, though, it can 
 probably be updated without too much work.
 
-# Setup
+## Setup
 
 Packages required: 
 
@@ -23,6 +23,7 @@ Packages required:
 - countrycode (for regex data)
 - NLP (for parse_IETF_language_tag)
 - janitor (for clean_names)
+- stringi (to encode Unicode characters for CRAN)
 - devtools (to add to package)
 
 Aside from rvest and tidyverse, most could be fairly easily refactored into an 
@@ -33,8 +34,8 @@ library(rvest)
 library(tidyverse)
 ```
 
-# Scraping
-## CIA World Factbook
+## Scraping
+### CIA World Factbook
 ```{r cia}
 # CIA World Factbook country names
 country_names <- 'https://www.cia.gov/library/publications/the-world-factbook/fields/2142.html' %>%
@@ -77,17 +78,17 @@ country_codes <- 'https://www.cia.gov/library/publications/the-world-factbook/ap
     mutate(comment = na_if(comment, ''))
 ```
 
-## National Geospatial-Intelligence Agency
+### National Geospatial-Intelligence Agency
 ```{r genc}
 # http://geonames.nga.mil/gns/html/countrycodes.html
 # http://geonames.nga.mil/gns/html/docs/GENC_ED3U5_GEC_XWALK.xlsx
 
 genc <- rio::import('http://geonames.nga.mil/gns/html/docs/GENC_ED3U5_GEC_XWALK.xlsx', 
                     skip = 2, setclass = 'tbl_df', na = '--') %>% 
-    dmap(na_if, '[None]')
+    modify(na_if, '[None]')
 ```
 
-## Wikipedia
+### Wikipedia
 ```{r wikipedia}
 # Wikipedia country codes
 w <- 'https://en.wikipedia.org/wiki/Category:Lists_of_country_codes' %>%
@@ -107,8 +108,8 @@ w <- 'https://en.wikipedia.org/wiki/Category:Lists_of_country_codes' %>%
     ), .id = 'row') %>%
     map_df(spread, key, value) %>%
     select(-row) %>%
-    mutate_all(na_if, y = '—') %>% dmap(na_if, '-') %>%
-    dmap(~gsub('\\n', ', ', .x)) %>%
+    mutate_all(na_if, y = '—') %>% modify(na_if, '-') %>%
+    modify(~gsub('\\n', ', ', .x)) %>%
     setNames(c('tld', 'calling', 'mcc', 'gec', 'gs1_gtin', 'icao_aircraft', 'icao_airport', 'ioc', 'iso2c', 'iso3c', 'iso3n', 'itu_callsign', 'itu', 'itu_maritime', 'license_plate', 'marc', 'stanag', 'nato2c', 'undp', 'wmo'))
 
 
@@ -125,7 +126,7 @@ fifa <- 'https://en.wikipedia.org/wiki/List_of_FIFA_country_codes' %>%
     setNames(tolower(names(.))) %>% rename(iso3c = iso)
 ```
 
-## ITU
+### ITU
 unused except for corrections of Wikipedia innacuracies
 ```{r itu}
 itu <- 'https://www.itu.int/online/mm/scripts/gensel8' %>% 
@@ -138,41 +139,49 @@ itu <- 'https://www.itu.int/online/mm/scripts/gensel8' %>%
 ```
 
 
-## UN ISO regions
-unused
+### UN ISO regions
 ```{r regions}
+## Site moved; see below. Previously unused anyway.
 # UN iso3n w/regions
-l <- 'https://unstats.un.org/unsd/methods/m49/m49regin.htm' %>% 
+# l <- 'https://unstats.un.org/unsd/methods/m49/m49regin.htm' %>% 
+#     read_html() %>% 
+#     html_nodes('h2 ~ table') %>% 
+#     map(html_table)
+# regions <- l[[1]] %>%
+#     filter(grepl('\\d{3}', X1)) %>%
+#     mutate(X1 = gsub('\\s{2,}', ' ', X1),
+#            X1 = sub(' a/', '', X1)) %>%
+#     separate(X1, c('iso3n', 'region'), extra = 'merge')
+# devpmt <- l[[2]] %>%
+#     filter(grepl('\\d{3}', X1)) %>%
+#     separate(X1, c('iso3n', 'region'), extra = 'merge')
+# countries <- l[[4]] %>%
+#     filter(grepl('\\d{3}', X1), !grepl('\\d{3}', X2)) %>%
+#     mutate(X2 = sub('^.{3}land ', 'Åland ', X2),
+#            X2 = gsub('\\s{2,}', ' ', X2),
+#            X2 = sub(' a/', '', X2)) %>%
+#     setNames(c('iso3n', 'region'))
+# un_iso3n <- list(regions, devpmt, countries) %>%
+#     reduce(full_join) %>%
+#     group_by(iso3n) %>%
+#     slice(1) %>%
+#     ungroup()
+
+unstats <- 'https://unstats.un.org/unsd/methodology/m49/overview/' %>% 
     read_html() %>% 
-    html_nodes('h2 ~ table') %>% 
-    map(html_table)
-regions <- l[[1]] %>%
-    filter(grepl('\\d{3}', X1)) %>%
-    mutate(X1 = gsub('\\s{2,}', ' ', X1),
-           X1 = sub(' a/', '', X1)) %>%
-    separate(X1, c('iso3n', 'region'), extra = 'merge')
-devpmt <- l[[2]] %>%
-    filter(grepl('\\d{3}', X1)) %>%
-    separate(X1, c('iso3n', 'region'), extra = 'merge')
-countries <- l[[4]] %>%
-    filter(grepl('\\d{3}', X1), !grepl('\\d{3}', X2)) %>%
-    mutate(X2 = sub('^.{3}land ', 'Åland ', X2),
-           X2 = gsub('\\s{2,}', ' ', X2),
-           X2 = sub(' a/', '', X2)) %>%
-    setNames(c('iso3n', 'region'))
-un_iso3n <- list(regions, devpmt, countries) %>%
-    reduce(full_join) %>%
-    group_by(iso3n) %>%
-    slice(1) %>%
-    ungroup()
+    html_nodes('table') %>% 
+    map_df(~html_table(.x, header = TRUE) %>% 
+               mutate(language = tolower(sub('downloadTable', '', 
+                                             html_attr(.x, 'id'))))) %>% 
+    tbl_df()
 ```
 
-## OKFN
+### OKFN
 ```{r okfn}
 okfn <- read_csv('https://github.com/datasets/country-codes/raw/master/data/country-codes.csv')
 ```
 
-## Unicode CLDR
+### Unicode CLDR
 ```{r unicode}
 # http://unicode.org/copyright.html
 # http://unicode.org/repos/cldr/trunk/unicode-license.txt
@@ -204,12 +213,12 @@ lang_code_df <- data_frame(language = lang_codes,
                            code = names(lang_codes))
 
 # parse language codes. need to standardize country names (and langs?) to Unicode.
-unicode_modern[-1] %>%
-    names() %>%
-    NLP::parse_IETF_language_tag(expand = TRUE) %>%
-    map(~map2(.x, names(.x),
-              ~head(.x %||% strsplit(.y, '=')[[1]][2], 1))) %>%
-    map_chr(paste, collapse = '-')
+# unicode_modern[-1] %>%
+#     names() %>%
+#     NLP::parse_IETF_language_tag(expand = TRUE) %>%
+#     map(~map2(.x, names(.x),
+#               ~head(.x %||% strsplit(.y, '=')[[1]][2], 1))) %>%
+#     map_chr(paste, collapse = '-')
 
 # x <- unicode_modern %>%
 #     select(code, `en-US-POSIX`) %>%
@@ -232,7 +241,7 @@ unicode_codes <- 'https://github.com/unicode-cldr/cldr-core/raw/master/supplemen
            iso2c = ifelse(nchar(iso2c) > 2, NA, iso2c))
 ```
 
-# Cleaning
+## Cleaning
 ```{r cleaning}
 # cleaning
 country_codes_c <- country_codes %>% select(-country, -comment)
@@ -258,6 +267,28 @@ genc_c <- genc %>%
     janitor::clean_names() %>% select(-name) %>%
     setNames(c('iso3c', 'iso2c', 'iso3n', 'gec')) %>% 
         filter(!gec %in% c('GZ', 'SV'))
+
+unstats_c <- unstats %>% 
+    janitor::clean_names() %>%
+    transmute(language, 
+              un_region_code = region_code,
+              un_region_name = region_name,
+              un_subregion_code = sub_region_code,
+              un_subregion_name = sub_region_name,
+              un_intermediate_region_code = intermediate_region_code,
+              un_intermediate_region_name = intermediate_region_name,
+              un_name = country_or_area,
+              m49 = m49_code,
+              iso3c = iso_alpha3_code,
+              ldc = least_developed_countries_ldc == 'x',
+              lldc = land_locked_developing_countries_lldc == 'x',
+              sids = small_island_developing_states_sids == 'x',
+              is_developed = developed_developing_countries) %>% 
+    modify(na_if, '') %>%
+    gather(var, val, matches('name')) %>% 
+    unite(var, language, var) %>% 
+    mutate(var = gsub('_name', '', var)) %>% 
+    spread(var, val)
 
 okfn_c <- okfn %>% select(en_iso = 2, fr_iso = 3, iso2c = 4, iso3c = 5, iso3n = 6,
                           8:9, calling = Dial, 12, gec = FIPS, 14:15, iso4217_3c = 16,
@@ -287,7 +318,7 @@ countrycode_data_c <- countrycode::countrycode_data %>%
     set_names(sub('country_name_', '', names(.)))
 ```
 
-# Joining
+## Joining
 ```{r joining}
 #cia <- inner_join(country_codes_c, country_names_c)
 cia <- full_join(country_codes_c %>% drop_na(gec), country_names_c)
@@ -298,14 +329,17 @@ usg <- full_join(genc_c %>% drop_na(gec), cia, by = 'gec') %>%
            iso3n = coalesce(iso3n.x, iso3n.y)) %>%
     select(-matches('\\.'))
 
-us_ok <- full_join(okfn_c, usg, by = 'iso3n') %>%
+               # Sacrifice Channel Islands for Sark
+ok_un <- okfn_c %>% slice(-1) %>% full_join(unstats_c)
+
+us_ok_un <- full_join(ok_un, usg, by = 'iso3n') %>%
     mutate(iso3c = coalesce(iso3c.x, iso3c.y),
            iso2c = coalesce(iso2c.x, iso2c.y),
            gec = coalesce(gec.x, gec.y),
            tld = coalesce(tld.x, tld.y)) %>%
     select(-matches('\\.'))
 
-us_ok_w <- full_join(us_ok, w_c, by = 'iso2c') %>%
+us_ok_un_w <- full_join(us_ok_un, w_c, by = 'iso2c') %>%
     mutate(iso3c = coalesce(iso3c.x, iso3c.y),
            iso3n = coalesce(iso3n.x, iso3n.y),
            gec = coalesce(gec.x, gec.y),
@@ -328,7 +362,7 @@ unicode <- unicode_codes %>%
                              TRUE ~ iso3n),
            iso3c = ifelse(iso2c == 'XK', NA, iso3c))
 
-countries <- full_join(unicode, us_ok_w, by = c('iso3n', 'iso2c', 'alt')) %>% 
+countries <- full_join(unicode, us_ok_un_w, by = c('iso3n', 'iso2c', 'alt')) %>% 
     mutate(iso3c = coalesce(iso3c.x, iso3c.y), 
            gec = coalesce(gec.x, gec.y)) %>% 
     select(-matches('\\.'))
@@ -338,7 +372,7 @@ countries <- left_join(countries, countrycode_data_c)
 
 ```{r verify}
 # check code duplication
-us_ok_w %>% names() %>% 
+us_ok_un_w %>% names() %>% 
     map_int(~ countries %>% 
                 filter(is.na(alt)) %>% 
                 group_by_(.dots = .x) %>% 
@@ -346,10 +380,10 @@ us_ok_w %>% names() %>%
                 select(gec, en, iso3c, iso2c, iso3n) %>% 
                 .[!is.na(.[[.x]]),] %>% 
                 nrow()) %>% 
-    set_names(names(us_ok_w))
+    set_names(names(us_ok_w_un))
 ```
 
-# Documenting
+## Documenting
 ```{r}
 countries_colnames <- names(countries)
 
@@ -358,9 +392,7 @@ codes <- data_frame(column = countries_colnames,
     mutate(expansion = map(code, safely(NLP::parse_IETF_language_tag), expand = TRUE), 
            expansion = map(expansion, c(1, 1)), 
            expansion = map(expansion, ~if(length(.x) == 0) {c(Language = NA_character_)} else .x), 
-           expansion = at_depth(expansion, 2, 
-                                ~suppressWarnings(na_if(toString(na.omit(.x)), ''))), 
-           expansion = map(expansion, as_data_frame), 
+           expansion = map(expansion, map_df, ~suppressWarnings(na_if(toString(na.omit(.x)), ''))), 
            expansion = map(expansion, ~set_names(.x, sub('=.*', '', names(.x))))) %>% 
     unnest() %>% 
     mutate(Language = case_when(column == 'alt' ~ NA_character_,
@@ -376,8 +408,8 @@ codes <- data_frame(column = countries_colnames,
                column == 'iso2c' ~ 'ISO 3166-1 Alpha-2 code',
                column == 'iso3c' ~ 'ISO 3166-1 Alpha-3 code',
                column == 'iso3n' ~ 'ISO 3166-1 numeric code',
-               column == 'en_iso' ~ 'Official ISO (UN) English name',
-               column == 'fr_iso' ~ 'Official ISO (UN) French name',
+               column == 'en_iso' ~ 'ISO English name',
+               column == 'fr_iso' ~ 'ISO French name',
                column == 'gec' ~ 'Geopolitical Entities and Codes',
                column == 'fifa' ~ 'FIFA (Fédération Internationale de Football Association) code',
                column == 'gaul' ~ 'Global Administrative Unit Layers from the Food and Agriculture Organization (FAO) code',
@@ -402,6 +434,12 @@ codes <- data_frame(column = countries_colnames,
                column == 'calling' ~ 'International Telecommunication Union (ITU) Telecommunication Standardization Sector (ITU-T) E.164 international telephone calling code',
                column == 'ioc' ~ 'International Olympic Committee country code',
                column == 'tld' ~ 'Internet Assigned Numbers Authority (IANA) country code top-level domain',
+               column == 'm49' ~ 'United Nations Statistics Division (UNSD) M.49 area code',
+               column == 'ldc' ~ 'United Nations (UN) Least Developed Countries',
+               column == 'lldc' ~ 'United Nations (UN) Land Locked Developing Countries',
+               column == 'sids' ~ 'United Nations (UN) Small Island Developing States',
+               column == 'is_developed' ~ 'United Nations (UN) development status',
+               grepl('_un', column) ~ 'United Nations (UN) Geoscheme region name',
                TRUE ~ NA_character_
            ),
            notes = case_when(
@@ -416,16 +454,21 @@ codes <- data_frame(column = countries_colnames,
                column == 'itu_maritime' ~ 'Includes ranges.',
                column == 'nato2c' ~ 'Officially deprecated in favor of STANAG 1059 (see "stanag").',
                column == 'tld' ~ 'Includes leading period.',
+               grepl('_un_region', column) ~ 'Continent',
                grepl('regex', column) ~ 'Regex used for `parse_country`.',
                TRUE ~ NA_character_
            )) %>% 
     janitor::clean_names() %>% 
-    arrange(column)
+    arrange(column) %>% 
+    select(1:2, 8:9, 3:7)
 ```
 
 
-# Saving
+## Saving
 ```{r saving}
+# to avoid ASCII CRAN warning...stri_trans_general w/ 'Latin-ASCII'?
+codes <- codes %>% modify(stringi::stri_trans_general, 'Latin-ASCII')
+
 devtools::use_data(countries, countries_colnames, 
                    internal = TRUE, overwrite = TRUE)
 devtools::use_data(codes, overwrite = TRUE)

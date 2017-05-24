@@ -1,12 +1,12 @@
-Package: countries
+Package: passport
 Type: Package
-Title: Parsing and converting of country names and codes
+Title: Parse and convert country names and codes
 Version: 0.1.0
 Authors@R:
     person("Edward", "Visel", 
         email = "edward.visel@gmail.com", 
         role = c("aut", "cre"))
-Description: countries offers a consistent framework for working with country 
+Description: passport offers a consistent framework for working with country 
     names and codes, with functions for parsing irregular country names and 
     converting codes and names in hundreds of languages.
 Depends: R (>= 3.1.0)

@@ -8,7 +8,7 @@
 
 Structure:
 \itemize{
-\item \code{column}: The column name in the internal \code{countries:::countries}
+\item \code{column}: The column name in the internal \code{passport:::countries}
 data.frame. Valid for use in \code{from} and \code{to} parameters.
 \item \code{code}: \code{column} with hyphens for underscores, which is a valid IANA
 language tag for Unicode CLDR country names. Valid for use in \code{from} and
@@ -39,7 +39,7 @@ or periods \code{.}.
 }
 \examples{
 # A searchable widget to find a code or name
-\donttest{
+\dontrun{
 DT::datatable(codes)
 }
 }

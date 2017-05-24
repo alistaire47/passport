@@ -2,5 +2,6 @@
 
 export(as_country_code)
 export(as_country_name)
-export(format_country)
+export(country_format)
 export(parse_country)
+importFrom(stats,setNames)
