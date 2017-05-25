@@ -35,7 +35,7 @@ grep('Yemen', unique(gapminder$country), value = TRUE)
 
 `passport` offers a framework for working with country names and codes without manually editing data or scraping codes from Wikipedia.
 
-1. Standardize
+I. Standardize
 --------------
 
 If data has non-standardized names, standardize them to an ISO 3166-1 code or other standardized code or name with `parse_country`:
@@ -70,8 +70,8 @@ parse_country(c('somewhere in Japan', '日本', 'Japon', "जापान"), how
 #> [1] "JP" "JP" "JP" "JP"
 ```
 
-2. Convert
-----------
+II. Convert
+-----------
 
 If data comes with countries already coded, convert them with `as_country_code()`:
 
@@ -132,8 +132,8 @@ olympics$NOC %>% unique() %>%
 
 Language formats largely follow [IETF language tag BCP 47](https://en.wikipedia.org/wiki/IETF_language_tag) format. For all available formats, run `DT::datatable(codes)` for an interactive widget of format names and further information.
 
-3. Format
----------
+III. Format
+-----------
 
 A particularly common hangup with country data is presentation. While "Yemen, Rep." may be fine for exploratory work, to create a plot to share, such names need to be changed to something more palatable either by editing the data or manually overriding the labels directly on the plot.
 
