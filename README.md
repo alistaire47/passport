@@ -35,6 +35,8 @@ grep('Yemen', unique(gapminder$country), value = TRUE)
 
 `passport` offers a framework for working with country names and codes without manually editing data or scraping codes from Wikipedia.
 
+------------------------------------------------------------------------
+
 1. Standardize
 --------------
 
@@ -69,6 +71,8 @@ If country names are particularly irregular or in unsupported languages, `parse_
 parse_country(c('somewhere in Japan', '日本', 'Japon', "जापान"), how = 'dstk')
 #> [1] "JP" "JP" "JP" "JP"
 ```
+
+------------------------------------------------------------------------
 
 2. Convert
 ----------
@@ -130,6 +134,8 @@ olympics$NOC %>% unique() %>%
 #>  [6] "கனடா"       "நெதர்லாந்து"  "ஜப்பான்"      "ஸ்பெயின்"     "ஆஸ்திரேலியா"
 ```
 
+------------------------------------------------------------------------
+
 3. Format
 ---------
 
@@ -175,6 +181,8 @@ The data underlying `passport` comes from a number of sources, including
 -   [Wikipedia](https://en.wikipedia.org/wiki/Category:Lists_of_country_codes) offers a rich set of country codes, some of which are aggregated here.
 -   [Open Knowledge International's Frictionless Data](http://data.okfn.org/data/core/country-codes) supplies a set of codes collated from a number of sources.
 -   The regex powering `parse_country()` are from [`countrycode`](https://github.com/vincentarelbundock/countrycode). If you would like to improve both packages, please contribute regex there!
+
+------------------------------------------------------------------------
 
 Licensing
 ---------
