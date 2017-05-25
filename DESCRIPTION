@@ -1,18 +1,22 @@
 Package: passport
 Type: Package
-Title: Parse and convert country names and codes
+Title: Travel smoothly between country name and code formats
 Version: 0.1.0
 Authors@R:
-    person("Edward", "Visel", 
-        email = "edward.visel@gmail.com", 
-        role = c("aut", "cre"))
-Description: passport offers a consistent framework for working with country 
-    names and codes, with functions for parsing irregular country names and 
-    converting codes and names in hundreds of languages.
+    person("Edward", "Visel", email = "edward.visel@gmail.com", role = c("aut", "cre"))
+Description: passport smooths the process of working with country names and 
+    codes via powerful parsing, standardization, and conversion utilities 
+    arranged in a simple, consistent API. Country name formats include multiple 
+    sources including the Unicode CLDR common-sense standardizations in 
+    hundreds of languages.
 Depends: R (>= 3.1.0)
+Inports: 
+    stats, 
+    utils
 Suggests: 
+    jsonlite, 
     DT, 
-    ggplot2,
+    ggplot2, 
     testthat
 License: GPL-3 | file LICENSE
 Encoding: UTF-8

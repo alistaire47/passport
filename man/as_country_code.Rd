@@ -20,7 +20,7 @@ as_country_code(x, from, to = "iso2c", factor = is.factor(x))
 A vector of country codes. Warns if new \code{NA} values are added.
 }
 \description{
-\code{as_country_code} converts a vector of standardized country names to
+\code{as_country_code} converts a vector of standardized country names or codes to
 country codes
 }
 \details{

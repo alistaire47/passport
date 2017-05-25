@@ -38,10 +38,8 @@ codes (or names in another standardized format) and converts them to
 country names in the specified format. If you are trying to standardize an
 existing set of names, see \code{\link[=parse_country]{parse_country()}}.
 
-The default \code{"en"} is from
-\href{http://cldr.unicode.org/}{Unicode Common Locale Data Repository (CLDR)},
-which \href{http://cldr.unicode.org/translation/country-names}{aspires to use the most customary name}
-e.g "Switzerland" instead of official ones, which are frequently awkward for
+The default \code{"en"} is from \href{http://cldr.unicode.org/}{Unicode Common Locale DataRepository (CLDR)}, which \href{http://cldr.unicode.org/translation/country-names}{aspires to use the mostcustomary name} e.g
+"Switzerland" instead of official ones, which are frequently awkward for
 common usage, e.g. "Swiss Confederation". CLDR also supplies names in a huge
 variety of languages, allowing for easy translation. Short and variant
 alternates are available for some countries; if not, the function will fall
@@ -49,6 +47,9 @@ back to the standard form. See LICENSE file for terms of use.
 
 Other namesets are available from
 \itemize{
+\item \href{https://unstats.un.org/unsd/methodology/m49/}{the UN Statistics Division(UNSD)},
+which maintains standardized names in English, Chinese, Russian, French,
+Spanish, and Arabic, here named as \code{"en_un"} etc.
 \item \href{https://www.iso.org/home.html}{the ISO}, \code{"en_iso"} and \code{"fr_iso"}, and
 \item \href{https://www.cia.gov/library/publications/the-world-factbook/fields/2142.html#af}{the CIA World Factbook}:
 \itemize{

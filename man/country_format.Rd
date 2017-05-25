@@ -39,8 +39,7 @@ parentheses to format ISO 2-character codes as English names, but
 function with the specified parameters set.
 }
 \examples{
-\dontrun{
-library(ggplot2)
+if (require(ggplot2)) {
 
 ggplot(data.frame(iso3c = c("KOR", "MMR", "TWN", "COG"),
                   value = 1:4),

@@ -8,10 +8,10 @@
 #' country names in the specified format. If you are trying to standardize an
 #' existing set of names, see [parse_country()].
 #'
-#' The default `"en"` is from
-#' [Unicode Common Locale Data Repository (CLDR)](http://cldr.unicode.org/),
-#' which [aspires to use the most customary name](http://cldr.unicode.org/translation/country-names)
-#' e.g "Switzerland" instead of official ones, which are frequently awkward for
+#' The default `"en"` is from [Unicode Common Locale Data
+#' Repository (CLDR)](http://cldr.unicode.org/), which [aspires to use the most
+#' customary name](http://cldr.unicode.org/translation/country-names) e.g
+#' "Switzerland" instead of official ones, which are frequently awkward for
 #' common usage, e.g. "Swiss Confederation". CLDR also supplies names in a huge
 #' variety of languages, allowing for easy translation. Short and variant
 #' alternates are available for some countries; if not, the function will fall
@@ -19,6 +19,9 @@
 #'
 #' Other namesets are available from
 #'
+#' - [the UN Statistics Division(UNSD)](https://unstats.un.org/unsd/methodology/m49/),
+#'     which maintains standardized names in English, Chinese, Russian, French,
+#'     Spanish, and Arabic, here named as `"en_un"` etc.
 #' - [the ISO](https://www.iso.org/home.html), `"en_iso"` and `"fr_iso"`, and
 #' - [the CIA World Factbook](https://www.cia.gov/library/publications/the-world-factbook/fields/2142.html#af):
 #'   - `"en_cia"`, which include many longer official forms and shorter pratical
@@ -78,7 +81,7 @@ as_country_name <- function(x,
     if (!from %in% countries_colnames) {
         stop(paste(from, 'not in available code formats.'))
     }
-    if (!all(sapply(list(short, variant), length) %in% c(1, length(x)))) {
+    if (!all(lengths(list(short, variant)) %in% c(1, length(x)))) {
         stop('The length of the `short` and `variant` parameters must be 1 or the same as the input vector.')
     }
 

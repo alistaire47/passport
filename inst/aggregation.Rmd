@@ -12,12 +12,14 @@ chance of breaking, given the likelihood of websites or URLs changing, locales
 differing, etc. If you'd like to assemble the data differently or are just 
 curious how it was assembled, though, this script will be of use.
 
-It is left out of the built package because it requires a lot of dependencies 
-(see below) and is irrelevant to the use of the package. If you do choose to 
-run it, keep in mind that it scrapes a lot of sources. Thus, please be curteous 
-and don't re-scrape more times than necessary. Due to the number and size of 
-sources, it will take a while to run, anyway, and so is probably best run by 
-chunk.
+A function to refresh data is not included in the package because this script is
+depends on web structures that may vary, requires a lot of dependencies (see 
+below) and is irrelevant to the use of the package. If you do choose to run it, 
+keep in mind that it scrapes a lot of sources; please be curteous and don't 
+re-scrape more times than necessary. Due to the number and size of sources, it 
+will take a while to run, anyway, and so is probably best run by chunk. While 
+structured as an RMarkdown notebook for ease of documentation and structure, the
+HTML file it knits is not useful and is thus not included.
 
 ## Setup
 
@@ -34,7 +36,7 @@ Packages required:
 - devtools (to add to package)
 
 Aside from rvest and tidyverse, most could be fairly easily refactored into an 
-alternative, if you like.
+alternative.
 
 ```{r setup}
 library(rvest)
@@ -42,6 +44,7 @@ library(tidyverse)
 ```
 
 ## Scraping
+
 ### CIA World Factbook
 ```{r cia}
 # CIA World Factbook country names
@@ -70,7 +73,6 @@ country_names <- 'https://www.cia.gov/library/publications/the-world-factbook/fi
 
 
 # CIA World Factbook country codes
-
 country_codes <- 'https://www.cia.gov/library/publications/the-world-factbook/appendix/appendix-d.html' %>%
     read_html() %>%
     html_nodes('ul#GetAppendix_D li') %>%
@@ -120,21 +122,21 @@ w <- 'https://en.wikipedia.org/wiki/Category:Lists_of_country_codes' %>%
     setNames(c('tld', 'calling', 'mcc', 'gec', 'gs1_gtin', 'icao_aircraft', 'icao_airport', 'ioc', 'iso2c', 'iso3c', 'iso3n', 'itu_callsign', 'itu', 'itu_maritime', 'license_plate', 'marc', 'stanag', 'nato2c', 'undp', 'wmo'))
 
 
-# Wikipedia FIFA codes - unused
-fifa <- 'https://en.wikipedia.org/wiki/List_of_FIFA_country_codes' %>%
-    read_html() %>%
-    html_nodes('table.wikitable') %>%
-    map(html_table, fill = TRUE) %>%
-    .[-7:-9] %>%    # remove obsolete codes tables
-    reduce(full_join) %>%
-    mutate(FIFA = coalesce(Code, FIFA)) %>%
-    select(-Code, -Confederation) %>%
-    mutate_all(funs(gsub('\\[.*\\]', '', .))) %>% mutate_all(na_if, y = '') %>%
-    setNames(tolower(names(.))) %>% rename(iso3c = iso)
+# # Wikipedia FIFA codes - unused
+# fifa <- 'https://en.wikipedia.org/wiki/List_of_FIFA_country_codes' %>%
+#     read_html() %>%
+#     html_nodes('table.wikitable') %>%
+#     map(html_table, fill = TRUE) %>%
+#     .[-7:-9] %>%    # remove obsolete codes tables
+#     reduce(full_join) %>%
+#     mutate(FIFA = coalesce(Code, FIFA)) %>%
+#     select(-Code, -Confederation) %>%
+#     mutate_all(funs(gsub('\\[.*\\]', '', .))) %>% mutate_all(na_if, y = '') %>%
+#     setNames(tolower(names(.))) %>% rename(iso3c = iso)
 ```
 
 ### ITU
-unused except for corrections of Wikipedia innacuracies
+Unused except for corrections of Wikipedia innacuracies.
 ```{r itu}
 itu <- 'https://www.itu.int/online/mm/scripts/gensel8' %>% 
     read_html() %>% 
@@ -148,32 +150,6 @@ itu <- 'https://www.itu.int/online/mm/scripts/gensel8' %>%
 
 ### UN ISO regions
 ```{r regions}
-## Site moved; see below. Previously unused anyway.
-# UN iso3n w/regions
-# l <- 'https://unstats.un.org/unsd/methods/m49/m49regin.htm' %>% 
-#     read_html() %>% 
-#     html_nodes('h2 ~ table') %>% 
-#     map(html_table)
-# regions <- l[[1]] %>%
-#     filter(grepl('\\d{3}', X1)) %>%
-#     mutate(X1 = gsub('\\s{2,}', ' ', X1),
-#            X1 = sub(' a/', '', X1)) %>%
-#     separate(X1, c('iso3n', 'region'), extra = 'merge')
-# devpmt <- l[[2]] %>%
-#     filter(grepl('\\d{3}', X1)) %>%
-#     separate(X1, c('iso3n', 'region'), extra = 'merge')
-# countries <- l[[4]] %>%
-#     filter(grepl('\\d{3}', X1), !grepl('\\d{3}', X2)) %>%
-#     mutate(X2 = sub('^.{3}land ', 'Åland ', X2),
-#            X2 = gsub('\\s{2,}', ' ', X2),
-#            X2 = sub(' a/', '', X2)) %>%
-#     setNames(c('iso3n', 'region'))
-# un_iso3n <- list(regions, devpmt, countries) %>%
-#     reduce(full_join) %>%
-#     group_by(iso3n) %>%
-#     slice(1) %>%
-#     ungroup()
-
 unstats <- 'https://unstats.un.org/unsd/methodology/m49/overview/' %>% 
     read_html() %>% 
     html_nodes('table') %>% 
@@ -211,33 +187,15 @@ unicode_modern <- langs_modern %>%
                     c('code', .y))) %>%
     reduce(full_join)
 
-lang_codes <- 'https://github.com/unicode-cldr/cldr-localenames-modern/raw/master/main/en-US-POSIX/languages.json' %>%
-    jsonlite::fromJSON() %>%
-    map(c(1,2,1)) %>% .[[1]] %>%
-    simplify()
-
-lang_code_df <- data_frame(language = lang_codes,
-                           code = names(lang_codes))
-
-# parse language codes. need to standardize country names (and langs?) to Unicode.
-# unicode_modern[-1] %>%
-#     names() %>%
-#     NLP::parse_IETF_language_tag(expand = TRUE) %>%
-#     map(~map2(.x, names(.x),
-#               ~head(.x %||% strsplit(.y, '=')[[1]][2], 1))) %>%
-#     map_chr(paste, collapse = '-')
-
-# x <- unicode_modern %>%
-#     select(code, `en-US-POSIX`) %>%
-#     group_by(iso3n = if_else(grepl('\\d{3}', code), code, NA_character_),
-#              iso2c = if_else(grepl('^[A-Z]{2}', code), gsub('^(..).*', '\\1', code), NA_character_)) %>%
-#     mutate(short = if (n() == 1) {NA} else {grepl('short', code)},
-#            variant = if (n() == 1) {NA} else {grepl('variant', code)})
+# # unused
+# lang_codes <- 'https://github.com/unicode-cldr/cldr-localenames-modern/raw/master/main/en-US-POSIX/languages.json' %>%
+#     jsonlite::fromJSON() %>%
+#     map(c(1,2,1)) %>% .[[1]] %>%
+#     simplify()
 # 
-# ucm <- unicode_modern %>%
-#     separate(code, c('code2', 'alt'), sep = '-alt-', remove = FALSE, fill = 'right')
+# lang_code_df <- data_frame(language = lang_codes,
+#                            code = names(lang_codes))
 
-# unicode codes
 unicode_codes <- 'https://github.com/unicode-cldr/cldr-core/raw/master/supplemental/codeMappings.json' %>% 
     jsonlite::fromJSON() %>% 
     .[[1]] %>% .[[2]] %>% 
@@ -327,7 +285,6 @@ countrycode_data_c <- countrycode::countrycode_data %>%
 
 ## Joining
 ```{r joining}
-#cia <- inner_join(country_codes_c, country_names_c)
 cia <- full_join(country_codes_c %>% drop_na(gec), country_names_c)
 
 usg <- full_join(genc_c %>% drop_na(gec), cia, by = 'gec') %>%
@@ -481,23 +438,13 @@ devtools::use_data(countries, countries_colnames,
 devtools::use_data(codes, overwrite = TRUE)
 ```
 
+## Licensing
 
-```{r function}
-# convert from code to name, accounting for short and variant alt names
-f <- function(x, from = 'code2', to = 'en-US-POSIX', short = TRUE, variant = FALSE){
-    df <- ucm[ucm[[from]] %in% x, c('alt', from, to)]    # filter countries
+Data is licensed according to its source, most of which are in the public 
+domain. Exceptions include
 
-    # fill short and variant names
-    df_sub <- df[Reduce(`|`, Map(function(country, s, v){
-        s <- ifelse(s, 'short', NA)
-        v <- ifelse(v, 'variant', NA)
-        df[[from]] == country & (df$alt == s | df$alt == v)
-    }, x, short, variant)), c(to, from)]
-    result <- setNames(df_sub[[to]], df_sub[[from]])[x]
-
-    # fill non-alternate names
-    df_sub <- df[df[[from]] %in% x[is.na(result)] & is.na(df$alt), c(to, from)]
-    result[is.na(result)] <- setNames(df_sub[[to]], df_sub[[from]])[x[is.na(result)]]
-    unname(result)
-}
-```
+- Unicode CLDR data, whose permissive license is included, and 
+- countrycode regex, which is licensed under GPL-3. While this package only 
+uses the regex, it is licensed under GPL-3 as a modified version (see code 
+above; last run 2017-05-24 with countrycode 0.19) and accordingly retains its 
+copyleft license.

@@ -4,8 +4,8 @@
 \alias{parse_country}
 \title{Parse country names to standardized form}
 \usage{
-parse_country(x, to = "iso2c", language = c("en", "de"),
-  factor = is.factor(x))
+parse_country(x, to = "iso2c", how = c("regex", "google", "dstk"),
+  language = c("en", "de"), factor = is.factor(x))
 }
 \arguments{
 \item{x}{A character or factor vector of country names to standardize}
@@ -13,8 +13,12 @@ parse_country(x, to = "iso2c", language = c("en", "de"),
 \item{to}{Format to which to convert. Defaults to \code{"iso2c"}; see \code{\link{codes}}
 for more options.}
 
-\item{language}{Language from which to parse country names. Currently
-accepts \code{"en"} (default) and \code{"de"}.}
+\item{how}{How to parse; defaults to \code{"regex"}. \code{"google"`` uses the Google Maps geocoding API;}"dstk"`` uses the Data Science Toolkit geocoding
+API. See "Details" for more information.}
+
+\item{language}{If \code{how = "regex"}, the language from which to parse country
+names. Currently accepts \code{"en"} (default) and \code{"de"}. Ignored if
+\code{how = "google"} or \code{how = "dstk".}}
 
 \item{factor}{If \code{TRUE}, returns factor instead of character vector.}
 }
@@ -28,19 +32,33 @@ or other standardized code or name format.
 }
 \details{
 \code{parse_country} tries to parse a character or factor vector of country names
-to a standardized form: by default, ISO 3166-1 Alpha-2 codes. It uses regular
-expressions, and thus is likely to be slower than \code{\link[=as_country_name]{as_country_name()}} or
-\code{\link[=as_country_code]{as_country_code()}}, but unless the data contains a very large number of
-alternatives is still likely to be reasonably quick due to its internal use
-of factors (like all passport functions).
+to a standardized form: by default, ISO 3166-1 Alpha-2 codes.
 
-The regex are from
-\href{https://github.com/vincentarelbundock/countrycode}{countrycode}, whose
-authors deserve full credit and to whom you should submit regex in
-more languages if you would like to extend these packages.
+When \code{how = "regex"} (default), \code{parse_country} uses regular expressions to
+match irregular forms.
+
+If regular expressions are insufficient, \code{how = "google"} will use the
+Google Maps geocoding API instead, which permits a much broader range of
+input formats and languages. The API allows 2500 calls per day, and should
+thus be called judiciously. \code{parse_country} will make one call per unique
+input. For more calls, see options that allow passing an API key like
+\code{\link[ggmap:geocode]{ggmap::geocode()}} with \code{output = "all"} or \code{\link[googleway:google_geocode]{googleway::google_geocode()}}.
+
+If \code{how = "dstk"}, \code{parse_country} will use the Data Science Toolkit
+geocoding API.
+
+Note that due to their flexibility, the APIs may fail unpredictably, e.g.
+\code{parse_country("foo", how = "google")} returns \code{"SG"} and
+\code{parse_country("foo", how = "dstk")} returns \code{"DJ"} whereas \code{how = "regex"}
+fails with a graceful \code{NA} and warning.
 }
 \examples{
 parse_country(c('United States', 'USA', 'U.S.', 'us', 'United States of America'))
 #> [1] "US" "US" "US" "US" "US"
+
+\dontrun{
+parse_country(c('日本', 'Japon', "ژاپن"), how = 'dstk')
+#> [1] "JP" "JP" "JP"
+}
 
 }

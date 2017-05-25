@@ -1,6 +1,6 @@
 #' Convert standardized country names to country codes
 #'
-#' `as_country_code` converts a vector of standardized country names to
+#' `as_country_code` converts a vector of standardized country names or codes to
 #' country codes
 #'
 #' `as_country_code` takes a character, factor, or numeric vector of country

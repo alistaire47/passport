@@ -20,18 +20,18 @@
 #' - `code`: `column` with hyphens for underscores, which is a valid IANA
 #'     language tag for Unicode CLDR country names. Valid for use in `from` and
 #'     `to` parameters.
+#' - `name`: Full name or code name for non-CLDR options.
+#' - `notes`: Things to note, including deprecations, oddities, etc.
 #' - `language`: Full language name parsed from `code`.
 #' - `region`: Full country or region name parsed from `code`.
 #' - `script`: Full language script name parsed from `code`.
 #' - `variant`: Full variant parsed from `code`. Also used for
 #'     organization-standardized names.
 #' - `extension`: Further specification of name type.
-#' - `name`: Full name or code name for non-CLDR options.
-#' - `notes`: Things to note, including deprecations, oddities, etc.
 #'
 #' @examples
 #' # A searchable widget to find a code or name
-#' \dontrun{
-#' DT::datatable(codes)
+#' if (requireNamespace("DT", quietly = TRUE)) {
+#'     DT::datatable(codes)
 #' }
 "codes"

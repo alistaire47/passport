@@ -2,7 +2,7 @@
 ================
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-`passport` offers a consistent framework for working with country names and codes, with functions for parsing irregular country names and converting codes and names in many languages and formats.
+`passport` smooths the process of working with country names and codes via powerful parsing, standardization, and conversion utilities arranged in a simple, consistent API. Country name formats include multiple sources including the Unicode CLDR common-sense standardizations in hundreds of languages.
 
 Installation
 ------------
@@ -16,8 +16,8 @@ devtools::install_github("alistaire47/passport")
 
 ------------------------------------------------------------------------
 
-A painless country name and code workflow
-=========================================
+Travel smoothly between country name and code formats
+=====================================================
 
 Working with country data can be frustrating. Even with well-curated data like [`gapminder`](https://github.com/jennybc/gapminder), there are some oddities:
 
@@ -61,6 +61,13 @@ gap %>%
 #>  8                 Japan           JP  1967  71.430
 #>  9            Madagascar           MG  1997  54.978
 #> 10               Tunisia           TN  1987  66.894
+```
+
+If country names are particularly irregular or in unsupported languages, `parse_country` can use Google Maps or Data Science Toolkit geocoding APIs to parse instead of regex:
+
+``` r
+parse_country(c('somewhere in Japan', '日本', 'Japon', "जापान"), how = 'dstk')
+#> [1] "JP" "JP" "JP" "JP"
 ```
 
 2. Convert
@@ -117,11 +124,10 @@ or translate to another language:
 
 ``` r
 olympics$NOC %>% unique() %>% 
-    as_country_name(from = 'ioc', to = 'ja') %>% 
+    as_country_name(from = 'ioc', to = 'ta-my') %>% 
     head(10)
-#>  [1] "中国"           "英国"           "アメリカ"       "ハンガリー"    
-#>  [5] "スウェーデン"   "カナダ"         "オランダ"       "日本"          
-#>  [9] "スペイン"       "オーストラリア"
+#>  [1] "சீனா"        "யூகே"       "யூஎஸ்"       "ஹங்கேரி"     "ஸ்வீடன்"      
+#>  [6] "கனடா"       "நெதர்லாந்து"  "ஜப்பான்"      "ஸ்பெயின்"     "ஆஸ்திரேலியா"
 ```
 
 3. Format
@@ -151,7 +157,9 @@ gap %>%
          x = NULL, y = 'Life expectancy')
 ```
 
-![](README-unnamed-chunk-7-1.png)
+![](README-unnamed-chunk-8-1.png)
+
+By default `country_format` will use Unicode CLDR (see below) English names, which are intelligible and suitable for most purposes. If desired, other languages or formats can be specified just like in `as_country_name`.
 
 ------------------------------------------------------------------------
 
@@ -168,7 +176,7 @@ The data underlying `passport` comes from a number of sources, including
 -   [Open Knowledge International's Frictionless Data](http://data.okfn.org/data/core/country-codes) supplies a set of codes collated from a number of sources.
 -   The regex powering `parse_country()` are from [`countrycode`](https://github.com/vincentarelbundock/countrycode). If you would like to improve both packages, please contribute regex there!
 
-License
--------
+Licensing
+---------
 
-`passport` is licenced as open-source software under [GPL-3](https://www.gnu.org/licenses/gpl.html). Unicode CLDR data is licensed according to [its own license](https://github.com/unicode-cldr/cldr-json/blob/master/LICENSE), a copy of which is included.
+`passport` is licenced as open-source software under [GPL-3](https://www.gnu.org/licenses/gpl.html). Unicode CLDR data is licensed according to [its own license](https://github.com/unicode-cldr/cldr-json/blob/master/LICENSE), a copy of which is included. `countrycode` regex are used as a modification under GPL-3; see the included aggregation script for modifiying code and date.

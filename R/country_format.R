@@ -19,8 +19,7 @@
 #' as country names.
 #'
 #' @examples
-#' \dontrun{
-#' library(ggplot2)
+#' if (require(ggplot2)) {
 #'
 #' ggplot(data.frame(iso3c = c("KOR", "MMR", "TWN", "COG"),
 #'                   value = 1:4),

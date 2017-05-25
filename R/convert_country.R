@@ -1,5 +1,5 @@
 #' @importFrom stats setNames
-#'
+
 
 convert_country <- function(x, to, from, short, variant, factor) {
     # preprocess into factor so as to only operate on levels
