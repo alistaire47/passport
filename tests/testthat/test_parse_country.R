@@ -17,6 +17,8 @@ test_that("parsing country names with regex works", {
 
 
 test_that("parsing country names with geocoding APIs works", {
+    skip_on_appveyor()
+
     expect_match(parse_country('\u65e5\u672c', how = 'google'),
                  "JP|Google Maps geocoding API call failed")
     expect_match(parse_country('\u65e5\u672c', to = 'en', how = 'dstk'),
