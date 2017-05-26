@@ -17,6 +17,8 @@ Suggests:
     jsonlite, 
     DT, 
     ggplot2, 
+    ggmap,
+    googleway,
     testthat,
     covr
 License: GPL-3 | file LICENSE
