@@ -17,12 +17,34 @@ test_that("parsing country names with regex works", {
 
 
 test_that("parsing country names with geocoding APIs works", {
-    expect_equal(parse_country(c('\u65e5\u672c', 'Japon', NA, "Burma"), how = 'google'),
-                 c("JP", "JP", NA, "MM"))
-    expect_equal(parse_country(c('\u65e5\u672c', 'Japon', NA, "Burma"), how = 'google'),
-                 c("JP", "JP", NA, "MM"))
-    expect_equal(parse_country(c('\u65e5\u672c', 'Japon', NA, "Burma"),
-                               to = 'en', how = 'dstk'),
-                 c("Japan", "Japan", NA, "Myanmar"))
+    g <- 1
+    try_again(2, {
+        if (g == 1) {
+            g <<- 2
+            expect_equal(parse_country(c('\u65e5\u672c', 'Japon', NA, "Burma"),
+                                       how = 'google'),
+                         c("JP", "JP", NA, "MM"))
+        } else {
+            expect_error(parse_country(c('\u65e5\u672c', 'Japon', NA, "Burma"),
+                                       how = 'google'),
+                         'Google Maps geocoding API call failed')
+        }
+    })
+
+    d <- 1
+    try_again(2, {
+        if (d == 1) {
+            d <<- 2
+            expect_equal(parse_country(c('\u65e5\u672c', 'Japon', NA, "Burma"),
+                                       how = 'dstk'),
+                         c("JP", "JP", NA, "MM"))
+            expect_equal(parse_country(c('\u65e5\u672c', 'Japon', NA, "Burma"),
+                                       to = 'en', how = 'dstk'),
+                         c("Japan", "Japan", NA, "Myanmar"))
+        } else {
+            expect_error(parse_country('Burma', how = 'dstk'),
+                         'Data Science Toolkit geocoding API call failed')
+        }
+    })
 })
 
