@@ -53,12 +53,11 @@ Note that due to their flexibility, the APIs may fail unpredictably, e.g.
 fails with a graceful \code{NA} and warning.
 }
 \examples{
-parse_country(c('United States', 'USA', 'U.S.', 'us', 'United States of America'))
+parse_country(c("United States", "USA", "U.S.", "us", "United States of America"))
 #> [1] "US" "US" "US" "US" "US"
 
-\dontrun{
-parse_country(c('日本', 'Japon', "ژاپن"), how = 'dstk')
+# Full Unicode support for parsing accented or non-Latin scripts
+parse_country(c("\\u65e5\\u672c", "Japon", "\\u0698\\u0627\\u067e\\u0646"), how = "dstk")
 #> [1] "JP" "JP" "JP"
-}
 
 }

@@ -92,13 +92,12 @@ parse_by_geocoding <- function(location, source = c('google', 'dstk')){
 #' other specified codes or names. Warns of any parsing failure.
 #'
 #' @examples
-#' parse_country(c('United States', 'USA', 'U.S.', 'us', 'United States of America'))
+#' parse_country(c("United States", "USA", "U.S.", "us", "United States of America"))
 #' #> [1] "US" "US" "US" "US" "US"
 #'
-#' \dontrun{
-#' parse_country(c('日本', 'Japon', "ژاپن"), how = 'dstk')
+#' # Full Unicode support for parsing accented or non-Latin scripts
+#' parse_country(c("\u65e5\u672c", "Japon", "\u0698\u0627\u067e\u0646"), how = "dstk")
 #' #> [1] "JP" "JP" "JP"
-#' }
 #'
 #' @export
 parse_country <- function(x,

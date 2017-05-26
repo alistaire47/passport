@@ -5,7 +5,7 @@ test_that("parsing country names with regex works", {
                  c('KR', 'US'))
     expect_equal(parse_country('Republic of Korea', to = 'en'),
                  "South Korea")
-    expect_equal(parse_country(c("Deutschland", "Österreich"), language = 'de'),
+    expect_equal(parse_country(c("Deutschland", "\u00d6sterreich"), language = 'de'),
                  c('DE', 'AT'))
     expect_s3_class(parse_country('Taiwan, Province of China', factor = TRUE),
                     'factor')
@@ -15,13 +15,13 @@ test_that("parsing country names with regex works", {
 
 
 test_that("parsing country names with geocoding APIs works", {
-    skip("Don't waste API calls")
+    skip_on_cran()
 
-    expect_equal(parse_country(c('日本', 'Japon', NA, "Burma"), how = 'google'),
+    expect_equal(parse_country(c('\u65e5\u672c', 'Japon', NA, "Burma"), how = 'google'),
                  c("JP", "JP", NA, "MM"))
-    expect_equal(parse_country(c('日本', 'Japon', NA, "Burma"), how = 'dstk'),
+    expect_equal(parse_country(c('\u65e5\u672c', 'Japon', NA, "Burma"), how = 'google'),
                  c("JP", "JP", NA, "MM"))
-    expect_equal(parse_country(c('日本', 'Japon', NA, "Burma"),
+    expect_equal(parse_country(c('\u65e5\u672c', 'Japon', NA, "Burma"),
                                to = 'en', how = 'dstk'),
                  c("Japan", "Japan", NA, "Myanmar"))
 })
