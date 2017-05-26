@@ -10,14 +10,15 @@ Description: passport smooths the process of working with country names and
     sources including the Unicode CLDR common-sense standardizations in 
     hundreds of languages.
 Depends: R (>= 3.1.0)
-Inports: 
+Inports:
     stats, 
     utils
-Suggests: 
+Suggests:
     jsonlite, 
     DT, 
     ggplot2, 
-    testthat
+    testthat,
+    covr
 License: GPL-3 | file LICENSE
 Encoding: UTF-8
 LazyData: true
