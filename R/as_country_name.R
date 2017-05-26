@@ -72,15 +72,7 @@ as_country_name <- function(x,
     from <- gsub('-|\\.', '_', from)
 
     # check arguments
-    if (!class(x) %in% c('character', 'factor', 'integer', 'numeric')) {
-        stop('Input is not an atomic vector.')
-    }
-    if (!to %in% countries_colnames) {
-        stop(paste(to, 'not in available name formats.'))
-    }
-    if (!from %in% countries_colnames) {
-        stop(paste(from, 'not in available code formats.'))
-    }
+    check_parameters(x, from, to)
     if (!all(lengths(list(short, variant)) %in% c(1, length(x)))) {
         stop('The length of the `short` and `variant` parameters must be 1 or the same as the input vector.')
     }

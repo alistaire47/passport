@@ -42,16 +42,7 @@ as_country_code <- function(x, from, to = 'iso2c', factor = is.factor(x)) {
     to <- gsub('-|\\.', '_', to)
     from <- gsub('-|\\.', '_', from)
 
-    # check arguments
-    if (!class(x) %in% c('character', 'factor', 'integer', 'numeric')) {
-        stop('Input is not an atomic vector.')
-    }
-    if (!to %in% countries_colnames) {
-        stop(paste(to, 'not in available code formats.'))
-    }
-    if (!from %in% countries_colnames) {
-        stop(paste(from, 'not in available name formats.'))
-    }
+    check_parameters(x, from, to)
 
     convert_country(x = x, to = to, from = from, short = TRUE,
                       variant = FALSE, factor = factor)

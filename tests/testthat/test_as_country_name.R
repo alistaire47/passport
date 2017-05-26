@@ -1,6 +1,8 @@
 context('Converting country names')
 
 test_that("converting codes to names works", {
+    skip_on_appveyor()
+
     expect_equal(as_country_name(c("TW", "KR", "UY")),
                  c("Taiwan", "South Korea", "Uruguay"))
     expect_equal(as_country_name(c("TW", "KR", "UY"), to = 'fr'),
@@ -21,8 +23,10 @@ test_that("converting codes to names works", {
                    'Multiple unique values aggregated to single output')
     expect_error(as_country_name(list('US')),
                  'Input is not an atomic vector')
-    expect_error(as_country_name(c('CI', 'CZ', 'TL'), to = 'foo'),
-                 'foo not in available name formats')
+    expect_error(as_country_name('US', from = 'foo'),
+                 'not in available formats')
+    expect_error(as_country_name('US', to = 'foo'),
+                 'not in available formats')
     expect_error(as_country_name(c('CI', 'CZ', 'TL'), variant = c(TRUE, FALSE)),
                  'must be 1 or the same as the input vector')
 })

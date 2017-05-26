@@ -1,5 +1,17 @@
 #' @importFrom stats setNames
 
+check_parameters <- function(x, from, to) {
+    if (!class(x) %in% c('character', 'factor', 'integer', 'numeric')) {
+        stop('Input is not an atomic vector.')
+    }
+    if (!to %in% countries_colnames) {
+        stop(paste(to, 'not in available formats.'))
+    }
+    if (!from %in% countries_colnames) {
+        stop(paste(from, 'not in available formats.'))
+    }
+}
+
 
 convert_country <- function(x, to, from, short, variant, factor) {
     # preprocess into factor so as to only operate on levels

@@ -10,4 +10,10 @@ test_that("coding countries works", {
                     'factor')
     expect_warning(as_country_code('foo', from = 'en'),
                    'NAs created: foo')
+    expect_error(as_country_code(list(), 'en'),
+                 'Input is not an atomic vector')
+    expect_error(as_country_code('US', from = 'foo'),
+                 'not in available formats')
+    expect_error(as_country_code('US', from = 'iso2c', to = 'foo'),
+                 'not in available formats')
 })
