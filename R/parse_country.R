@@ -39,10 +39,12 @@ parse_by_geocoding <- function(location, source = c('google', 'dstk')){
                 message = c('google' = "Google Maps geocoding API call failed; status = %s. Free usage tier is limited to 2500 queries per day.",
                             'dstk' = "Data Science Toolkit geocoding API call failed; status = %s")[source]
                 stop(sprintf(message, response$status))
-                }
-            short_name <- response$results$address_components[[1]]$short_name
+            }
+            components <- response$results$address_components[[1]]
             if (source == 'google') { Sys.sleep(0.02) }    # 50 query/s limit
-            as.character(short_name[nchar(short_name) == 2][1])
+            components$short_name[vapply(components$types,
+                                         function(t){'country' %in% t},
+                                         logical(1))][1]
         },
         character(1),
         USE.NAMES = FALSE
@@ -72,7 +74,7 @@ parse_by_geocoding <- function(location, source = c('google', 'dstk')){
 #' geocoding API.
 #'
 #' Note that due to their flexibility, the APIs may fail unpredictably, e.g.
-#' `parse_country("foo", how = "google")` returns `"SG"` and
+#' `parse_country("foo", how = "google")` returns `"CH"` and
 #' `parse_country("foo", how = "dstk")` returns `"DJ"` whereas `how = "regex"`
 #' fails with a graceful `NA` and warning.
 #'

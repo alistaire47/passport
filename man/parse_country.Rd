@@ -48,7 +48,7 @@ If \code{how = "dstk"}, \code{parse_country} will use the Data Science Toolkit
 geocoding API.
 
 Note that due to their flexibility, the APIs may fail unpredictably, e.g.
-\code{parse_country("foo", how = "google")} returns \code{"SG"} and
+\code{parse_country("foo", how = "google")} returns \code{"CH"} and
 \code{parse_country("foo", how = "dstk")} returns \code{"DJ"} whereas \code{how = "regex"}
 fails with a graceful \code{NA} and warning.
 }
