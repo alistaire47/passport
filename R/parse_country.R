@@ -36,8 +36,8 @@ parse_by_geocoding <- function(location, source = c('google', 'dstk')){
         function(url){
             response <- jsonlite::fromJSON(url)
             if (response$status != "OK") {
-                message = c('google' = "Google Maps geocoding API call failed; status = %s. Free usage tier is limited to 2500 queries per day.",
-                            'dstk' = "Data Science Toolkit geocoding API call failed; status = %s")[source]
+                message <- c('google' = "Google Maps geocoding API call failed; status = %s. Free usage tier is limited to 2500 queries per day.",
+                             'dstk' = "Data Science Toolkit geocoding API call failed; status = %s")[source]
                 stop(sprintf(message, response$status))
             }
             components <- response$results$address_components[[1]]
@@ -97,9 +97,13 @@ parse_by_geocoding <- function(location, source = c('google', 'dstk')){
 #' parse_country(c("United States", "USA", "U.S.", "us", "United States of America"))
 #' #> [1] "US" "US" "US" "US" "US"
 #'
-#' # Full Unicode support for parsing accented or non-Latin scripts
+#' # Unicode support for parsing accented or non-Latin scripts
 #' parse_country(c("\u65e5\u672c", "Japon", "\u0698\u0627\u067e\u0646"), how = "dstk")
 #' #> [1] "JP" "JP" "JP"
+#'
+#' # Parse distinct place names via geocoding APIs
+#' parse_country(c("1600 Pennsylvania Ave, DC", "Eiffel Tower"), how = "dstk")
+#' #> [1] "US" "FR"
 #'
 #' @export
 parse_country <- function(x,

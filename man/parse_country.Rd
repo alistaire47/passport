@@ -56,8 +56,12 @@ fails with a graceful \code{NA} and warning.
 parse_country(c("United States", "USA", "U.S.", "us", "United States of America"))
 #> [1] "US" "US" "US" "US" "US"
 
-# Full Unicode support for parsing accented or non-Latin scripts
+# Unicode support for parsing accented or non-Latin scripts
 parse_country(c("\\u65e5\\u672c", "Japon", "\\u0698\\u0627\\u067e\\u0646"), how = "dstk")
 #> [1] "JP" "JP" "JP"
+
+# Parse distinct place names via geocoding APIs
+parse_country(c("1600 Pennsylvania Ave, DC", "Eiffel Tower"), how = "dstk")
+#> [1] "US" "FR"
 
 }
