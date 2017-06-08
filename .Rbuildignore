@@ -8,3 +8,4 @@
 ^appveyor\.yml$
 ^codecov\.yml$
 ^.DS_Store$
+^docs$
