@@ -50,16 +50,12 @@
 #' @examples
 #' # Usable names for tough-to-standardize places
 #' as_country_name(c("US", "TW", "MM", "XK", "KR"))
-#' #> [1] "US"          "Taiwan"      "Myanmar"     "Kosovo"      "South Korea"
 #'
 #' # If passed a factor, will return a releveled one
 #' as_country_name(factor(c("US", "NF", "CD", "SJ")), short = FALSE, variant = TRUE)
-#' #> [1] United States        Norfolk Island       Congo (DRC)          Svalbard & Jan Mayen
-#' #> Levels: Congo (DRC) Norfolk Island Svalbard & Jan Mayen United States
 #'
 #' # Speaks a lot of languages, knows a lot of codes
 #' as_country_name(c("SAH", "PCN", "OMA", "JPN"), from = "fifa", to = "cy")    # to Welsh
-#' #> [1] "Gorllewin Sahara"  "Ynysoedd Pitcairn" "Oman"              "Japan"
 #'
 #' @export
 as_country_name <- function(x,

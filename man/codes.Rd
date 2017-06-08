@@ -27,11 +27,12 @@ codes
 }
 \description{
 A codebook data.frame of codes and details for country code and name
-conversions available. Contains Internet Engineering Task Force (IETF)
-\href{https://en.wikipedia.org/wiki/IETF_language_tag}{language tags} (e.g.
-\code{"en-nz"} for New Zealand English) for \href{http://cldr.unicode.org/}{Unicode Common Locale Data Repository(CLDR)} names, similar approximations for
-institutional names (e.g. \code{"en-iso"}), and short names (e.g. \code{"iso2c"}) for
-country codes.
+conversions available. Contains
+\href{https://en.wikipedia.org/wiki/IETF_language_tag}{Internet Engineering Task Force (IETF) language tags}
+(e.g. \code{"en-nz"} for New Zealand English) for
+\href{http://cldr.unicode.org/}{Unicode Common Locale Data Repository (CLDR)} names,
+similar approximations for institutional names (e.g. \code{"en-iso"}), and short
+names (e.g. \code{"iso2c"}) for country codes.
 }
 \details{
 All functions can accept codes separated with underscores \code{_}, hyphens \code{-},

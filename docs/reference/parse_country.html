@@ -56,7 +56,12 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/alistaire47/passport">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -134,13 +139,12 @@ fails with a graceful <code>NA</code> and warning.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>parse_country</span>(<span class='fu'>c</span>(<span class='st'>"United States"</span>, <span class='st'>"USA"</span>, <span class='st'>"U.S."</span>, <span class='st'>"us"</span>, <span class='st'>"United States of America"</span>))</div><div class='output co'>#&gt; [1] "US" "US" "US" "US" "US"</div><div class='input'><span class='co'>#&gt; [1] "US" "US" "US" "US" "US"</span>
-
+    <pre class="examples"><div class='input'><span class='fu'>parse_country</span>(<span class='fu'>c</span>(<span class='st'>"United States"</span>, <span class='st'>"USA"</span>, <span class='st'>"U.S."</span>, <span class='st'>"us"</span>, <span class='st'>"United States of America"</span>))</div><div class='output co'>#&gt; [1] "US" "US" "US" "US" "US"</div><div class='input'>
 <span class='co'># Unicode support for parsing accented or non-Latin scripts</span>
-<span class='fu'>parse_country</span>(<span class='fu'>c</span>(<span class='st'>"\u65e5\u672c"</span>, <span class='st'>"Japon"</span>, <span class='st'>"\u0698\u0627\u067e\u0646"</span>), <span class='kw'>how</span> <span class='kw'>=</span> <span class='st'>"dstk"</span>)</div><div class='output co'>#&gt; [1] "JP" "JP" "JP"</div><div class='input'><span class='co'>#&gt; [1] "JP" "JP" "JP"</span>
-
+<span class='fu'>parse_country</span>(<span class='fu'>c</span>(<span class='st'>"\u65e5\u672c"</span>, <span class='st'>"Japon"</span>, <span class='st'>"\u0698\u0627\u067e\u0646"</span>), <span class='kw'>how</span> <span class='kw'>=</span> <span class='st'>"dstk"</span>)</div><div class='output co'>#&gt; [1] "JP" "JP" "JP"</div><div class='input'>
 <span class='co'># Parse distinct place names via geocoding APIs</span>
-<span class='fu'>parse_country</span>(<span class='fu'>c</span>(<span class='st'>"1600 Pennsylvania Ave, DC"</span>, <span class='st'>"Eiffel Tower"</span>), <span class='kw'>how</span> <span class='kw'>=</span> <span class='st'>"dstk"</span>)</div><div class='output co'>#&gt; [1] "US" "FR"</div><div class='input'><span class='co'>#&gt; [1] "US" "FR"</span></div></pre>
+<span class='fu'>parse_country</span>(<span class='fu'>c</span>(<span class='st'>"1600 Pennsylvania Ave, DC"</span>, <span class='st'>"Eiffel Tower"</span>), <span class='kw'>how</span> <span class='kw'>=</span> <span class='st'>"dstk"</span>)</div><div class='output co'>#&gt; [1] "US" "FR"</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

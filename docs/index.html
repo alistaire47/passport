@@ -32,7 +32,14 @@
   <a href="reference/index.html">Reference</a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+  <a href="https://github.com/alistaire47/passport">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -49,6 +56,9 @@
     
 <div class="contents">
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+<div id="passport" class="section level1">
+<div class="page-header"><h1 class="hasAnchor">
+<a href="#passport" class="anchor"></a>passport</h1></div>
 
 <p><code>passport</code> smooths the process of working with country names and codes via powerful parsing, standardization, and conversion utilities arranged in a simple, consistent API. Country name formats include multiple sources including the Unicode CLDR common-sense standardizations in hundreds of languages.</p>
 <div id="installation" class="section level2">
@@ -59,9 +69,10 @@
 devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">"alistaire47/passport"</span>)</code></pre></div>
 <hr>
 </div>
+</div>
 <div id="travel-smoothly-between-country-name-and-code-formats" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#travel-smoothly-between-country-name-and-code-formats" class="anchor"></a>Travel smoothly between country name and code formats</h1></div>
+<h1 class="hasAnchor">
+<a href="#travel-smoothly-between-country-name-and-code-formats" class="anchor"></a>Travel smoothly between country name and code formats</h1>
 <p>Working with country data can be frustrating. Even with well-curated data like <a href="https://github.com/jennybc/gapminder"><code>gapminder</code></a>, there are some oddities:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(passport)
 <span class="kw">library</span>(gapminder)
@@ -97,9 +108,12 @@ gap <span class="op">%&gt;%</span>
 <span class="co">#&gt;  8                 Japan           JP  1967  71.430</span>
 <span class="co">#&gt;  9            Madagascar           MG  1997  54.978</span>
 <span class="co">#&gt; 10               Tunisia           TN  1987  66.894</span></code></pre></div>
-<p>If country names are particularly irregular or in unsupported languages, <code>parse_country</code> can use Google Maps or Data Science Toolkit geocoding APIs to parse instead of regex:</p>
+<p>If country names are particularly irregular, in unsupported languages, or are even just unique location names, <code>parse_country</code> can use Google Maps or Data Science Toolkit geocoding APIs to parse instead of regex:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/parse_country.html">parse_country</a></span>(<span class="kw">c</span>(<span class="st">'somewhere in Japan'</span>, <span class="st">'日本'</span>, <span class="st">'Japon'</span>, <span class="st">"जापान"</span>), <span class="dt">how =</span> <span class="st">'dstk'</span>)
-<span class="co">#&gt; [1] "JP" "JP" "JP" "JP"</span></code></pre></div>
+<span class="co">#&gt; [1] "JP" "JP" "JP" "JP"</span>
+
+<span class="kw"><a href="reference/parse_country.html">parse_country</a></span>(<span class="kw">c</span>(<span class="st">"1600 Pennsylvania Ave, DC"</span>, <span class="st">"Eiffel Tower"</span>), <span class="dt">how =</span> <span class="st">"dstk"</span>)
+<span class="co">#&gt; [1] "US" "FR"</span></code></pre></div>
 </div>
 <div id="ii--convert" class="section level2">
 <h2 class="hasAnchor">
@@ -207,7 +221,14 @@ olympics <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>License</h2>
+    <h2>Links</h2>
+<ul class="list-unstyled">
+<li>Browse source code at <br><a href="https://github.com/alistaire47/passport">https://​github.com/​alistaire47/​passport</a>
+</li>
+<li>Report a bug at <br><a href="https://github.com/alistaire47/passport/issues">https://​github.com/​alistaire47/​passport/​issues</a>
+</li>
+</ul>
+<h2>License</h2>
 <p><a href="https://www.r-project.org/Licenses/GPL-3">GPL-3</a> | file <a href="LICENSE">LICENSE</a></p>
 <h2>Developers</h2>
 <ul class="list-unstyled">

@@ -56,7 +56,12 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/alistaire47/passport">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -121,13 +126,12 @@ searchable widget.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Codifies standardized names</span>
-<span class='fu'>as_country_code</span>(<span class='fu'>c</span>(<span class='st'>"US"</span>, <span class='st'>"Taiwan"</span>, <span class='st'>"Myanmar"</span>, <span class='st'>"Kosovo"</span>, <span class='st'>"South Korea"</span>), <span class='kw'>from</span> <span class='kw'>=</span> <span class='st'>"en"</span>)</div><div class='output co'>#&gt; [1] "US" "TW" "MM" "XK" "KR"</div><div class='input'><span class='co'>#&gt; [1] "US" "TW" "MM" "XK" "KR"</span>
-
+<span class='fu'>as_country_code</span>(<span class='fu'>c</span>(<span class='st'>"US"</span>, <span class='st'>"Taiwan"</span>, <span class='st'>"Myanmar"</span>, <span class='st'>"Kosovo"</span>, <span class='st'>"South Korea"</span>), <span class='kw'>from</span> <span class='kw'>=</span> <span class='st'>"en"</span>)</div><div class='output co'>#&gt; [1] "US" "TW" "MM" "XK" "KR"</div><div class='input'>
 <span class='co'># Translates codes; if passed a factor, returns a releveled one</span>
 <span class='fu'>as_country_code</span>(<span class='fu'>factor</span>(<span class='fu'>c</span>(<span class='st'>"SAH"</span>, <span class='st'>"PCN"</span>, <span class='st'>"OMA"</span>, <span class='st'>"JPN"</span>)),
                 <span class='kw'>from</span> <span class='kw'>=</span> <span class='st'>"fifa"</span>, <span class='kw'>to</span> <span class='kw'>=</span> <span class='st'>"iso4217_3c"</span>)</div><div class='output co'>#&gt; [1] MAD NZD OMR JPY
-#&gt; Levels: JPY OMR NZD MAD</div><div class='input'><span class='co'>#&gt; [1] MAD NZD OMR JPY</span>
-<span class='co'>#&gt; Levels: JPY OMR NZD MAD</span></div></pre>
+#&gt; Levels: JPY OMR NZD MAD</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

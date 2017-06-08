@@ -1,5 +1,4 @@
 ---
-title: "`passport`"
 tags: [r]
 output: github_document
 ---
@@ -13,6 +12,8 @@ knitr::opts_chunk$set(
   fig.path = "README-"
 )
 ```
+
+# passport
 
 [![Travis-CI Build Status](https://travis-ci.org/alistaire47/passport.svg?branch=master)](https://travis-ci.org/alistaire47/passport)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/alistaire47/passport?branch=master&svg=true)](https://ci.appveyor.com/project/alistaire47/passport)
@@ -70,12 +71,14 @@ gap %>%
     sample_n(10)
 ```
 
-If country names are particularly irregular or in unsupported languages,
-`parse_country` can use Google Maps or Data Science Toolkit geocoding APIs to
-parse instead of regex:
+If country names are particularly irregular, in unsupported languages, or are 
+even just unique location names, `parse_country` can use Google Maps or Data 
+Science Toolkit geocoding APIs to parse instead of regex:
 
 ```{r}
 parse_country(c('somewhere in Japan', '日本', 'Japon', "जापान"), how = 'dstk')
+
+parse_country(c("1600 Pennsylvania Ave, DC", "Eiffel Tower"), how = "dstk")
 ```
 
 

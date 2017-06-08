@@ -1,7 +1,8 @@
-`passport`
-================
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+passport
+========
+
 [![Travis-CI Build Status](https://travis-ci.org/alistaire47/passport.svg?branch=master)](https://travis-ci.org/alistaire47/passport) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/alistaire47/passport?branch=master&svg=true)](https://ci.appveyor.com/project/alistaire47/passport) [![Coverage Status](https://img.shields.io/codecov/c/github/alistaire47/passport/master.svg)](https://codecov.io/github/alistaire47/passport?branch=master) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/passport)](https://cran.r-project.org/package=passport)
 
 `passport` smooths the process of working with country names and codes via powerful parsing, standardization, and conversion utilities arranged in a simple, consistent API. Country name formats include multiple sources including the Unicode CLDR common-sense standardizations in hundreds of languages.
@@ -65,11 +66,14 @@ gap %>%
 #> 10               Tunisia           TN  1987  66.894
 ```
 
-If country names are particularly irregular or in unsupported languages, `parse_country` can use Google Maps or Data Science Toolkit geocoding APIs to parse instead of regex:
+If country names are particularly irregular, in unsupported languages, or are even just unique location names, `parse_country` can use Google Maps or Data Science Toolkit geocoding APIs to parse instead of regex:
 
 ``` r
 parse_country(c('somewhere in Japan', '日本', 'Japon', "जापान"), how = 'dstk')
 #> [1] "JP" "JP" "JP" "JP"
+
+parse_country(c("1600 Pennsylvania Ave, DC", "Eiffel Tower"), how = "dstk")
+#> [1] "US" "FR"
 ```
 
 II. Convert

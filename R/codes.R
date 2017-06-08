@@ -1,12 +1,12 @@
 #' Country code and name details and documentation
 #'
 #' A codebook data.frame of codes and details for country code and name
-#' conversions available. Contains Internet Engineering Task Force (IETF)
-#' [language tags](https://en.wikipedia.org/wiki/IETF_language_tag) (e.g.
-#' `"en-nz"` for New Zealand English) for [Unicode Common Locale Data Repository
-#' (CLDR)](http://cldr.unicode.org/) names, similar approximations for
-#' institutional names (e.g. `"en-iso"`), and short names (e.g. `"iso2c"`) for
-#' country codes.
+#' conversions available. Contains
+#' [Internet Engineering Task Force (IETF) language tags](https://en.wikipedia.org/wiki/IETF_language_tag)
+#' (e.g. `"en-nz"` for New Zealand English) for
+#' [Unicode Common Locale Data Repository (CLDR)](http://cldr.unicode.org/) names,
+#' similar approximations for institutional names (e.g. `"en-iso"`), and short
+#' names (e.g. `"iso2c"`) for country codes.
 #'
 #' All functions can accept codes separated with underscores `_`, hyphens `-`,
 #' or periods `.`.

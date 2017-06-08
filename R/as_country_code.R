@@ -29,13 +29,10 @@
 #' @examples
 #' # Codifies standardized names
 #' as_country_code(c("US", "Taiwan", "Myanmar", "Kosovo", "South Korea"), from = "en")
-#' #> [1] "US" "TW" "MM" "XK" "KR"
 #'
 #' # Translates codes; if passed a factor, returns a releveled one
 #' as_country_code(factor(c("SAH", "PCN", "OMA", "JPN")),
 #'                 from = "fifa", to = "iso4217_3c")
-#' #> [1] MAD NZD OMR JPY
-#' #> Levels: JPY OMR NZD MAD
 #'
 #' @export
 as_country_code <- function(x, from, to = 'iso2c', factor = is.factor(x)) {
