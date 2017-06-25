@@ -18,15 +18,19 @@ parse_by_regex <- function(location, to, language) {
     }
 }
 
-parse_by_geocoding <- function(location, source = c('google', 'dstk')){
-    query <- vapply(location, utils::URLencode, character(1), reserved = TRUE)
-    source <- match.arg(source)
-
+fromJSON <- function(...){
     # R CMD check doesn't like jsonlite in Imports, so load dynamically
     if (!requireNamespace('jsonlite', quietly = TRUE)) {
         stop('Package "jsonlite" is required to make API calls.
-    Please run: install.packages("jsonlite")')
+             Please run: install.packages("jsonlite")')
     }
+    # for testthat::with_mock
+    jsonlite::fromJSON(...)
+}
+
+parse_by_geocoding <- function(location, source = c('google', 'dstk')){
+    query <- vapply(location, utils::URLencode, character(1), reserved = TRUE)
+    source <- match.arg(source)
 
     base_url <- c('google' = 'https://maps.googleapis.com',
                   'dstk' = 'http://www.datasciencetoolkit.org')[source]
@@ -34,7 +38,7 @@ parse_by_geocoding <- function(location, source = c('google', 'dstk')){
     vapply(
         urls,
         function(url){
-            response <- jsonlite::fromJSON(url)
+            response <- fromJSON(url)
             if (response$status != "OK") {
                 message <- c('google' = "Google Maps geocoding API call failed; status = %s. Free usage tier is limited to 2500 queries per day.",
                              'dstk' = "Data Science Toolkit geocoding API call failed; status = %s")[source]

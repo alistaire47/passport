@@ -15,21 +15,51 @@ test_that("parsing country names with regex works", {
                  'not in available code formats')
 })
 
-
-test_that("parsing country names with geocoding APIs works", {
-    skip_on_appveyor()
-
-    expect_match(parse_country('\u65e5\u672c', how = 'google'),
-                 "JP|Google Maps geocoding API call failed")
-    expect_match(parse_country('\u65e5\u672c', to = 'en', how = 'dstk'),
-                "Japan|Data Science Toolkit geocoding API call failed")
+test_that("parsing country names with simulated geocoding APIs works", {
+    expect_error(with_mock(requireNamespace = function(...){FALSE},
+                           parse_country('Sverige', how = 'dstk')),
+                 "jsonlite")
+    expect_error(mockr::with_mock(fromJSON = function(...){list(status = "not OK")},
+                           parse_country('Sverige', how = 'dstk')),
+                 "not OK")
+    expect_equal(
+        mockr::with_mock(
+            fromJSON = function(...){
+                list(results = list(address_components = list(
+                    list(short_name = "SE", types = "country")
+                )), status = "OK")
+            },
+            parse_country("Sverige", to = 'en', how = 'dstk')),
+        'Sweden')
+    expect_s3_class(
+        mockr::with_mock(
+            fromJSON = function(...){
+                list(results = list(address_components = list(
+                    list(short_name = "SE", types = "country")
+                )), status = "OK")
+            },
+            parse_country(factor("Sverige"), how = 'dstk')),
+        'factor')
+    expect_equal(
+        mockr::with_mock(
+            fromJSON = function(...){
+                list(results = list(address_components = list(
+                    list(short_name = "SE", types = "country")
+                )), status = "OK")
+            },
+            parse_country(c('Sverige', 'Sweden'), how = 'google')),
+        c('SE', 'SE'))
 })
 
-test_that("parsing non-length-1 vectors via APIs works", {
+test_that("parsing country names with live geocoding APIs works", {
     skip_on_travis()
     skip_on_appveyor()
     skip_on_cran()
 
+    expect_equal(parse_country('\u65e5\u672c', how = 'google'),
+                 "JP")
+    expect_equal(parse_country('\u65e5\u672c', to = 'en', how = 'dstk'),
+                "Japan")
     expect_equal(parse_country(c('\u65e5\u672c', 'Japon', NA, "Burma"),
                                how = 'dstk'),
                  c("JP", "JP", NA, "MM"))

@@ -20,6 +20,7 @@ Suggests:
     ggmap,
     googleway,
     testthat,
+    mockr,
     covr
 License: GPL-3 | file LICENSE
 URL: https://github.com/alistaire47/passport, https://alistaire47.github.io/passport/
