@@ -17,11 +17,15 @@ Suggests:
     jsonlite, 
     DT, 
     ggplot2, 
+    tidyverse,
     ggmap,
     googleway,
+    gapminder,
     testthat,
     mockr,
-    covr
+    covr,
+    knitr,
+    rmarkdown
 License: GPL-3 | file LICENSE
 URL: https://github.com/alistaire47/passport, https://alistaire47.github.io/passport/
 BugReports: https://github.com/alistaire47/passport/issues
@@ -29,3 +33,4 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
 Roxygen: list(markdown = TRUE)
+VignetteBuilder: knitr
