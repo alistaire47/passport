@@ -42,7 +42,7 @@ Google Maps geocoding API instead, which permits a much broader range of
 input formats and languages. The API allows 2500 calls per day, and should
 thus be called judiciously. \code{parse_country} will make one call per unique
 input. For more calls, see options that allow passing an API key like
-\code{\link[ggmap:geocode]{ggmap::geocode()}} with \code{output = "all"} or \code{\link[googleway:google_geocode]{googleway::google_geocode()}}.
+\code{ggmap::geocode()} with \code{output = "all"} or \code{googleway::google_geocode()}.
 
 If \code{how = "dstk"}, \code{parse_country} will use the Data Science Toolkit
 geocoding API.

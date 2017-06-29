@@ -72,7 +72,7 @@ parse_by_geocoding <- function(location, source = c('google', 'dstk')){
 #' input formats and languages. The API allows 2500 calls per day, and should
 #' thus be called judiciously. `parse_country` will make one call per unique
 #' input. For more calls, see options that allow passing an API key like
-#' [ggmap::geocode()] with `output = "all"` or [googleway::google_geocode()].
+#' `ggmap::geocode()` with `output = "all"` or `googleway::google_geocode()`.
 #'
 #' If `how = "dstk"`, `parse_country` will use the Data Science Toolkit
 #' geocoding API.

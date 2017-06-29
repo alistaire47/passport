@@ -20,11 +20,11 @@
 #'
 #' @examples
 #' if (require(ggplot2)) {
-#'     ggplot(data.frame(iso3c = c("KOR", "MMR", "TWN", "COG"),
-#'                       value = 1:4),
-#'            aes(x = iso3c, y = value)) +
+#'     ggplot(data.frame(country = c("KOR", "MMR", "TWN", "COG"),
+#'                       y = 1:4),
+#'            aes(x = country, y = y)) +
 #'         geom_col() +
-#'         scale_x_discrete(labels = country_format("iso3c"))
+#'         scale_x_discrete(labels = country_format(from = "iso3c"))
 #' }
 #'
 #' @export

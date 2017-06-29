@@ -20,7 +20,7 @@ devtools::install_github("alistaire47/passport")
 ------------------------------------------------------------------------
 
 Travel smoothly between country name and code formats
-=====================================================
+-----------------------------------------------------
 
 Working with country data can be frustrating. Even with well-curated data like [`gapminder`](https://github.com/jennybc/gapminder), there are some oddities:
 
@@ -38,8 +38,7 @@ grep('Yemen', unique(gapminder$country), value = TRUE)
 
 `passport` offers a framework for working with country names and codes without manually editing data or scraping codes from Wikipedia.
 
-I. Standardize
---------------
+### I. Standardize
 
 If data has non-standardized names, standardize them to an ISO 3166-1 code or other standardized code or name with `parse_country`:
 
@@ -76,8 +75,7 @@ parse_country(c("1600 Pennsylvania Ave, DC", "Eiffel Tower"), how = "dstk")
 #> [1] "US" "FR"
 ```
 
-II. Convert
------------
+### II. Convert
 
 If data comes with countries already coded, convert them with `as_country_code()`:
 
@@ -138,8 +136,7 @@ olympics$NOC %>% unique() %>%
 
 Language formats largely follow [IETF language tag BCP 47](https://en.wikipedia.org/wiki/IETF_language_tag) format. For all available formats, run `DT::datatable(codes)` for an interactive widget of format names and further information.
 
-III. Format
------------
+### III. Format
 
 A particularly common hangup with country data is presentation. While "Yemen, Rep." may be fine for exploratory work, to create a plot to share, such names need to be changed to something more palatable either by editing the data or manually overriding the labels directly on the plot.
 
@@ -165,7 +162,7 @@ gap %>%
          x = NULL, y = 'Life expectancy')
 ```
 
-![](README-unnamed-chunk-8-1.png)
+![](man/figures/README-format-1.png)
 
 By default `country_format` will use Unicode CLDR (see below) English names, which are intelligible and suitable for most purposes. If desired, other languages or formats can be specified just like in `as_country_name`.
 

@@ -9,3 +9,4 @@
 ^codecov\.yml$
 ^.DS_Store$
 ^docs$
+^cran-comments\.md$

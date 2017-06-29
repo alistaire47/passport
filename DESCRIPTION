@@ -1,25 +1,23 @@
 Package: passport
 Type: Package
-Title: Travel smoothly between country name and code formats
+Title: Travel Smoothly Between Country Name and Code Formats
 Version: 0.1.0
 Authors@R:
     person("Edward", "Visel", email = "edward.visel@gmail.com", role = c("aut", "cre"))
-Description: passport smooths the process of working with country names and 
-    codes via powerful parsing, standardization, and conversion utilities 
-    arranged in a simple, consistent API. Country name formats include multiple 
-    sources including the Unicode CLDR common-sense standardizations in 
-    hundreds of languages.
+Description: Smooths the process of working with country names and codes via 
+    powerful parsing, standardization, and conversion utilities arranged in a 
+    simple, consistent API. Country name formats include multiple sources 
+    including the Unicode Common Locale Data Repository (CLDR) common-sense 
+    standardized names in hundreds of languages.
 Depends: R (>= 3.1.0)
-Inports:
+Imports:
     stats, 
     utils
 Suggests:
     jsonlite, 
     DT, 
-    ggplot2, 
+    ggplot2,
     tidyverse,
-    ggmap,
-    googleway,
     gapminder,
     testthat,
     mockr,

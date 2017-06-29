@@ -5,20 +5,20 @@ output: github_document
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-```{r, echo = FALSE}
+```{r setup, echo = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = "README-"
+  fig.path = "man/figures/README-"
 )
 ```
 
 # passport
 
-[![Travis-CI Build Status](https://travis-ci.org/alistaire47/passport.svg?branch=master)](https://travis-ci.org/alistaire47/passport)
-[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/alistaire47/passport?branch=master&svg=true)](https://ci.appveyor.com/project/alistaire47/passport)
-[![Coverage Status](https://img.shields.io/codecov/c/github/alistaire47/passport/master.svg)](https://codecov.io/github/alistaire47/passport?branch=master)
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/passport)](https://cran.r-project.org/package=passport)
+[![Travis-CI Build Status](https://travis-ci.org/alistaire47/passport.svg?branch=master)](https://travis-ci.org/alistaire47/passport) 
+[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/alistaire47/passport?branch=master&svg=true)](https://ci.appveyor.com/project/alistaire47/passport) 
+[![Coverage Status](https://img.shields.io/codecov/c/github/alistaire47/passport/master.svg)](https://codecov.io/github/alistaire47/passport?branch=master) 
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/passport)](https://cran.r-project.org/package=passport) 
 
 `passport` smooths the process of working with country names and codes via
 powerful parsing, standardization, and conversion utilities arranged in a
@@ -37,12 +37,12 @@ devtools::install_github("alistaire47/passport")
 
 ---
 
-# Travel smoothly between country name and code formats
+## Travel smoothly between country name and code formats
 
 Working with country data can be frustrating. Even with well-curated data like 
 [`gapminder`](https://github.com/jennybc/gapminder), there are some oddities:
 
-```{r, message=FALSE}
+```{r intro, message=FALSE}
 library(passport)
 library(gapminder)
 library(tidyverse)    # Works equally well in any grammar.
@@ -56,12 +56,12 @@ grep('Yemen', unique(gapminder$country), value = TRUE)
 manually editing data or scraping codes from Wikipedia.
 
 
-## I. Standardize
+### I. Standardize
 
 If data has non-standardized names, standardize them to an ISO 3166-1 code 
 or other standardized code or name with `parse_country`:
 
-```{r}
+```{r standardize-1}
 gap <- gapminder %>% 
     # standardize to ISO 3166 Alpha-2 code
     mutate(country_code = parse_country(country))
@@ -75,19 +75,19 @@ If country names are particularly irregular, in unsupported languages, or are
 even just unique location names, `parse_country` can use Google Maps or Data 
 Science Toolkit geocoding APIs to parse instead of regex:
 
-```{r}
+```{r standardize-2}
 parse_country(c('somewhere in Japan', '日本', 'Japon', "जापान"), how = 'dstk')
 
 parse_country(c("1600 Pennsylvania Ave, DC", "Eiffel Tower"), how = "dstk")
 ```
 
 
-## II. Convert
+### II. Convert
 
 If data comes with countries already coded, convert them with 
 `as_country_code()`:
 
-```{r, message = FALSE}
+```{r convert-1, message = FALSE}
 # 2016 Olympic gold medal data
 olympics <- read_tsv('https://raw.githubusercontent.com/nbremer/olympicfeathers/gh-pages/data/raw%20medal%20data/Rio%202016%20gold%20medal%20winners.txt')
 
@@ -96,7 +96,7 @@ olympics %>% count(country = as_country_code(NOC, from = 'ioc'), sort = TRUE)
 
 or to convert to country names, use `as_country_name()`:
 
-```{r}
+```{r convert-2}
 olympics %>% 
     count(country = as_country_name(NOC, from = 'ioc'), 
           Event_gender) %>% 
@@ -106,7 +106,7 @@ olympics %>%
 
 or translate to another language:
 
-```{r}
+```{r convert-3}
 olympics$NOC %>% unique() %>% 
     as_country_name(from = 'ioc', to = 'ta-my') %>% 
     head(10)
@@ -117,7 +117,7 @@ Language formats largely follow [IETF language tag BCP
 formats, run `DT::datatable(codes)` for an interactive widget of format names
 and further information.
 
-## III. Format
+### III. Format
 
 A particularly common hangup with country data is presentation. While 
 "Yemen, Rep." may be fine for exploratory work, to create a plot to share, 
@@ -128,7 +128,7 @@ If the existing format is already standardized, `passport` offers another
 option: use a formatter function created with `country_format`, just like for 
 thousands separators or currency formatting:
 
-```{r, dpi=300}
+```{r format, dpi=300}
 gap %>% 
     group_by(country_code) %>% 
     summarise(start_life_exp = lifeExp[which.min(year)], 

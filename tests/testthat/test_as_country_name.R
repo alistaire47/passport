@@ -5,10 +5,10 @@ test_that("converting codes to names works", {
 
     expect_equal(as_country_name(c("TW", "KR", "UY")),
                  c("Taiwan", "South Korea", "Uruguay"))
-    expect_equal(as_country_name(c("TW", "KR", "UY"), to = 'fr'),
-                 c("Ta\u00efwan", "Cor\u00e9e du Sud", "Uruguay"))
-    expect_equal(as_country_name(c(384L, 203L, 626L), from = 'iso3n'),
-                 c("C\u00f4te d’Ivoire", "Czechia", "Timor-Leste"))
+    expect_equal(as_country_name(c('YE', 'KR', 'UY'), to = 'es'),
+                 c("Yemen", "Corea del Sur", "Uruguay"))
+    expect_equal(as_country_name(c(124L, 203L, 626L), from = 'iso3n'),
+                 c("Canada", "Czechia", "Timor-Leste"))
     expect_equal(as_country_name(c('US', 'GB'), short = FALSE),
                  c("United States", "United Kingdom"))
     expect_equal(as_country_name(c('CI', 'CZ', 'TL'), variant = TRUE),
