@@ -1,4 +1,4 @@
-#' @importFrom stats setNames
+#' @importFrom stats setNames na.omit
 
 check_parameters <- function(x, from, to) {
     if (!class(x) %in% c('character', 'factor', 'integer', 'numeric')) {
@@ -53,7 +53,9 @@ convert_country <- function(x, to, from, short, variant, factor) {
         countries_sub[[from]]
     )[x_levels[is.na(new_levels)]]
 
-    if (length(new_levels) != length(unique(new_levels))) {
+    # Message instead of warning because sometimes desired (continent),
+    # but alert user of data loss/irreversibility
+    if (length(na.omit(new_levels)) != length(na.omit(unique(new_levels)))) {
         message('Multiple unique values aggregated to single output')
     }
 

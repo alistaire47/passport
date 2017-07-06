@@ -107,7 +107,7 @@ w <- 'https://en.wikipedia.org/wiki/Category:Lists_of_country_codes' %>%
     paste0('https://en.wikipedia.org', .) %>%
     map(read_html) %>%
     map(html_nodes, 'h2 + table') %>%
-    at_depth(2, html_nodes, 'td') %>%
+    modify_depth(2, html_nodes, 'td') %>%
     map(map_df, ~list(
         key = map(.x, html_nodes, xpath = 'a|text()') %>%
             map(html_text) %>%
@@ -185,7 +185,7 @@ unicode_modern <- langs_modern %>%
     map2(names(.),
          ~set_names(data_frame(names(.x), .x),
                     c('code', .y))) %>%
-    reduce(full_join)
+    reduce(full_join, by = 'code')
 
 # # unused
 # lang_codes <- 'https://github.com/unicode-cldr/cldr-localenames-modern/raw/master/main/en-US-POSIX/languages.json' %>%
@@ -276,11 +276,18 @@ unicode_modern_c <- unicode_modern %>%
     select(-code) %>%
     janitor::clean_names()
 
-countrycode_data_c <- countrycode::countrycode_data %>% 
+# load countrycode data straight from github
+con <- url('https://github.com/vincentarelbundock/countrycode/blob/master/data/codelist.rda?raw=true')
+load(con)   # `codelist`
+close(con)
+rm(con)
+
+countrycode_data_c <- codelist %>% 
+    mutate(iso2c = coalesce(iso2c, genc2c)) %>% 
     select(iso2c, matches('regex')) %>% 
     drop_na(iso2c) %>%
     janitor::clean_names() %>% 
-    set_names(sub('country_name_', '', names(.)))
+    set_names(~sub('country_name_', '', .x))
 ```
 
 ## Joining
@@ -344,7 +351,7 @@ us_ok_un_w %>% names() %>%
                 select(gec, en, iso3c, iso2c, iso3n) %>% 
                 .[!is.na(.[[.x]]),] %>% 
                 nrow()) %>% 
-    set_names(names(us_ok_w_un))
+    set_names(names(us_ok_un_w))
 ```
 
 ## Documenting
@@ -430,7 +437,7 @@ codes <- data_frame(column = countries_colnames,
 
 ## Saving
 ```{r saving}
-# to avoid ASCII CRAN warning...stri_trans_general w/ 'Latin-ASCII'?
+# to avoid ASCII CRAN warning
 codes <- codes %>% modify(stringi::stri_trans_general, 'Latin-ASCII')
 
 devtools::use_data(countries, countries_colnames, 
