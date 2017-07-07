@@ -132,7 +132,7 @@ Google Maps geocoding API instead, which permits a much broader range of
 input formats and languages. The API allows 2500 calls per day, and should
 thus be called judiciously. <code>parse_country</code> will make one call per unique
 input. For more calls, see options that allow passing an API key like
-<code><a href='http://www.rdocumentation.org/packages/ggmap/topics/geocode'>ggmap::geocode()</a></code> with <code>output = "all"</code> or <code><a href='http://www.rdocumentation.org/packages/googleway/topics/google_geocode'>googleway::google_geocode()</a></code>.</p>
+<code>ggmap::geocode()</code> with <code>output = "all"</code> or <code>googleway::google_geocode()</code>.</p>
 <p>If <code>how = "dstk"</code>, <code>parse_country</code> will use the Data Science Toolkit
 geocoding API.</p>
 <p>Note that due to their flexibility, the APIs may fail unpredictably, e.g.

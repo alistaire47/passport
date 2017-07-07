@@ -58,12 +58,13 @@
             <h3 class="subtitle">Travel smoothly between country name and code formats</h3>
                         <h4 class="author">Edward Visel</h4>
             
-            <h4 class="date">28 June 2017</h4>
+            <h4 class="date">07 July 2017</h4>
           </div>
 
     
     
 <div class="contents">
+<!-- passport.md is generated from README.Rmd. Please edit that file -->
 <p><code>passport</code> smooths the process of working with country names and codes via powerful parsing, standardization, and conversion utilities arranged in a simple, consistent API. Country name formats include multiple sources including the Unicode CLDR common-sense standardizations in hundreds of languages.</p>
 <p>Working with country data can be frustrating. Even with well-curated data like <a href="https://github.com/jennybc/gapminder"><code>gapminder</code></a>, there are some oddities:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(passport)
@@ -71,10 +72,10 @@
 <span class="kw">library</span>(tidyverse)    <span class="co"># Works equally well in any grammar.</span>
 <span class="kw">set.seed</span>(<span class="dv">47</span>)
 
-<span class="kw">grep</span>(<span class="st">'Korea'</span>, <span class="kw">unique</span>(gapminder<span class="op">$</span>country), <span class="dt">value =</span> <span class="ot">TRUE</span>)</code></pre></div>
-<pre><code>## [1] "Korea, Dem. Rep." "Korea, Rep."</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">grep</span>(<span class="st">'Yemen'</span>, <span class="kw">unique</span>(gapminder<span class="op">$</span>country), <span class="dt">value =</span> <span class="ot">TRUE</span>)</code></pre></div>
-<pre><code>## [1] "Yemen, Rep."</code></pre>
+<span class="kw">grep</span>(<span class="st">'Korea'</span>, <span class="kw">unique</span>(gapminder<span class="op">$</span>country), <span class="dt">value =</span> <span class="ot">TRUE</span>)
+<span class="co">#&gt; [1] "Korea, Dem. Rep." "Korea, Rep."</span>
+<span class="kw">grep</span>(<span class="st">'Yemen'</span>, <span class="kw">unique</span>(gapminder<span class="op">$</span>country), <span class="dt">value =</span> <span class="ot">TRUE</span>)
+<span class="co">#&gt; [1] "Yemen, Rep."</span></code></pre></div>
 <p><code>passport</code> offers a framework for working with country names and codes without manually editing data or scraping codes from Wikipedia.</p>
 <div id="i--standardize" class="section level2">
 <h2 class="hasAnchor">
@@ -86,25 +87,26 @@
 
 gap <span class="op">%&gt;%</span>
 <span class="st">    </span><span class="kw">select</span>(country, country_code, year, lifeExp) <span class="op">%&gt;%</span>
-<span class="st">    </span><span class="kw">sample_n</span>(<span class="dv">10</span>)</code></pre></div>
-<pre><code>## # A tibble: 10 x 4
-##                  country country_code  year lifeExp
-##                   &lt;fctr&gt;       &lt;fctr&gt; &lt;int&gt;   &lt;dbl&gt;
-##  1    West Bank and Gaza           PS  1992  69.718
-##  2                 Haiti           HT  1952  37.579
-##  3 Sao Tome and Principe           ST  1952  46.471
-##  4               Somalia           SO  1987  44.501
-##  5             Mauritius           MU  1967  61.557
-##  6              Pakistan           PK  2002  63.610
-##  7      Hong Kong, China           HK  1952  60.960
-##  8                 Japan           JP  1967  71.430
-##  9            Madagascar           MG  1997  54.978
-## 10               Tunisia           TN  1987  66.894</code></pre>
+<span class="st">    </span><span class="kw">sample_n</span>(<span class="dv">10</span>)
+<span class="co">#&gt; # A tibble: 10 x 4</span>
+<span class="co">#&gt;                  country country_code  year lifeExp</span>
+<span class="co">#&gt;                   &lt;fctr&gt;       &lt;fctr&gt; &lt;int&gt;   &lt;dbl&gt;</span>
+<span class="co">#&gt;  1    West Bank and Gaza           PS  1992  69.718</span>
+<span class="co">#&gt;  2                 Haiti           HT  1952  37.579</span>
+<span class="co">#&gt;  3 Sao Tome and Principe           ST  1952  46.471</span>
+<span class="co">#&gt;  4               Somalia           SO  1987  44.501</span>
+<span class="co">#&gt;  5             Mauritius           MU  1967  61.557</span>
+<span class="co">#&gt;  6              Pakistan           PK  2002  63.610</span>
+<span class="co">#&gt;  7      Hong Kong, China           HK  1952  60.960</span>
+<span class="co">#&gt;  8                 Japan           JP  1967  71.430</span>
+<span class="co">#&gt;  9            Madagascar           MG  1997  54.978</span>
+<span class="co">#&gt; 10               Tunisia           TN  1987  66.894</span></code></pre></div>
 <p>If country names are particularly irregular, in unsupported languages, or are even just unique location names, <code>parse_country</code> can use Google Maps or Data Science Toolkit geocoding APIs to parse instead of regex:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/parse_country.html">parse_country</a></span>(<span class="kw">c</span>(<span class="st">'somewhere in Japan'</span>, <span class="st">'日本'</span>, <span class="st">'Japon'</span>, <span class="st">"जापान"</span>), <span class="dt">how =</span> <span class="st">'dstk'</span>)</code></pre></div>
-<pre><code>## [1] "JP" "JP" "JP" "JP"</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/parse_country.html">parse_country</a></span>(<span class="kw">c</span>(<span class="st">"1600 Pennsylvania Ave, DC"</span>, <span class="st">"Eiffel Tower"</span>), <span class="dt">how =</span> <span class="st">"dstk"</span>)</code></pre></div>
-<pre><code>## [1] "US" "FR"</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/parse_country.html">parse_country</a></span>(<span class="kw">c</span>(<span class="st">'somewhere in Japan'</span>, <span class="st">'日本'</span>, <span class="st">'Japon'</span>, <span class="st">"जापान"</span>), <span class="dt">how =</span> <span class="st">'dstk'</span>)
+<span class="co">#&gt; [1] "JP" "JP" "JP" "JP"</span>
+
+<span class="kw"><a href="../reference/parse_country.html">parse_country</a></span>(<span class="kw">c</span>(<span class="st">"1600 Pennsylvania Ave, DC"</span>, <span class="st">"Eiffel Tower"</span>), <span class="dt">how =</span> <span class="st">"dstk"</span>)
+<span class="co">#&gt; [1] "US" "FR"</span></code></pre></div>
 </div>
 <div id="ii--convert" class="section level2">
 <h2 class="hasAnchor">
@@ -113,47 +115,47 @@ gap <span class="op">%&gt;%</span>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># 2016 Olympic gold medal data</span>
 olympics &lt;-<span class="st"> </span><span class="kw">read_tsv</span>(<span class="st">'https://raw.githubusercontent.com/nbremer/olympicfeathers/gh-pages/data/raw%20medal%20data/Rio%202016%20gold%20medal%20winners.txt'</span>)
 
-olympics <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">count</span>(<span class="dt">country =</span> <span class="kw"><a href="../reference/as_country_code.html">as_country_code</a></span>(NOC, <span class="dt">from =</span> <span class="st">'ioc'</span>), <span class="dt">sort =</span> <span class="ot">TRUE</span>)</code></pre></div>
-<pre><code>## # A tibble: 59 x 2
-##    country     n
-##      &lt;chr&gt; &lt;int&gt;
-##  1      US    46
-##  2      GB    28
-##  3      CN    26
-##  4      RU    19
-##  5      DE    18
-##  6      JP    12
-##  7      FR    11
-##  8      KR     9
-##  9      AU     8
-## 10      HU     8
-## # ... with 49 more rows</code></pre>
+olympics <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">count</span>(<span class="dt">country =</span> <span class="kw"><a href="../reference/as_country_code.html">as_country_code</a></span>(NOC, <span class="dt">from =</span> <span class="st">'ioc'</span>), <span class="dt">sort =</span> <span class="ot">TRUE</span>)
+<span class="co">#&gt; # A tibble: 59 x 2</span>
+<span class="co">#&gt;    country     n</span>
+<span class="co">#&gt;      &lt;chr&gt; &lt;int&gt;</span>
+<span class="co">#&gt;  1      US    46</span>
+<span class="co">#&gt;  2      GB    28</span>
+<span class="co">#&gt;  3      CN    26</span>
+<span class="co">#&gt;  4      RU    19</span>
+<span class="co">#&gt;  5      DE    18</span>
+<span class="co">#&gt;  6      JP    12</span>
+<span class="co">#&gt;  7      FR    11</span>
+<span class="co">#&gt;  8      KR     9</span>
+<span class="co">#&gt;  9      AU     8</span>
+<span class="co">#&gt; 10      HU     8</span>
+<span class="co">#&gt; # ... with 49 more rows</span></code></pre></div>
 <p>or to convert to country names, use <code><a href="../reference/as_country_name.html">as_country_name()</a></code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">olympics <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">    </span><span class="kw">count</span>(<span class="dt">country =</span> <span class="kw"><a href="../reference/as_country_name.html">as_country_name</a></span>(NOC, <span class="dt">from =</span> <span class="st">'ioc'</span>), 
           Event_gender) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">    </span><span class="kw">spread</span>(Event_gender, n) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">    </span><span class="kw">arrange</span>(<span class="kw">desc</span>(W))</code></pre></div>
-<pre><code>## # A tibble: 59 x 4
-##        country     M     W     X
-##          &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
-##  1          US    17    27     2
-##  2       China    12    14    NA
-##  3      Russia     9    10    NA
-##  4     Hungary     1     7    NA
-##  5       Japan     5     7    NA
-##  6          UK    19     7     2
-##  7 Netherlands     2     6    NA
-##  8   Australia     3     5    NA
-##  9     Germany    10     5     3
-## 10 South Korea     4     5    NA
-## # ... with 49 more rows</code></pre>
+<span class="st">    </span><span class="kw">arrange</span>(<span class="kw">desc</span>(W))
+<span class="co">#&gt; # A tibble: 59 x 4</span>
+<span class="co">#&gt;        country     M     W     X</span>
+<span class="co">#&gt;          &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;</span>
+<span class="co">#&gt;  1          US    17    27     2</span>
+<span class="co">#&gt;  2       China    12    14    NA</span>
+<span class="co">#&gt;  3      Russia     9    10    NA</span>
+<span class="co">#&gt;  4     Hungary     1     7    NA</span>
+<span class="co">#&gt;  5       Japan     5     7    NA</span>
+<span class="co">#&gt;  6          UK    19     7     2</span>
+<span class="co">#&gt;  7 Netherlands     2     6    NA</span>
+<span class="co">#&gt;  8   Australia     3     5    NA</span>
+<span class="co">#&gt;  9     Germany    10     5     3</span>
+<span class="co">#&gt; 10 South Korea     4     5    NA</span>
+<span class="co">#&gt; # ... with 49 more rows</span></code></pre></div>
 <p>or translate to another language:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">olympics<span class="op">$</span>NOC <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">unique</span>() <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">    </span><span class="kw"><a href="../reference/as_country_name.html">as_country_name</a></span>(<span class="dt">from =</span> <span class="st">'ioc'</span>, <span class="dt">to =</span> <span class="st">'ta-my'</span>) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">    </span><span class="kw">head</span>(<span class="dv">10</span>)</code></pre></div>
-<pre><code>##  [1] "சீனா"        "யூகே"       "யூஎஸ்"       "ஹங்கேரி"     "ஸ்வீடன்"      
-##  [6] "கனடா"       "நெதர்லாந்து"  "ஜப்பான்"      "ஸ்பெயின்"     "ஆஸ்திரேலியா"</code></pre>
+<span class="st">    </span><span class="kw">head</span>(<span class="dv">10</span>)
+<span class="co">#&gt;  [1] "சீனா"        "யூகே"       "யூஎஸ்"       "ஹங்கேரி"     "ஸ்வீடன்"      </span>
+<span class="co">#&gt;  [6] "கனடா"       "நெதர்லாந்து"  "ஜப்பான்"      "ஸ்பெயின்"     "ஆஸ்திரேலியா"</span></code></pre></div>
 <p>Language formats largely follow <a href="https://en.wikipedia.org/wiki/IETF_language_tag">IETF language tag BCP 47</a> format. For all available formats, run <code>DT::datatable(codes)</code> for an interactive widget of format names and further information.</p>
 </div>
 <div id="iii--format" class="section level2">
@@ -179,7 +181,7 @@ olympics <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"
          <span class="dt">subtitle =</span> <span class="st">'Largest increase in life expectancy'</span>,
          <span class="dt">x =</span> <span class="ot">NULL</span>, <span class="dt">y =</span> <span class="st">'Life expectancy'</span>) <span class="op">+</span><span class="st"> </span>
 <span class="st">    </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">30</span>, <span class="dt">hjust =</span> <span class="dv">1</span>))</code></pre></div>
-<p><img src="passport_files/figure-html/unnamed-chunk-7-1.png" width="480"></p>
+<p><img src="passport-format-1.png" width="480"></p>
 <p>By default <code>country_format</code> will use Unicode CLDR (see below) English names, which are intelligible and suitable for most purposes. If desired, other languages or formats can be specified just like in <code>as_country_name</code>.</p>
 <hr>
 </div>

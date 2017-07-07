@@ -131,11 +131,11 @@ function with the specified parameters set.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fu'>require</span>(<span class='no'>ggplot2</span>)) {
-    <span class='fu'>ggplot</span>(<span class='fu'>data.frame</span>(<span class='kw'>iso3c</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"KOR"</span>, <span class='st'>"MMR"</span>, <span class='st'>"TWN"</span>, <span class='st'>"COG"</span>),
-                      <span class='kw'>value</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>4</span>),
-           <span class='fu'>aes</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>iso3c</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>value</span>)) +
+    <span class='fu'>ggplot</span>(<span class='fu'>data.frame</span>(<span class='kw'>country</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"KOR"</span>, <span class='st'>"MMR"</span>, <span class='st'>"TWN"</span>, <span class='st'>"COG"</span>),
+                      <span class='kw'>y</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>4</span>),
+           <span class='fu'>aes</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>country</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>)) +
         <span class='fu'>geom_col</span>() +
-        <span class='fu'>scale_x_discrete</span>(<span class='kw'>labels</span> <span class='kw'>=</span> <span class='fu'>country_format</span>(<span class='st'>"iso3c"</span>))
+        <span class='fu'>scale_x_discrete</span>(<span class='kw'>labels</span> <span class='kw'>=</span> <span class='fu'>country_format</span>(<span class='kw'>from</span> <span class='kw'>=</span> <span class='st'>"iso3c"</span>))
 }</div><img src='country_format-2.png' alt='' width='540' height='400' /><div class='input'>
 </div></pre>
   </div>
