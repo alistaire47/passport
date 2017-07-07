@@ -17,7 +17,7 @@
 #' alternates are available for some countries; if not, the function will fall
 #' back to the standard form. See LICENSE file for terms of use.
 #'
-#' Other namesets are available from
+#' Other name sets are available from
 #'
 #' - [the UN Statistics Division(UNSD)](https://unstats.un.org/unsd/methodology/m49/),
 #'     which maintains standardized names in English, Chinese, Russian, French,

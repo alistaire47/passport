@@ -47,7 +47,7 @@ variety of languages, allowing for easy translation. Short and variant
 alternates are available for some countries; if not, the function will fall
 back to the standard form. See LICENSE file for terms of use.
 
-Other namesets are available from
+Other name sets are available from
 \itemize{
 \item \href{https://unstats.un.org/unsd/methodology/m49/}{the UN Statistics Division(UNSD)},
 which maintains standardized names in English, Chinese, Russian, French,
