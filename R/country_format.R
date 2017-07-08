@@ -19,7 +19,7 @@
 #' as country names.
 #'
 #' @examples
-#' if (require(ggplot2)) {
+#' if (require(ggplot2, quietly = TRUE)) {
 #'     ggplot(data.frame(country = c("KOR", "MMR", "TWN", "COG"),
 #'                       y = 1:4),
 #'            aes(x = country, y = y)) +

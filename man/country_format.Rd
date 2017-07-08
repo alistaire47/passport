@@ -39,7 +39,7 @@ parentheses to format ISO 2-character codes as English names, but
 function with the specified parameters set.
 }
 \examples{
-if (require(ggplot2)) {
+if (require(ggplot2, quietly = TRUE)) {
     ggplot(data.frame(country = c("KOR", "MMR", "TWN", "COG"),
                       y = 1:4),
            aes(x = country, y = y)) +
