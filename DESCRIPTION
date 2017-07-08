@@ -1,7 +1,7 @@
 Package: passport
 Type: Package
 Title: Travel Smoothly Between Country Name and Code Formats
-Version: 0.1.0
+Version: 0.1.1
 Authors@R:
     person("Edward", "Visel", email = "edward.visel@gmail.com", role = c("aut", "cre"))
 Description: Smooths the process of working with country names and codes via 
