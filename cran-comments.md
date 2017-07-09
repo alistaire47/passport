@@ -1,3 +1,9 @@
+## Resubmission
+This is a resubmission. In this version I have
+
+* Included CLDR URL in DESCRIPTION per response.
+* Updated codes documentation to reflect the correct number of rows.
+
 ## Test environments
 * local macOS install, R 3.4.1
 * local Windows 7 install, R 3.4.1

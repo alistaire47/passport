@@ -7,8 +7,9 @@ Authors@R:
 Description: Smooths the process of working with country names and codes via 
     powerful parsing, standardization, and conversion utilities arranged in a 
     simple, consistent API. Country name formats include multiple sources 
-    including the Unicode Common Locale Data Repository (CLDR) common-sense 
-    standardized names in hundreds of languages.
+    including the Unicode Common Locale Data 
+    Repository (CLDR, <http://cldr.unicode.org/>) common-sense standardized 
+    names in hundreds of languages.
 Depends: R (>= 3.1.0)
 Imports:
     stats, 

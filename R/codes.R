@@ -11,7 +11,7 @@
 #' All functions can accept codes separated with underscores `_`, hyphens `-`,
 #' or periods `.`.
 #'
-#' @format A data.frame of 393 rows and 9 variables.
+#' @format A data.frame of 427 rows and 9 variables.
 #'
 #' Structure:
 #'

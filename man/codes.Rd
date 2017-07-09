@@ -4,7 +4,7 @@
 \name{codes}
 \alias{codes}
 \title{Country code and name details and documentation}
-\format{A data.frame of 393 rows and 9 variables.
+\format{A data.frame of 427 rows and 9 variables.
 
 Structure:
 \itemize{
