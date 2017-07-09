@@ -23,7 +23,8 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-
+  
+  
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -51,10 +52,16 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../reference/index.html">Reference</a>
+  <a href="..//index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
 </li>
 <li>
-  <a href="../articles/index.html">Articles</a>
+  <a href="../articles/passport.html">Get Started</a>
+</li>
+<li>
+  <a href="../reference/index.html">Reference</a>
 </li>
 <li>
   <a href="../news/index.html">News</a>
@@ -135,26 +142,26 @@ codes (or names in another standardized format) and converts them to
 country names in the specified format. If you are trying to standardize an
 existing set of names, see <code><a href='parse_country.html'>parse_country()</a></code>.</p>
 <p>The default <code>"en"</code> is
-from <a href = 'http://cldr.unicode.org/'>Unicode Common Locale Data Repository (CLDR)</a>,
-which <a href = 'http://cldr.unicode.org/translation/country-names'>aspires to use the most customary name</a>
+from <a href='http://cldr.unicode.org/'>Unicode Common Locale Data Repository (CLDR)</a>,
+which <a href='http://cldr.unicode.org/translation/country-names'>aspires to use the most customary name</a>
 e.g. "Switzerland" instead of official ones, which are frequently awkward for
 common usage, e.g. "Swiss Confederation". CLDR also supplies names in a huge
 variety of languages, allowing for easy translation. Short and variant
 alternates are available for some countries; if not, the function will fall
 back to the standard form. See LICENSE file for terms of use.</p>
 <p>Other name sets are available from</p><ul>
-<li><p><a href = 'https://unstats.un.org/unsd/methodology/m49/'>the UN Statistics Division(UNSD)</a>,
+<li><p><a href='https://unstats.un.org/unsd/methodology/m49/'>the UN Statistics Division(UNSD)</a>,
 which maintains standardized names in English, Chinese, Russian, French,
 Spanish, and Arabic, here named as <code>"en_un"</code> etc.</p></li>
-<li><p><a href = 'https://www.iso.org/home.html'>the ISO</a>, <code>"en_iso"</code> and <code>"fr_iso"</code>, and</p></li>
-<li><p><a href = 'https://www.cia.gov/library/publications/the-world-factbook/fields/2142.html#af'>the CIA World Factbook</a>:</p><ul>
+<li><p><a href='https://www.iso.org/home.html'>the ISO</a>, <code>"en_iso"</code> and <code>"fr_iso"</code>, and</p></li>
+<li><p><a href='https://www.cia.gov/library/publications/the-world-factbook/fields/2142.html#af'>the CIA World Factbook</a>:</p><ul>
 <li><p><code>"en_cia"</code>, which include many longer official forms and shorter
 practical forms,</p></li>
 <li><p><code>"en_cia_local"</code>, which includes transliterations, and</p></li>
 <li><p><code>"en_cia_abbreviation"</code>, which includes commonly-used abbreviations.</p></li>
 </ul></li>
 </ul>
-    <p>See <code><a href='codes.html'>codes</a></code> for all options, or run <code>DT::datatable(codes)</code> for a
+    <p>See <code><a href='codes.html'>codes</a></code> for all options, or run <code><a href='http://www.rdocumentation.org/packages/DT/topics/datatable'>DT::datatable(codes)</a></code> for a
 searchable widget.</p>
     
 

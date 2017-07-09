@@ -23,7 +23,8 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-
+  
+  
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -51,10 +52,16 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../reference/index.html">Reference</a>
+  <a href="..//index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
 </li>
 <li>
-  <a href="../articles/index.html">Articles</a>
+  <a href="../articles/passport.html">Get Started</a>
+</li>
+<li>
+  <a href="../reference/index.html">Reference</a>
 </li>
 <li>
   <a href="../news/index.html">News</a>
@@ -85,9 +92,9 @@
     
     <p>A codebook data.frame of codes and details for country code and name
 conversions available. Contains
-<a href = 'https://en.wikipedia.org/wiki/IETF_language_tag'>Internet Engineering Task Force (IETF) language tags</a>
+<a href='https://en.wikipedia.org/wiki/IETF_language_tag'>Internet Engineering Task Force (IETF) language tags</a>
 (e.g. <code>"en-nz"</code> for New Zealand English) for
-<a href = 'http://cldr.unicode.org/'>Unicode Common Locale Data Repository (CLDR)</a> names,
+<a href='http://cldr.unicode.org/'>Unicode Common Locale Data Repository (CLDR)</a> names,
 similar approximations for institutional names (e.g. <code>"en-iso"</code>), and short
 names (e.g. <code>"iso2c"</code>) for country codes.</p>
     
@@ -122,7 +129,7 @@ or periods <code>.</code>.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># A searchable widget to find a code or name</span>
 <span class='kw'>if</span> (<span class='fu'>requireNamespace</span>(<span class='st'>"DT"</span>, <span class='kw'>quietly</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)) {
-    <span class='kw'>DT</span><span class='kw'>::</span><span class='fu'>datatable</span>(<span class='no'>codes</span>)
+    <span class='kw pkg'>DT</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/DT/topics/datatable'>datatable</a></span>(<span class='no'>codes</span>)
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

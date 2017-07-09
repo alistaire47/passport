@@ -34,8 +34,8 @@ library(gapminder)
 library(tidyverse)    # Works equally well in any grammar.
 set.seed(47)
 
-grep('Korea', unique(gapminder$country), value = TRUE)
-grep('Yemen', unique(gapminder$country), value = TRUE)
+grep("Korea", unique(gapminder$country), value = TRUE)
+grep("Yemen", unique(gapminder$country), value = TRUE)
 ```
 
 `passport` offers a framework for working with country names and codes without 
@@ -62,7 +62,7 @@ even just unique location names, `parse_country` can use Google Maps or Data
 Science Toolkit geocoding APIs to parse instead of regex:
 
 ```{r standardize-2, eval=FALSE}
-parse_country(c('somewhere in Japan', '日本', 'Japon', "जापान"), how = 'dstk')
+parse_country(c("somewhere in Japan", "日本", "Japon", "जापान"), how = "dstk")
 #> [1] "JP" "JP" "JP" "JP"
 
 parse_country(c("1600 Pennsylvania Ave, DC", "Eiffel Tower"), how = "dstk")
@@ -77,16 +77,16 @@ If data comes with countries already coded, convert them with
 
 ```{r convert-1, message = FALSE}
 # 2016 Olympic gold medal data
-olympics <- read_tsv('https://raw.githubusercontent.com/nbremer/olympicfeathers/gh-pages/data/raw%20medal%20data/Rio%202016%20gold%20medal%20winners.txt')
+olympics <- read_tsv("https://raw.githubusercontent.com/nbremer/olympicfeathers/gh-pages/data/raw%20medal%20data/Rio%202016%20gold%20medal%20winners.txt")
 
-olympics %>% count(country = as_country_code(NOC, from = 'ioc'), sort = TRUE)
+olympics %>% count(country = as_country_code(NOC, from = "ioc"), sort = TRUE)
 ```
 
 or to convert to country names, use `as_country_name()`:
 
 ```{r convert-2}
 olympics %>% 
-    count(country = as_country_name(NOC, from = 'ioc'), 
+    count(country = as_country_name(NOC, from = "ioc"), 
           Event_gender) %>% 
     spread(Event_gender, n) %>% 
     arrange(desc(W))
@@ -96,7 +96,7 @@ or translate to another language:
 
 ```{r convert-3}
 olympics$NOC %>% unique() %>% 
-    as_country_name(from = 'ioc', to = 'ta-my') %>% 
+    as_country_name(from = "ioc", to = "ta-my") %>% 
     head(10)
 ```
 
@@ -131,9 +131,9 @@ gap %>%
     geom_linerange(size = 12, show.legend = FALSE) + 
                      # ...just pass `labels` a formatter function!
     scale_x_discrete(labels = country_format()) + 
-    labs(title = 'Life gets better',
-         subtitle = 'Largest increase in life expectancy',
-         x = NULL, y = 'Life expectancy') + 
+    labs(title = "Life gets better",
+         subtitle = "Largest increase in life expectancy",
+         x = NULL, y = "Life expectancy") + 
     theme(axis.text.x = element_text(angle = 30, hjust = 1))
 ```
 
@@ -150,7 +150,7 @@ The data underlying `passport` comes from a number of sources, including
 
 - [The Unicode Common Locale Data Repository (CLDR)
 Project](http://cldr.unicode.org/) supplies country names in many, many
-languages, from Afrikaans to Zulu. Even better, [CLRDR aspires to use the most
+languages, from Afrikaans to Zulu. Even better, [CLDR aspires to use the most
 customary name](http://cldr.unicode.org/translation/country-names) instead of
 formal or official ones, e.g. "Switzerland" instead of "Swiss Confederation".
 - [The United Nations Statistics 

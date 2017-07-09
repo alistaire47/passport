@@ -29,10 +29,16 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="reference/index.html">Reference</a>
+  <a href="/index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
 </li>
 <li>
-  <a href="articles/index.html">Articles</a>
+  <a href="articles/passport.html">Get Started</a>
+</li>
+<li>
+  <a href="reference/index.html">Reference</a>
 </li>
 <li>
   <a href="news/index.html">News</a>
@@ -70,9 +76,11 @@
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>Install from GitHub with</p>
+<p>Install from CRAN with</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">"passport"</span>)</code></pre></div>
+<p>or the development version from GitHub with</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages("devtools")</span>
-devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">"alistaire47/passport"</span>)</code></pre></div>
+devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"alistaire47/passport"</span>)</code></pre></div>
 <hr>
 </div>
 <div id="travel-smoothly-between-country-name-and-code-formats" class="section level2">
@@ -84,9 +92,9 @@ devtools<span class="op">::</span><span class="kw">install_github</span>(<span c
 <span class="kw">library</span>(tidyverse)    <span class="co"># Works equally well in any grammar.</span>
 <span class="kw">set.seed</span>(<span class="dv">47</span>)
 
-<span class="kw">grep</span>(<span class="st">'Korea'</span>, <span class="kw">unique</span>(gapminder<span class="op">$</span>country), <span class="dt">value =</span> <span class="ot">TRUE</span>)
+<span class="kw">grep</span>(<span class="st">"Korea"</span>, <span class="kw">unique</span>(gapminder<span class="op">$</span>country), <span class="dt">value =</span> <span class="ot">TRUE</span>)
 <span class="co">#&gt; [1] "Korea, Dem. Rep." "Korea, Rep."</span>
-<span class="kw">grep</span>(<span class="st">'Yemen'</span>, <span class="kw">unique</span>(gapminder<span class="op">$</span>country), <span class="dt">value =</span> <span class="ot">TRUE</span>)
+<span class="kw">grep</span>(<span class="st">"Yemen"</span>, <span class="kw">unique</span>(gapminder<span class="op">$</span>country), <span class="dt">value =</span> <span class="ot">TRUE</span>)
 <span class="co">#&gt; [1] "Yemen, Rep."</span></code></pre></div>
 <p><code>passport</code> offers a framework for working with country names and codes without manually editing data or scraping codes from Wikipedia.</p>
 <div id="i--standardize" class="section level3">
@@ -114,7 +122,7 @@ gap <span class="op">%&gt;%</span>
 <span class="co">#&gt;  9            Madagascar           MG  1997  54.978</span>
 <span class="co">#&gt; 10               Tunisia           TN  1987  66.894</span></code></pre></div>
 <p>If country names are particularly irregular, in unsupported languages, or are even just unique location names, <code>parse_country</code> can use Google Maps or Data Science Toolkit geocoding APIs to parse instead of regex:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/parse_country.html">parse_country</a></span>(<span class="kw">c</span>(<span class="st">'somewhere in Japan'</span>, <span class="st">'日本'</span>, <span class="st">'Japon'</span>, <span class="st">"जापान"</span>), <span class="dt">how =</span> <span class="st">'dstk'</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/parse_country.html">parse_country</a></span>(<span class="kw">c</span>(<span class="st">"somewhere in Japan"</span>, <span class="st">"日本"</span>, <span class="st">"Japon"</span>, <span class="st">"जापान"</span>), <span class="dt">how =</span> <span class="st">"dstk"</span>)
 <span class="co">#&gt; [1] "JP" "JP" "JP" "JP"</span>
 
 <span class="kw"><a href="reference/parse_country.html">parse_country</a></span>(<span class="kw">c</span>(<span class="st">"1600 Pennsylvania Ave, DC"</span>, <span class="st">"Eiffel Tower"</span>), <span class="dt">how =</span> <span class="st">"dstk"</span>)
@@ -125,9 +133,9 @@ gap <span class="op">%&gt;%</span>
 <a href="#ii--convert" class="anchor"></a>II. Convert</h3>
 <p>If data comes with countries already coded, convert them with <code><a href="reference/as_country_code.html">as_country_code()</a></code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># 2016 Olympic gold medal data</span>
-olympics &lt;-<span class="st"> </span><span class="kw">read_tsv</span>(<span class="st">'https://raw.githubusercontent.com/nbremer/olympicfeathers/gh-pages/data/raw%20medal%20data/Rio%202016%20gold%20medal%20winners.txt'</span>)
+olympics &lt;-<span class="st"> </span><span class="kw">read_tsv</span>(<span class="st">"https://raw.githubusercontent.com/nbremer/olympicfeathers/gh-pages/data/raw%20medal%20data/Rio%202016%20gold%20medal%20winners.txt"</span>)
 
-olympics <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">count</span>(<span class="dt">country =</span> <span class="kw"><a href="reference/as_country_code.html">as_country_code</a></span>(NOC, <span class="dt">from =</span> <span class="st">'ioc'</span>), <span class="dt">sort =</span> <span class="ot">TRUE</span>)
+olympics <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">count</span>(<span class="dt">country =</span> <span class="kw"><a href="reference/as_country_code.html">as_country_code</a></span>(NOC, <span class="dt">from =</span> <span class="st">"ioc"</span>), <span class="dt">sort =</span> <span class="ot">TRUE</span>)
 <span class="co">#&gt; # A tibble: 59 x 2</span>
 <span class="co">#&gt;    country     n</span>
 <span class="co">#&gt;      &lt;chr&gt; &lt;int&gt;</span>
@@ -144,7 +152,7 @@ olympics <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"
 <span class="co">#&gt; # ... with 49 more rows</span></code></pre></div>
 <p>or to convert to country names, use <code><a href="reference/as_country_name.html">as_country_name()</a></code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">olympics <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">    </span><span class="kw">count</span>(<span class="dt">country =</span> <span class="kw"><a href="reference/as_country_name.html">as_country_name</a></span>(NOC, <span class="dt">from =</span> <span class="st">'ioc'</span>), 
+<span class="st">    </span><span class="kw">count</span>(<span class="dt">country =</span> <span class="kw"><a href="reference/as_country_name.html">as_country_name</a></span>(NOC, <span class="dt">from =</span> <span class="st">"ioc"</span>), 
           Event_gender) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">    </span><span class="kw">spread</span>(Event_gender, n) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">    </span><span class="kw">arrange</span>(<span class="kw">desc</span>(W))
@@ -164,11 +172,11 @@ olympics <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"
 <span class="co">#&gt; # ... with 49 more rows</span></code></pre></div>
 <p>or translate to another language:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">olympics<span class="op">$</span>NOC <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">unique</span>() <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">    </span><span class="kw"><a href="reference/as_country_name.html">as_country_name</a></span>(<span class="dt">from =</span> <span class="st">'ioc'</span>, <span class="dt">to =</span> <span class="st">'ta-my'</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw"><a href="reference/as_country_name.html">as_country_name</a></span>(<span class="dt">from =</span> <span class="st">"ioc"</span>, <span class="dt">to =</span> <span class="st">"ta-my"</span>) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">    </span><span class="kw">head</span>(<span class="dv">10</span>)
 <span class="co">#&gt;  [1] "சீனா"        "யூகே"       "யூஎஸ்"       "ஹங்கேரி"     "ஸ்வீடன்"      </span>
 <span class="co">#&gt;  [6] "கனடா"       "நெதர்லாந்து"  "ஜப்பான்"      "ஸ்பெயின்"     "ஆஸ்திரேலியா"</span></code></pre></div>
-<p>Language formats largely follow <a href="https://en.wikipedia.org/wiki/IETF_language_tag">IETF language tag BCP 47</a> format. For all available formats, run <code>DT::datatable(codes)</code> for an interactive widget of format names and further information.</p>
+<p>Language formats largely follow <a href="https://en.wikipedia.org/wiki/IETF_language_tag">IETF language tag BCP 47</a> format. For all available formats, run <code><a href="http://www.rdocumentation.org/packages/DT/topics/datatable">DT::datatable(codes)</a></code> for an interactive widget of format names and further information.</p>
 </div>
 <div id="iii--format" class="section level3">
 <h3 class="hasAnchor">
@@ -189,9 +197,9 @@ olympics <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"
 <span class="st">    </span><span class="kw">geom_linerange</span>(<span class="dt">size =</span> <span class="dv">20</span>, <span class="dt">show.legend =</span> <span class="ot">FALSE</span>) <span class="op">+</span><span class="st"> </span>
 <span class="st">                     </span><span class="co"># ...just pass `labels` a formatter function!</span>
 <span class="st">    </span><span class="kw">scale_x_discrete</span>(<span class="dt">labels =</span> <span class="kw"><a href="reference/country_format.html">country_format</a></span>()) <span class="op">+</span><span class="st"> </span>
-<span class="st">    </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">'Life gets better'</span>,
-         <span class="dt">subtitle =</span> <span class="st">'Largest increase in life expectancy'</span>,
-         <span class="dt">x =</span> <span class="ot">NULL</span>, <span class="dt">y =</span> <span class="st">'Life expectancy'</span>)</code></pre></div>
+<span class="st">    </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">"Life gets better"</span>,
+         <span class="dt">subtitle =</span> <span class="st">"Largest increase in life expectancy"</span>,
+         <span class="dt">x =</span> <span class="ot">NULL</span>, <span class="dt">y =</span> <span class="st">"Life expectancy"</span>)</code></pre></div>
 <p><img src="reference/figures/README-format-1.png" width="2100"></p>
 <p>By default <code>country_format</code> will use Unicode CLDR (see below) English names, which are intelligible and suitable for most purposes. If desired, other languages or formats can be specified just like in <code>as_country_name</code>.</p>
 <hr>
@@ -203,7 +211,7 @@ olympics <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"
 <p>The data underlying <code>passport</code> comes from a number of sources, including</p>
 <ul>
 <li>
-<a href="http://cldr.unicode.org/">The Unicode Common Locale Data Repository (CLDR) Project</a> supplies country names in many, many languages, from Afrikaans to Zulu. Even better, <a href="http://cldr.unicode.org/translation/country-names">CLRDR aspires to use the most customary name</a> instead of formal or official ones, e.g. “Switzerland” instead of “Swiss Confederation”.</li>
+<a href="http://cldr.unicode.org/">The Unicode Common Locale Data Repository (CLDR) Project</a> supplies country names in many, many languages, from Afrikaans to Zulu. Even better, <a href="http://cldr.unicode.org/translation/country-names">CLDR aspires to use the most customary name</a> instead of formal or official ones, e.g. “Switzerland” instead of “Swiss Confederation”.</li>
 <li>
 <a href="https://unstats.un.org/unsd/methodology/m49/overview/">The United Nations Statistics Division</a> maintains and publishes the M.49 region code and the UN geoscheme region codes and names.</li>
 <li>
@@ -227,15 +235,18 @@ olympics <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Links</h2>
+    <h2 class="hasAnchor">
+<a href="#sidebar" class="anchor"></a>Links</h2>
 <ul class="list-unstyled">
+<li>Download from CRAN at <br><a href="https://cran.r-project.org/package=passport">https://​cran.r-project.org/​package=passport</a>
+</li>
 <li>Browse source code at <br><a href="https://github.com/alistaire47/passport">https://​github.com/​alistaire47/​passport</a>
 </li>
 <li>Report a bug at <br><a href="https://github.com/alistaire47/passport/issues">https://​github.com/​alistaire47/​passport/​issues</a>
 </li>
 </ul>
 <h2>License</h2>
-<p><a href="https://www.r-project.org/Licenses/GPL-3">GPL-3</a> | file <a href="LICENSE">LICENSE</a></p>
+<p><a href="https://www.r-project.org/Licenses/GPL-3">GPL-3</a> | file <a href="LICENSE.html">LICENSE</a></p>
 <h2>Developers</h2>
 <ul class="list-unstyled">
 <li>Edward Visel <br><small class="roles"> Author, maintainer </small> </li>

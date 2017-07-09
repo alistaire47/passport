@@ -10,7 +10,13 @@ passport
 Installation
 ------------
 
-Install from GitHub with
+Install from CRAN with
+
+``` r
+install.packages("passport")
+```
+
+or the development version from GitHub with
 
 ``` r
 # install.packages("devtools")
@@ -30,9 +36,9 @@ library(gapminder)
 library(tidyverse)    # Works equally well in any grammar.
 set.seed(47)
 
-grep('Korea', unique(gapminder$country), value = TRUE)
+grep("Korea", unique(gapminder$country), value = TRUE)
 #> [1] "Korea, Dem. Rep." "Korea, Rep."
-grep('Yemen', unique(gapminder$country), value = TRUE)
+grep("Yemen", unique(gapminder$country), value = TRUE)
 #> [1] "Yemen, Rep."
 ```
 
@@ -68,7 +74,7 @@ gap %>%
 If country names are particularly irregular, in unsupported languages, or are even just unique location names, `parse_country` can use Google Maps or Data Science Toolkit geocoding APIs to parse instead of regex:
 
 ``` r
-parse_country(c('somewhere in Japan', '日本', 'Japon', "जापान"), how = 'dstk')
+parse_country(c("somewhere in Japan", "日本", "Japon", "जापान"), how = "dstk")
 #> [1] "JP" "JP" "JP" "JP"
 
 parse_country(c("1600 Pennsylvania Ave, DC", "Eiffel Tower"), how = "dstk")
@@ -81,9 +87,9 @@ If data comes with countries already coded, convert them with `as_country_code()
 
 ``` r
 # 2016 Olympic gold medal data
-olympics <- read_tsv('https://raw.githubusercontent.com/nbremer/olympicfeathers/gh-pages/data/raw%20medal%20data/Rio%202016%20gold%20medal%20winners.txt')
+olympics <- read_tsv("https://raw.githubusercontent.com/nbremer/olympicfeathers/gh-pages/data/raw%20medal%20data/Rio%202016%20gold%20medal%20winners.txt")
 
-olympics %>% count(country = as_country_code(NOC, from = 'ioc'), sort = TRUE)
+olympics %>% count(country = as_country_code(NOC, from = "ioc"), sort = TRUE)
 #> # A tibble: 59 x 2
 #>    country     n
 #>      <chr> <int>
@@ -104,7 +110,7 @@ or to convert to country names, use `as_country_name()`:
 
 ``` r
 olympics %>% 
-    count(country = as_country_name(NOC, from = 'ioc'), 
+    count(country = as_country_name(NOC, from = "ioc"), 
           Event_gender) %>% 
     spread(Event_gender, n) %>% 
     arrange(desc(W))
@@ -128,7 +134,7 @@ or translate to another language:
 
 ``` r
 olympics$NOC %>% unique() %>% 
-    as_country_name(from = 'ioc', to = 'ta-my') %>% 
+    as_country_name(from = "ioc", to = "ta-my") %>% 
     head(10)
 #>  [1] "சீனா"        "யூகே"       "யூஎஸ்"       "ஹங்கேரி"     "ஸ்வீடன்"      
 #>  [6] "கனடா"       "நெதர்லாந்து"  "ஜப்பான்"      "ஸ்பெயின்"     "ஆஸ்திரேலியா"
@@ -157,9 +163,9 @@ gap %>%
     geom_linerange(size = 20, show.legend = FALSE) + 
                      # ...just pass `labels` a formatter function!
     scale_x_discrete(labels = country_format()) + 
-    labs(title = 'Life gets better',
-         subtitle = 'Largest increase in life expectancy',
-         x = NULL, y = 'Life expectancy')
+    labs(title = "Life gets better",
+         subtitle = "Largest increase in life expectancy",
+         x = NULL, y = "Life expectancy")
 ```
 
 ![](man/figures/README-format-1.png)
@@ -173,7 +179,7 @@ Data
 
 The data underlying `passport` comes from a number of sources, including
 
--   [The Unicode Common Locale Data Repository (CLDR) Project](http://cldr.unicode.org/) supplies country names in many, many languages, from Afrikaans to Zulu. Even better, [CLRDR aspires to use the most customary name](http://cldr.unicode.org/translation/country-names) instead of formal or official ones, e.g. "Switzerland" instead of "Swiss Confederation".
+-   [The Unicode Common Locale Data Repository (CLDR) Project](http://cldr.unicode.org/) supplies country names in many, many languages, from Afrikaans to Zulu. Even better, [CLDR aspires to use the most customary name](http://cldr.unicode.org/translation/country-names) instead of formal or official ones, e.g. "Switzerland" instead of "Swiss Confederation".
 -   [The United Nations Statistics Division](https://unstats.un.org/unsd/methodology/m49/overview/) maintains and publishes the M.49 region code and the UN geoscheme region codes and names.
 -   [The CIA World Factbook](https://www.cia.gov/library/publications/the-world-factbook/index.html) supplies a standardized set of names and codes.
 -   [The National Geospatial-Intelligence Agency (NGA)](http://geonames.nga.mil/gns/html/countrycodes.html) is the organization responsible for standardizing US government use of country codes. It inherited the now-deprecated FIPS 10-4 from NIST, which it turned into the GEC, which is now also deprecated in favor of GENC, a US government profile of ISO 3166.
