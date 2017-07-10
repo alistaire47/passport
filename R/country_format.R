@@ -28,13 +28,11 @@
 #' }
 #'
 #' @export
-country_format <- function(
-    from = 'iso2c',
-    to = 'en',
-    short = TRUE,
-    variant = FALSE
-){
-    function(x){
+country_format <- function(from = "iso2c",
+                           to = "en",
+                           short = TRUE,
+                           variant = FALSE) {
+    function(x) {
         as_country_name(x, from = from, to = to, short = short,
                         variant = variant, factor = TRUE)
     }

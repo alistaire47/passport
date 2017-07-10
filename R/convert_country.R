@@ -1,14 +1,14 @@
 #' @importFrom stats setNames na.omit
 
 check_parameters <- function(x, from, to) {
-    if (!class(x) %in% c('character', 'factor', 'integer', 'numeric')) {
-        stop('Input is not an atomic vector.')
+    if (!class(x) %in% c("character", "factor", "integer", "numeric")) {
+        stop("Input is not an atomic vector.")
     }
     if (!to %in% countries_colnames) {
-        stop(paste(to, 'not in available formats.'))
+        stop(paste(to, "not in available formats."))
     }
     if (!from %in% countries_colnames) {
-        stop(paste(from, 'not in available formats.'))
+        stop(paste(from, "not in available formats."))
     }
 }
 
@@ -22,12 +22,16 @@ convert_country <- function(x, to, from, short, variant, factor) {
 
     # collapse vector flags to levels
     x_level_index <- match(x_levels, x)
-    if (length(short) > 1) { short <- short[x_level_index] }
-    if (length(variant) > 1) { variant <- variant[x_level_index] }
+    if (length(short) > 1) {
+        short <- short[x_level_index]
+    }
+    if (length(variant) > 1) {
+        variant <- variant[x_level_index]
+    }
 
     # convert names
     countries <- countries[countries[[from]] %in% x,
-                           c('alt', from, to)]    # filter countries
+                           c("alt", from, to)]    # filter countries
 
     # fill short and variant names
     countries_sub <- countries[
@@ -36,8 +40,8 @@ convert_country <- function(x, to, from, short, variant, factor) {
                 countries[[from]] == country & (countries$alt == s | countries$alt == v)
             },
             country = x_levels,
-            s = ifelse(short, 'short', NA),
-            v = ifelse(variant, 'variant', NA)
+            s = ifelse(short, "short", NA),
+            v = ifelse(variant, "variant", NA)
         )),
         c(to, from)]
 
@@ -56,14 +60,16 @@ convert_country <- function(x, to, from, short, variant, factor) {
     # Message instead of warning because sometimes desired (continent),
     # but alert user of data loss/irreversibility
     if (length(na.omit(new_levels)) != length(na.omit(unique(new_levels)))) {
-        message('Multiple unique values aggregated to single output')
+        message("Multiple unique values aggregated to single output")
     }
 
     levels(x) <- new_levels
 
     # warn if NAs created
     new_na <- is.na(new_levels) & !is.na(x_levels)
-    if (any(new_na)) {warning(paste('NAs created:', toString(x_levels[new_na])))}
+    if (any(new_na)) {
+        warning(paste("NAs created:", toString(x_levels[new_na])))
+    }
 
     if (factor) {
         return(droplevels(x))

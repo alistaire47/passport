@@ -9,8 +9,8 @@ parse_by_regex <- function(location, to, language) {
     } else {
         vapply(
             apply(x_mat, 2, which),
-            function(i){
-                country <- countries[i,][[to]]
+            function(i) {
+                country <- countries[i, ][[to]]
                 ifelse(length(country) == 0, NA_character_, country)
             },
             character(1)
@@ -18,9 +18,9 @@ parse_by_regex <- function(location, to, language) {
     }
 }
 
-fromJSON <- function(...){
+fromJSON <- function(...) {
     # R CMD check doesn't like jsonlite in Imports, so load dynamically
-    if (!requireNamespace('jsonlite', quietly = TRUE)) {
+    if (!requireNamespace("jsonlite", quietly = TRUE)) {
         stop('Package "jsonlite" is required to make API calls.
              Please run: install.packages("jsonlite")')
     }
@@ -28,26 +28,28 @@ fromJSON <- function(...){
     jsonlite::fromJSON(...)
 }
 
-parse_by_geocoding <- function(location, source = c('google', 'dstk')){
+parse_by_geocoding <- function(location, source = c("google", "dstk")) {
     query <- vapply(location, utils::URLencode, character(1), reserved = TRUE)
     source <- match.arg(source)
 
-    base_url <- c('google' = 'https://maps.googleapis.com',
-                  'dstk' = 'http://www.datasciencetoolkit.org')[source]
-    urls <- paste0(base_url, '/maps/api/geocode/json?&address=', query)
+    base_url <- c("google" = "https://maps.googleapis.com",
+                  "dstk" = "http://www.datasciencetoolkit.org")[source]
+    urls <- paste0(base_url, "/maps/api/geocode/json?&address=", query)
     vapply(
         urls,
-        function(url){
+        function(url) {
             response <- fromJSON(url)
             if (response$status != "OK") {
-                message <- c('google' = "Google Maps geocoding API call failed; status = %s. Free usage tier is limited to 2500 queries per day.",
-                             'dstk' = "Data Science Toolkit geocoding API call failed; status = %s")[source]
+                message <- c("google" = "Google Maps geocoding API call failed; status = %s. Free usage tier is limited to 2500 queries per day.",
+                             "dstk" = "Data Science Toolkit geocoding API call failed; status = %s")[source]
                 stop(sprintf(message, response$status))
             }
             components <- response$results$address_components[[1]]
-            if (source == 'google') { Sys.sleep(0.02) }    # 50 query/s limit
+            if (source == "google") {    # 50 query/s limit
+                Sys.sleep(0.02)
+            }
             components$short_name[vapply(components$types,
-                                         function(t){'country' %in% t},
+                                         function(t) { "country" %in% t },
                                          logical(1))][1]
         },
         character(1),
@@ -108,17 +110,17 @@ parse_by_geocoding <- function(location, source = c('google', 'dstk')){
 #'
 #' @export
 parse_country <- function(x,
-                          to = 'iso2c',
-                          how = c('regex', 'google', 'dstk'),
-                          language = c('en', 'de'),
+                          to = "iso2c",
+                          how = c("regex", "google", "dstk"),
+                          language = c("en", "de"),
                           factor = is.factor(x)) {
     # parameter checking
-    to <- gsub('-|\\.', '_', to)
+    to <- gsub("-|\\.", "_", to)
     how <- match.arg(how)
     if (!to %in% countries_colnames) {
-        stop(paste(to, 'not in available code formats.'))
+        stop(paste(to, "not in available code formats."))
     }
-    language <- paste0(match.arg(language), '_regex')
+    language <- paste0(match.arg(language), "_regex")
 
     if (!is.factor(x)) {
         x <- factor(x)
@@ -126,12 +128,12 @@ parse_country <- function(x,
 
     x_levels <- levels(x)
 
-    if (how == 'regex') {
+    if (how == "regex") {
         new_levels <- parse_by_regex(x_levels, to, language)
     } else {
         new_levels <- parse_by_geocoding(x_levels, how)
-        if (to != 'iso2c') {
-            new_levels <- as_country_code(new_levels, from = 'iso2c', to = to)
+        if (to != "iso2c") {
+            new_levels <- as_country_code(new_levels, from = "iso2c", to = to)
         }
     }
 
@@ -139,7 +141,7 @@ parse_country <- function(x,
 
     new_na <- is.na(new_levels) & !is.na(x_levels)
     if (any(new_na)) {
-        warning(paste('NAs created:', toString(x_levels[new_na])))
+        warning(paste("NAs created:", toString(x_levels[new_na])))
     }
 
     if (factor) {
