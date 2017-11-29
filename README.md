@@ -74,10 +74,10 @@ gap %>%
 If country names are particularly irregular, in unsupported languages, or are even just unique location names, `parse_country` can use Google Maps or Data Science Toolkit geocoding APIs to parse instead of regex:
 
 ``` r
-parse_country(c("somewhere in Japan", "日本", "Japon", "जापान"), how = "dstk")
+parse_country(c("somewhere in Japan", "日本", "Japon", "जापान"), how = "google")
 #> [1] "JP" "JP" "JP" "JP"
 
-parse_country(c("1600 Pennsylvania Ave, DC", "Eiffel Tower"), how = "dstk")
+parse_country(c("1600 Pennsylvania Ave, DC", "Eiffel Tower"), how = "google")
 #> [1] "US" "FR"
 ```
 
@@ -133,7 +133,8 @@ olympics %>%
 or translate to another language:
 
 ``` r
-olympics$NOC %>% unique() %>% 
+olympics$NOC %>% 
+    unique() %>% 
     as_country_name(from = "ioc", to = "ta-my") %>% 
     head(10)
 #>  [1] "சீனா"        "யூகே"       "யூஎஸ்"       "ஹங்கேரி"     "ஸ்வீடன்"      

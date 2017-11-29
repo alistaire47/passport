@@ -67,7 +67,7 @@
             <h3 class="subtitle">Travel smoothly between country name and code formats</h3>
                         <h4 class="author">Edward Visel</h4>
             
-            <h4 class="date">10 July 2017</h4>
+            <h4 class="date">29 November 2017</h4>
           </div>
 
     
@@ -111,10 +111,10 @@ gap <span class="op">%&gt;%</span>
 <span class="co">#&gt;  9            Madagascar           MG  1997  54.978</span>
 <span class="co">#&gt; 10               Tunisia           TN  1987  66.894</span></code></pre></div>
 <p>If country names are particularly irregular, in unsupported languages, or are even just unique location names, <code>parse_country</code> can use Google Maps or Data Science Toolkit geocoding APIs to parse instead of regex:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/parse_country.html">parse_country</a></span>(<span class="kw">c</span>(<span class="st">"somewhere in Japan"</span>, <span class="st">"日本"</span>, <span class="st">"Japon"</span>, <span class="st">"जापान"</span>), <span class="dt">how =</span> <span class="st">"dstk"</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/parse_country.html">parse_country</a></span>(<span class="kw">c</span>(<span class="st">"somewhere in Japan"</span>, <span class="st">"日本"</span>, <span class="st">"Japon"</span>, <span class="st">"जापान"</span>), <span class="dt">how =</span> <span class="st">"google"</span>)
 <span class="co">#&gt; [1] "JP" "JP" "JP" "JP"</span>
 
-<span class="kw"><a href="../reference/parse_country.html">parse_country</a></span>(<span class="kw">c</span>(<span class="st">"1600 Pennsylvania Ave, DC"</span>, <span class="st">"Eiffel Tower"</span>), <span class="dt">how =</span> <span class="st">"dstk"</span>)
+<span class="kw"><a href="../reference/parse_country.html">parse_country</a></span>(<span class="kw">c</span>(<span class="st">"1600 Pennsylvania Ave, DC"</span>, <span class="st">"Eiffel Tower"</span>), <span class="dt">how =</span> <span class="st">"google"</span>)
 <span class="co">#&gt; [1] "US" "FR"</span></code></pre></div>
 </div>
 <div id="ii--convert" class="section level2">

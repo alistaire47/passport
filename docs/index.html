@@ -122,10 +122,10 @@ gap <span class="op">%&gt;%</span>
 <span class="co">#&gt;  9            Madagascar           MG  1997  54.978</span>
 <span class="co">#&gt; 10               Tunisia           TN  1987  66.894</span></code></pre></div>
 <p>If country names are particularly irregular, in unsupported languages, or are even just unique location names, <code>parse_country</code> can use Google Maps or Data Science Toolkit geocoding APIs to parse instead of regex:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/parse_country.html">parse_country</a></span>(<span class="kw">c</span>(<span class="st">"somewhere in Japan"</span>, <span class="st">"日本"</span>, <span class="st">"Japon"</span>, <span class="st">"जापान"</span>), <span class="dt">how =</span> <span class="st">"dstk"</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/parse_country.html">parse_country</a></span>(<span class="kw">c</span>(<span class="st">"somewhere in Japan"</span>, <span class="st">"日本"</span>, <span class="st">"Japon"</span>, <span class="st">"जापान"</span>), <span class="dt">how =</span> <span class="st">"google"</span>)
 <span class="co">#&gt; [1] "JP" "JP" "JP" "JP"</span>
 
-<span class="kw"><a href="reference/parse_country.html">parse_country</a></span>(<span class="kw">c</span>(<span class="st">"1600 Pennsylvania Ave, DC"</span>, <span class="st">"Eiffel Tower"</span>), <span class="dt">how =</span> <span class="st">"dstk"</span>)
+<span class="kw"><a href="reference/parse_country.html">parse_country</a></span>(<span class="kw">c</span>(<span class="st">"1600 Pennsylvania Ave, DC"</span>, <span class="st">"Eiffel Tower"</span>), <span class="dt">how =</span> <span class="st">"google"</span>)
 <span class="co">#&gt; [1] "US" "FR"</span></code></pre></div>
 </div>
 <div id="ii--convert" class="section level3">
@@ -171,7 +171,8 @@ olympics <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"
 <span class="co">#&gt; 10 South Korea     4     5    NA</span>
 <span class="co">#&gt; # ... with 49 more rows</span></code></pre></div>
 <p>or translate to another language:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">olympics<span class="op">$</span>NOC <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">unique</span>() <span class="op">%&gt;%</span><span class="st"> </span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">olympics<span class="op">$</span>NOC <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">unique</span>() <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">    </span><span class="kw"><a href="reference/as_country_name.html">as_country_name</a></span>(<span class="dt">from =</span> <span class="st">"ioc"</span>, <span class="dt">to =</span> <span class="st">"ta-my"</span>) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">    </span><span class="kw">head</span>(<span class="dv">10</span>)
 <span class="co">#&gt;  [1] "சீனா"        "யூகே"       "யூஎஸ்"       "ஹங்கேரி"     "ஸ்வீடன்"      </span>

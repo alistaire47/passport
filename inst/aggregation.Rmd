@@ -355,7 +355,7 @@ us_ok_un_w %>% names() %>%
 ```
 
 ## Documenting
-```{r}
+```{r docs}
 countries_colnames <- names(countries)
 
 codes <- data_frame(column = countries_colnames, 
