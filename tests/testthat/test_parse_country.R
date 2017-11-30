@@ -31,7 +31,7 @@ test_that("parsing JSON works", {
 
     expect_equal({
         response <- passport:::fromJSON(response_json)
-        address_components <- response$results$address_components[[1]];
+        address_components <- response$results$address_components[[1]]
         address_components$short_name[vapply(address_components$types,
                                              function(t) { "country" %in% t },
                                              logical(1))]
@@ -89,6 +89,7 @@ test_that("parsing country names with live geocoding APIs works", {
     skip_on_travis()
     skip_on_appveyor()
     skip_on_cran()
+    skip("Only to run manually so user can check web APIs are functional")
 
     expect_equal(parse_country("\u65e5\u672c", how = "google"),
                  "JP")

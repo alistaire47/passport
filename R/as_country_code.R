@@ -12,9 +12,6 @@
 #' `"is_independent"`, ISO 4217 currency codes, etc. Backwards conversion will
 #' not work for such cases.
 #'
-#' If converting to country names, use [as_country_name()], which offers
-#' control of short and variant forms.
-#'
 #' See [`codes`] for all options, or run `DT::datatable(codes)` for a
 #' searchable widget.
 #'
@@ -25,6 +22,10 @@
 #' @param factor If `TRUE`, returns factor instead of character vector.
 #'
 #' @return A vector of country codes. Warns if new `NA` values are added.
+#'
+#' @seealso For converting to country names, use [as_country_name()], which
+#'     offers control of short and variant forms. For parsing non-standardized
+#'     country names to codes, use [parse_country()].
 #'
 #' @examples
 #' # Codifies standardized names

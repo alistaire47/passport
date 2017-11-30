@@ -20,7 +20,8 @@ API. See "Details" for more information.}
 names. Currently accepts \code{"en"} (default) and \code{"de"}. Ignored if
 \code{how = "google"} or \code{how = "dstk".}}
 
-\item{factor}{If \code{TRUE}, returns factor instead of character vector.}
+\item{factor}{If \code{TRUE}, returns factor instead of character vector. If not
+supplied, defaults to \code{is.factor(x)}}
 }
 \value{
 A character vector or factor of ISO 2-character country codes or

@@ -42,10 +42,14 @@
 #'     length 1 or the same length as `x`.
 #' @param variant Whether to use variant alternative name when available. Can
 #'     be length 1 or the same length as `x`.
-#' @param factor If `TRUE`, returns factor instead of character vector.
+#' @param factor If `TRUE`, returns factor instead of character vector. If not
+#'     supplied, defaults to `is.factor(x)`
 #'
 #' @return A character or factor vector of country names. Warns if new `NA`
 #' values are added.
+#'
+#' @seealso For converting standardized names to codes, use [as_country_code()].
+#'     For standardizing names to codes, use [parse_country()].
 #'
 #' @examples
 #' # Usable names for tough-to-standardize places

@@ -22,7 +22,8 @@ length 1 or the same length as \code{x}.}
 \item{variant}{Whether to use variant alternative name when available. Can
 be length 1 or the same length as \code{x}.}
 
-\item{factor}{If \code{TRUE}, returns factor instead of character vector.}
+\item{factor}{If \code{TRUE}, returns factor instead of character vector. If not
+supplied, defaults to \code{is.factor(x)}}
 }
 \value{
 A character or factor vector of country names. Warns if new \code{NA}
@@ -75,4 +76,8 @@ as_country_name(factor(c("US", "NF", "CD", "SJ")), short = FALSE, variant = TRUE
 # Speaks a lot of languages, knows a lot of codes
 as_country_name(c("SAH", "PCN", "OMA", "JPN"), from = "fifa", to = "cy")    # to Welsh
 
+}
+\seealso{
+For converting standardized names to codes, use \code{\link[=as_country_code]{as_country_code()}}.
+For standardizing names to codes, use \code{\link[=parse_country]{parse_country()}}.
 }

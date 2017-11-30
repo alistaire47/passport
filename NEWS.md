@@ -1,3 +1,14 @@
+# passport 0.1.1.9000
+
+* Add `order_countries()` to make sorting vectors of countries simpler, 
+    particularly when passed to the `limits` parameter of a ggplot2 discrete 
+    scale.
+    
+* Change `country_format()` to accept a `factor` parameter along to 
+    `as_country_name()`.
+
+* Update documentation and tests to account for DSTK downtime.
+
 # passport 0.1.1
 
 * Added a `NEWS.md` file to track changes to the package.

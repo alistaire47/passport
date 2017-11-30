@@ -33,9 +33,6 @@ Several non-unique codes are available as well, including \code{"continent"},
 \code{"is_independent"}, ISO 4217 currency codes, etc. Backwards conversion will
 not work for such cases.
 
-If converting to country names, use \code{\link[=as_country_name]{as_country_name()}}, which offers
-control of short and variant forms.
-
 See \code{\link{codes}} for all options, or run \code{DT::datatable(codes)} for a
 searchable widget.
 }
@@ -47,4 +44,9 @@ as_country_code(c("US", "Taiwan", "Myanmar", "Kosovo", "South Korea"), from = "e
 as_country_code(factor(c("SAH", "PCN", "OMA", "JPN")),
                 from = "fifa", to = "iso4217_3c")
 
+}
+\seealso{
+For converting to country names, use \code{\link[=as_country_name]{as_country_name()}}, which
+offers control of short and variant forms. For parsing non-standardized
+country names to codes, use \code{\link[=parse_country]{parse_country()}}.
 }

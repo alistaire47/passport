@@ -135,26 +135,35 @@ the data or manually overriding the labels directly on the plot.
 
 If the existing format is already standardized, `passport` offers another 
 option: use a formatter function created with `country_format`, just like for 
-thousands separators or currency formatting:
+thousands separators or currency formatting. Reorder simply with 
+`order_countries`:
 
 ```{r format, dpi=300}
-gap %>% 
+living_longer <- gap %>% 
     group_by(country_code) %>% 
     summarise(start_life_exp = lifeExp[which.min(year)], 
               stop_life_exp = lifeExp[which.max(year)], 
               diff_life_exp = stop_life_exp - start_life_exp) %>% 
-    top_n(10, diff_life_exp) %>%
-               # Plot country codes...
-    ggplot(aes(x = country_code,
-               ymin = start_life_exp, 
-               ymax = stop_life_exp, 
-               colour = country_code)) + 
-    geom_linerange(size = 20, show.legend = FALSE) + 
+    top_n(10, diff_life_exp) 
+
+# Plot country codes...
+ggplot(living_longer, aes(x = country_code, y = stop_life_exp - 3.3,
+                          ymin = start_life_exp, 
+                          ymax = stop_life_exp - 3.3, 
+                          colour = factor(diff_life_exp))) + 
+    geom_point(pch = 17, size = 15) + 
+    geom_linerange(size = 10) + 
                      # ...just pass `labels` a formatter function!
-    scale_x_discrete(labels = country_format()) + 
+    scale_x_discrete(labels = country_format(),
+                     # Easily change order
+                     limits = order_countries(living_longer$country_code, 
+                                              living_longer$diff_life_exp)) + 
+    scale_y_continuous(limits = c(30, 80)) + 
     labs(title = "Life gets better",
          subtitle = "Largest increase in life expectancy",
-         x = NULL, y = "Life expectancy")
+         x = NULL, y = "Life expectancy") + 
+    theme(axis.text.x = element_text(angle = 30, hjust = 1), 
+          legend.position = "none")
 ```
 
 By default `country_format` will use Unicode CLDR (see below) English names, 

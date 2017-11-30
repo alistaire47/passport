@@ -1,24 +1,20 @@
-## Resubmission
-This is a resubmission. In this version I have
+## Submission reason
 
-* Included CLDR URL in DESCRIPTION per response.
-* Updated codes documentation to reflect the correct number of rows.
+* Fixes CRAN check errors due to a dead web API
+* Adds a function
 
 ## Test environments
-* local macOS install, R 3.4.1
-* local Windows 7 install, R 3.4.1
-* ubuntu 12.04 (on travis-ci), R 3.4.0
-* Windows Server 2012 R2 x64 (on appveyor), R 3.4.0
+
+* local macOS install, R 3.4.2
+* local Windows 7 install, R 3.4.2
+* ubuntu 12.04 (on travis-ci), R 3.4.2
+* Windows Server 2012 R2 x64 (on appveyor), R 3.4.2
 * win-builder (devel and release)
 
 ## R CMD check results
 
-0 errors | 0 warnings 
-
-### Note
-* This is a new release.
-* "CLDR" and "API" are correctly spelled acronyms in the DESCRIPTION.
+0 notes | 0 errors | 0 warnings 
 
 ## Reverse dependencies
 
-This is a new release, so there are no reverse dependencies.
+Reverse dependencies have been checked via CRAN, and will be unaffected.

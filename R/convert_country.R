@@ -37,7 +37,8 @@ convert_country <- function(x, to, from, short, variant, factor) {
     countries_sub <- countries[
         Reduce(`|`, Map(
             function(country, s, v){
-                countries[[from]] == country & (countries$alt == s | countries$alt == v)
+                countries[[from]] == country &
+                    (countries$alt == s | countries$alt == v)
             },
             country = x_levels,
             s = ifelse(short, "short", NA),

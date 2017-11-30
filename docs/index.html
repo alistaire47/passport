@@ -183,24 +183,32 @@ olympics <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"
 <h3 class="hasAnchor">
 <a href="#iii--format" class="anchor"></a>III. Format</h3>
 <p>A particularly common hangup with country data is presentation. While “Yemen, Rep.” may be fine for exploratory work, to create a plot to share, such names need to be changed to something more palatable either by editing the data or manually overriding the labels directly on the plot.</p>
-<p>If the existing format is already standardized, <code>passport</code> offers another option: use a formatter function created with <code>country_format</code>, just like for thousands separators or currency formatting:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gap <span class="op">%&gt;%</span><span class="st"> </span>
+<p>If the existing format is already standardized, <code>passport</code> offers another option: use a formatter function created with <code>country_format</code>, just like for thousands separators or currency formatting. Reorder simply with <code>order_countries</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">living_longer &lt;-<span class="st"> </span>gap <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">    </span><span class="kw">group_by</span>(country_code) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">    </span><span class="kw">summarise</span>(<span class="dt">start_life_exp =</span> lifeExp[<span class="kw">which.min</span>(year)], 
               <span class="dt">stop_life_exp =</span> lifeExp[<span class="kw">which.max</span>(year)], 
               <span class="dt">diff_life_exp =</span> stop_life_exp <span class="op">-</span><span class="st"> </span>start_life_exp) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">    </span><span class="kw">top_n</span>(<span class="dv">10</span>, diff_life_exp) <span class="op">%&gt;%</span>
-<span class="st">               </span><span class="co"># Plot country codes...</span>
-<span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> country_code,
-               <span class="dt">ymin =</span> start_life_exp, 
-               <span class="dt">ymax =</span> stop_life_exp, 
-               <span class="dt">colour =</span> country_code)) <span class="op">+</span><span class="st"> </span>
-<span class="st">    </span><span class="kw">geom_linerange</span>(<span class="dt">size =</span> <span class="dv">20</span>, <span class="dt">show.legend =</span> <span class="ot">FALSE</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">top_n</span>(<span class="dv">10</span>, diff_life_exp) 
+
+<span class="co"># Plot country codes...</span>
+<span class="kw">ggplot</span>(living_longer, <span class="kw">aes</span>(<span class="dt">x =</span> country_code, <span class="dt">y =</span> stop_life_exp <span class="op">-</span><span class="st"> </span><span class="fl">3.3</span>,
+                          <span class="dt">ymin =</span> start_life_exp, 
+                          <span class="dt">ymax =</span> stop_life_exp <span class="op">-</span><span class="st"> </span><span class="fl">3.3</span>, 
+                          <span class="dt">colour =</span> <span class="kw">factor</span>(diff_life_exp))) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">pch =</span> <span class="dv">17</span>, <span class="dt">size =</span> <span class="dv">15</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_linerange</span>(<span class="dt">size =</span> <span class="dv">10</span>) <span class="op">+</span><span class="st"> </span>
 <span class="st">                     </span><span class="co"># ...just pass `labels` a formatter function!</span>
-<span class="st">    </span><span class="kw">scale_x_discrete</span>(<span class="dt">labels =</span> <span class="kw"><a href="reference/country_format.html">country_format</a></span>()) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">scale_x_discrete</span>(<span class="dt">labels =</span> <span class="kw"><a href="reference/country_format.html">country_format</a></span>(),
+                     <span class="co"># Easily change order</span>
+                     <span class="dt">limits =</span> <span class="kw"><a href="reference/order_countries.html">order_countries</a></span>(living_longer<span class="op">$</span>country_code, 
+                                              living_longer<span class="op">$</span>diff_life_exp)) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">scale_y_continuous</span>(<span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">30</span>, <span class="dv">80</span>)) <span class="op">+</span><span class="st"> </span>
 <span class="st">    </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">"Life gets better"</span>,
          <span class="dt">subtitle =</span> <span class="st">"Largest increase in life expectancy"</span>,
-         <span class="dt">x =</span> <span class="ot">NULL</span>, <span class="dt">y =</span> <span class="st">"Life expectancy"</span>)</code></pre></div>
+         <span class="dt">x =</span> <span class="ot">NULL</span>, <span class="dt">y =</span> <span class="st">"Life expectancy"</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">30</span>, <span class="dt">hjust =</span> <span class="dv">1</span>), 
+          <span class="dt">legend.position =</span> <span class="st">"none"</span>)</code></pre></div>
 <p><img src="reference/figures/README-format-1.png" width="2100"></p>
 <p>By default <code>country_format</code> will use Unicode CLDR (see below) English names, which are intelligible and suitable for most purposes. If desired, other languages or formats can be specified just like in <code>as_country_name</code>.</p>
 <hr>

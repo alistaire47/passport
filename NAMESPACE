@@ -3,6 +3,7 @@
 export(as_country_code)
 export(as_country_name)
 export(country_format)
+export(order_countries)
 export(parse_country)
 importFrom(stats,na.omit)
 importFrom(stats,setNames)
