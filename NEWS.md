@@ -1,4 +1,4 @@
-# passport 0.1.1.9000
+# passport 0.2.0
 
 * Add `order_countries()` to make sorting vectors of countries simpler, 
     particularly when passed to the `limits` parameter of a ggplot2 discrete 
