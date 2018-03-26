@@ -36,12 +36,15 @@
 #'                 from = "fifa", to = "iso4217_3c")
 #'
 #' @export
-as_country_code <- function(x, from, to = "iso2c", factor = is.factor(x)) {
+as_country_code <- function(x,
+                            from,
+                            to = "iso2c",
+                            factor = is.factor(x)) {
     to <- gsub("-|\\.", "_", to)
     from <- gsub("-|\\.", "_", from)
 
     check_parameters(x, from, to)
 
-    convert_country(x = x, to = to, from = from, short = TRUE,
-                      variant = FALSE, factor = factor)
+    convert_country(x = x, to = to, from = from,
+                    short = TRUE, variant = FALSE, factor = factor)
 }

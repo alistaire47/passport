@@ -63,11 +63,11 @@
 #'
 #' @export
 as_country_name <- function(x,
-                             to = "en",
-                             from = "iso2c",
-                             short = TRUE,
-                             variant = FALSE,
-                             factor = is.factor(x)) {
+                            to = "en",
+                            from = "iso2c",
+                            short = TRUE,
+                            variant = FALSE,
+                            factor = is.factor(x)) {
     to <- gsub("-|\\.", "_", to)
     from <- gsub("-|\\.", "_", from)
 
@@ -77,6 +77,6 @@ as_country_name <- function(x,
         stop("The length of the `short` and `variant` parameters must be 1 or the same as the input vector.")
     }
 
-    convert_country(x = x, to = to, from = from, short = short,
-                      variant = variant, factor = factor)
+    convert_country(x = x, to = to, from = from,
+                    short = short, variant = variant, factor = factor)
 }

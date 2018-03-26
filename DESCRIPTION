@@ -15,16 +15,16 @@ Imports:
     stats, 
     utils
 Suggests:
-    jsonlite, 
-    DT, 
-    ggplot2,
-    tidyverse,
-    gapminder,
-    testthat,
-    mockr,
     covr,
+    DT, 
+    gapminder,
+    ggplot2,
+    jsonlite,
     knitr,
-    rmarkdown
+    mockr,
+    rmarkdown,
+    testthat,
+    tidyverse
 License: GPL-3 | file LICENSE
 URL: https://github.com/alistaire47/passport, https://alistaire47.github.io/passport/
 BugReports: https://github.com/alistaire47/passport/issues

@@ -143,7 +143,7 @@ itu <- 'https://www.itu.int/online/mm/scripts/gensel8' %>%
     html_node('table') %>% 
     html_table(header = TRUE) %>% 
     select(-5) %>% 
-    set_names(c('en_iso', 'itu_region', 'itu', 'tld')) %>% 
+    set_names(c('en_iso', 'itu_region', 'itu', 'tld', 'itu_language')) %>% 
     mutate(tld = tolower(tld))
 ```
 
@@ -182,8 +182,7 @@ unicode_modern <- langs_modern %>%
     map(jsonlite::fromJSON) %>%
     map(c(1, 1, 2, 1)) %>%
     simplify_all() %>%
-    map2(names(.),
-         ~set_names(data_frame(names(.x), .x),
+    imap(~set_names(data_frame(names(.x), .x),
                     c('code', .y))) %>%
     reduce(full_join, by = 'code')
 
@@ -198,7 +197,7 @@ unicode_modern <- langs_modern %>%
 
 unicode_codes <- 'https://github.com/unicode-cldr/cldr-core/raw/master/supplemental/codeMappings.json' %>% 
     jsonlite::fromJSON() %>% 
-    .[[1]] %>% .[[2]] %>% 
+    pluck(1, 2) %>% 
     bind_rows(.id = 'iso2c') %>% 
     set_names(c('iso2c', 'iso3n', 'iso3c', 'gec', 'tld')) %>% 
     select(-tld) %>% 
@@ -255,9 +254,12 @@ unstats_c <- unstats %>%
     mutate(var = gsub('_name', '', var)) %>% 
     spread(var, val)
 
-okfn_c <- okfn %>% select(en_iso = 2, fr_iso = 3, iso2c = 4, iso3c = 5, iso3n = 6,
-                          8:9, calling = Dial, 12, gec = FIPS, 14:15, iso4217_3c = 16,
-                          iso4217_name = 19, iso4217_3n = 20, 21:24, 27) %>%
+okfn_c <- okfn %>% 
+    set_names(~sub('official_name_(\\w{2})', '\\1_iso', .x)) %>% 
+    select(contains('_iso'), iso2c = 7, iso3c = 8, iso3n = 9,
+           MARC, EDGAR, WMO, FIFA, gec = FIPS, GAUL, IOC, TLD,
+           iso4217_3c = 10,iso4217_name = 13, iso4217_3n = 14, 
+           is_independent, Capital, Continent) %>%
     mutate(gec = ifelse(iso3c == 'BES', NA, gec)) %>% 
     janitor::clean_names()
 
@@ -276,11 +278,7 @@ unicode_modern_c <- unicode_modern %>%
     select(-code) %>%
     janitor::clean_names()
 
-# load countrycode data straight from github
-con <- url('https://github.com/vincentarelbundock/countrycode/blob/master/data/codelist.rda?raw=true')
-load(con)   # `codelist`
-close(con)
-rm(con)
+codelist <- countrycode::codelist
 
 countrycode_data_c <- codelist %>% 
     mutate(iso2c = coalesce(iso2c, genc2c)) %>% 
@@ -300,8 +298,7 @@ usg <- full_join(genc_c %>% drop_na(gec), cia, by = 'gec') %>%
            iso3n = coalesce(iso3n.x, iso3n.y)) %>%
     select(-matches('\\.'))
 
-               # Sacrifice Channel Islands for Sark
-ok_un <- okfn_c %>% slice(-1) %>% full_join(unstats_c)
+ok_un <- okfn_c %>% full_join(unstats_c)
 
 us_ok_un <- full_join(ok_un, usg, by = 'iso3n') %>%
     mutate(iso3c = coalesce(iso3c.x, iso3c.y),
@@ -316,7 +313,6 @@ us_ok_un_w <- full_join(us_ok_un, w_c, by = 'iso2c') %>%
            gec = coalesce(gec.x, gec.y),
            marc = coalesce(marc.x, marc.y),
            # wmo = coalesce(wmo.x, wmo.y),    # w/okfn codes differ, and no official list to verify
-           calling = coalesce(calling.x, calling.y),
            ioc = coalesce(ioc.x, ioc.y),
            stanag = coalesce(stanag.x, stanag.y),
            tld = coalesce(tld.x, tld.y)) %>%
@@ -341,12 +337,12 @@ countries <- full_join(unicode, us_ok_un_w, by = c('iso3n', 'iso2c', 'alt')) %>%
 countries <- left_join(countries, countrycode_data_c)
 ```
 
-```{r verify}
+```{r verify, message=FALSE}
 # check code duplication
 us_ok_un_w %>% names() %>% 
     map_int(~ countries %>% 
                 filter(is.na(alt)) %>% 
-                group_by_(.dots = .x) %>% 
+                group_by_at(.x) %>% 
                 filter(n() > 1) %>% 
                 select(gec, en, iso3c, iso2c, iso3n) %>% 
                 .[!is.na(.[[.x]]),] %>% 
@@ -436,7 +432,7 @@ codes <- data_frame(column = countries_colnames,
 
 
 ## Saving
-```{r saving}
+```{r saving, eval=FALSE, cache=TRUE}
 # to avoid ASCII CRAN warning
 codes <- codes %>% modify(stringi::stri_trans_general, 'Latin-ASCII')
 
