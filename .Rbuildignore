@@ -1,6 +1,5 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^R/scrapers\.R$
 ^README\.Rmd$
 ^README-.*\.png$
 ^aggregation

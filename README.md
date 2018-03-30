@@ -43,7 +43,8 @@ some oddities:
 ``` r
 library(passport)
 library(gapminder)
-library(tidyverse)    # Works equally well in any grammar.
+library(dplyr)    # Works equally well in any grammar.
+library(tidyr)
 set.seed(47)
 
 grep("Korea", unique(gapminder$country), value = TRUE)
@@ -103,7 +104,9 @@ If data comes with countries already coded, convert them with
 
 ``` r
 # 2016 Olympic gold medal data
-olympics <- read_tsv("https://raw.githubusercontent.com/nbremer/olympicfeathers/gh-pages/data/raw%20medal%20data/Rio%202016%20gold%20medal%20winners.txt")
+olympics <- read.table("https://raw.githubusercontent.com/nbremer/olympicfeathers/gh-pages/data/raw%20medal%20data/Rio%202016%20gold%20medal%20winners.txt", 
+                       sep = "\t", header = TRUE, na.strings = "", 
+                       stringsAsFactors = FALSE)
 
 olympics %>% count(country = as_country_code(NOC, from = "ioc"), sort = TRUE)
 #> # A tibble: 59 x 2
@@ -176,6 +179,8 @@ just like for thousands separators or currency formatting. Reorder
 simply with `order_countries`:
 
 ``` r
+library(ggplot2)
+
 living_longer <- gap %>% 
     group_by(country_code) %>% 
     summarise(start_life_exp = lifeExp[which.min(year)], 

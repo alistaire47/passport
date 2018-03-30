@@ -1,3 +1,7 @@
+# passport 0.2.0.9000
+
+* Refactor README and vigette to use explicit packages instead of tidyverse.
+
 # passport 0.2.0
 
 * Add `order_countries()` to make sorting vectors of countries simpler, 

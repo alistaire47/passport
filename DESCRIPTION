@@ -1,7 +1,7 @@
 Package: passport
 Type: Package
 Title: Travel Smoothly Between Country Name and Code Formats
-Version: 0.2.0
+Version: 0.2.0.9000
 Authors@R:
     person("Edward", "Visel", email = "edward.visel@gmail.com", role = c("aut", "cre"))
 Description: Smooths the process of working with country names and codes via 
@@ -16,6 +16,7 @@ Imports:
     utils
 Suggests:
     covr,
+    dplyr,
     DT, 
     gapminder,
     ggplot2,
@@ -24,7 +25,7 @@ Suggests:
     mockr,
     rmarkdown,
     testthat,
-    tidyverse
+    tidyr
 License: GPL-3 | file LICENSE
 URL: https://github.com/alistaire47/passport, https://alistaire47.github.io/passport/
 BugReports: https://github.com/alistaire47/passport/issues

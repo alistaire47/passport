@@ -23,7 +23,7 @@
 <![endif]-->
 </head>
 <body>
-    <div class="container template-vignette">
+    <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -32,8 +32,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">passport</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="index.html">passport</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.2.0.9000</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
@@ -43,7 +47,7 @@
   </a>
 </li>
 <li>
-  <a href="articles/passport.html">Get Started</a>
+  <a href="articles/passport.html">Get started</a>
 </li>
 <li>
   <a href="reference/index.html">Reference</a>
@@ -69,12 +73,11 @@
 
       
       </header><div class="row">
-  <div class="col-md-9">
+  <div class="col-md-9 contents">
     
 
     
     
-<div class="contents">
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <div id="passport" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
@@ -97,13 +100,14 @@
 <p>Working with country data can be frustrating. Even with well-curated data like <a href="https://github.com/jennybc/gapminder"><code>gapminder</code></a>, there are some oddities:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">library</span>(passport)</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">library</span>(gapminder)</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw">library</span>(tidyverse)    <span class="co"># Works equally well in any grammar.</span></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="kw">set.seed</span>(<span class="dv">47</span>)</a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="kw">grep</span>(<span class="st">"Korea"</span>, <span class="kw">unique</span>(gapminder<span class="op">$</span>country), <span class="dt">value =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; [1] "Korea, Dem. Rep." "Korea, Rep."</span></a>
-<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="kw">grep</span>(<span class="st">"Yemen"</span>, <span class="kw">unique</span>(gapminder<span class="op">$</span>country), <span class="dt">value =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; [1] "Yemen, Rep."</span></a></code></pre></div>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw">library</span>(dplyr)    <span class="co"># Works equally well in any grammar.</span></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="kw">library</span>(tidyr)</a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="kw">set.seed</span>(<span class="dv">47</span>)</a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="kw">grep</span>(<span class="st">"Korea"</span>, <span class="kw">unique</span>(gapminder<span class="op">$</span>country), <span class="dt">value =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; [1] "Korea, Dem. Rep." "Korea, Rep."</span></a>
+<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="kw">grep</span>(<span class="st">"Yemen"</span>, <span class="kw">unique</span>(gapminder<span class="op">$</span>country), <span class="dt">value =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; [1] "Yemen, Rep."</span></a></code></pre></div>
 <p><code>passport</code> offers a framework for working with country names and codes without manually editing data or scraping codes from Wikipedia.</p>
 <div id="i--standardize" class="section level3">
 <h3 class="hasAnchor">
@@ -111,11 +115,11 @@
 <p>If data has non-standardized names, standardize them to an ISO 3166-1 code or other standardized code or name with <code>parse_country</code>:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">gap &lt;-<span class="st"> </span>gapminder <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb4-2" data-line-number="2"><span class="st">    </span><span class="co"># standardize to ISO 3166 Alpha-2 code</span></a>
-<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">country_code =</span> <span class="kw"><a href="reference/parse_country.html">parse_country</a></span>(country))</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="st">    </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">country_code =</span> <span class="kw"><a href="reference/parse_country.html">parse_country</a></span>(country))</a>
 <a class="sourceLine" id="cb4-4" data-line-number="4"></a>
 <a class="sourceLine" id="cb4-5" data-line-number="5">gap <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="st">    </span><span class="kw">select</span>(country, country_code, year, lifeExp) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="st">    </span><span class="kw">sample_n</span>(<span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="st">    </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(country, country_code, year, lifeExp) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="st">    </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/sample.html">sample_n</a></span>(<span class="dv">10</span>)</a>
 <a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt; # A tibble: 10 x 4</span></a>
 <a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt;    country               country_code  year lifeExp</span></a>
 <a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt;    &lt;fct&gt;                 &lt;fct&gt;        &lt;int&gt;   &lt;dbl&gt;</span></a>
@@ -141,29 +145,31 @@
 <a href="#ii--convert" class="anchor"></a>II. Convert</h3>
 <p>If data comes with countries already coded, convert them with <code><a href="reference/as_country_code.html">as_country_code()</a></code>:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="co"># 2016 Olympic gold medal data</span></a>
-<a class="sourceLine" id="cb6-2" data-line-number="2">olympics &lt;-<span class="st"> </span><span class="kw">read_tsv</span>(<span class="st">"https://raw.githubusercontent.com/nbremer/olympicfeathers/gh-pages/data/raw%20medal%20data/Rio%202016%20gold%20medal%20winners.txt"</span>)</a>
-<a class="sourceLine" id="cb6-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb6-4" data-line-number="4">olympics <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">count</span>(<span class="dt">country =</span> <span class="kw"><a href="reference/as_country_code.html">as_country_code</a></span>(NOC, <span class="dt">from =</span> <span class="st">"ioc"</span>), <span class="dt">sort =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt; # A tibble: 59 x 2</span></a>
-<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt;    country     n</span></a>
-<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt;    &lt;chr&gt;   &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt;  1 US         46</span></a>
-<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt;  2 GB         28</span></a>
-<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt;  3 CN         26</span></a>
-<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">#&gt;  4 RU         19</span></a>
-<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">#&gt;  5 DE         18</span></a>
-<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="co">#&gt;  6 JP         12</span></a>
-<a class="sourceLine" id="cb6-14" data-line-number="14"><span class="co">#&gt;  7 FR         11</span></a>
-<a class="sourceLine" id="cb6-15" data-line-number="15"><span class="co">#&gt;  8 KR          9</span></a>
-<a class="sourceLine" id="cb6-16" data-line-number="16"><span class="co">#&gt;  9 AU          8</span></a>
-<a class="sourceLine" id="cb6-17" data-line-number="17"><span class="co">#&gt; 10 HU          8</span></a>
-<a class="sourceLine" id="cb6-18" data-line-number="18"><span class="co">#&gt; # ... with 49 more rows</span></a></code></pre></div>
+<a class="sourceLine" id="cb6-2" data-line-number="2">olympics &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">"https://raw.githubusercontent.com/nbremer/olympicfeathers/gh-pages/data/raw%20medal%20data/Rio%202016%20gold%20medal%20winners.txt"</span>, </a>
+<a class="sourceLine" id="cb6-3" data-line-number="3">                       <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\t</span><span class="st">"</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>, <span class="dt">na.strings =</span> <span class="st">""</span>, </a>
+<a class="sourceLine" id="cb6-4" data-line-number="4">                       <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb6-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb6-6" data-line-number="6">olympics <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/tally.html">count</a></span>(<span class="dt">country =</span> <span class="kw"><a href="reference/as_country_code.html">as_country_code</a></span>(NOC, <span class="dt">from =</span> <span class="st">"ioc"</span>), <span class="dt">sort =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt; # A tibble: 59 x 2</span></a>
+<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt;    country     n</span></a>
+<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt;    &lt;chr&gt;   &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt;  1 US         46</span></a>
+<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">#&gt;  2 GB         28</span></a>
+<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">#&gt;  3 CN         26</span></a>
+<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="co">#&gt;  4 RU         19</span></a>
+<a class="sourceLine" id="cb6-14" data-line-number="14"><span class="co">#&gt;  5 DE         18</span></a>
+<a class="sourceLine" id="cb6-15" data-line-number="15"><span class="co">#&gt;  6 JP         12</span></a>
+<a class="sourceLine" id="cb6-16" data-line-number="16"><span class="co">#&gt;  7 FR         11</span></a>
+<a class="sourceLine" id="cb6-17" data-line-number="17"><span class="co">#&gt;  8 KR          9</span></a>
+<a class="sourceLine" id="cb6-18" data-line-number="18"><span class="co">#&gt;  9 AU          8</span></a>
+<a class="sourceLine" id="cb6-19" data-line-number="19"><span class="co">#&gt; 10 HU          8</span></a>
+<a class="sourceLine" id="cb6-20" data-line-number="20"><span class="co">#&gt; # ... with 49 more rows</span></a></code></pre></div>
 <p>or to convert to country names, use <code><a href="reference/as_country_name.html">as_country_name()</a></code>:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">olympics <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="st">    </span><span class="kw">count</span>(<span class="dt">country =</span> <span class="kw"><a href="reference/as_country_name.html">as_country_name</a></span>(NOC, <span class="dt">from =</span> <span class="st">"ioc"</span>), </a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="st">    </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/tally.html">count</a></span>(<span class="dt">country =</span> <span class="kw"><a href="reference/as_country_name.html">as_country_name</a></span>(NOC, <span class="dt">from =</span> <span class="st">"ioc"</span>), </a>
 <a class="sourceLine" id="cb7-3" data-line-number="3">          Event_gender) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="st">    </span><span class="kw">spread</span>(Event_gender, n) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="st">    </span><span class="kw">arrange</span>(<span class="kw">desc</span>(W))</a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/tidyr/topics/spread">spread</a></span>(Event_gender, n) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="st">    </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span>(<span class="kw"><a href="http://dplyr.tidyverse.org/reference/desc.html">desc</a></span>(W))</a>
 <a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt; # A tibble: 59 x 4</span></a>
 <a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt;    country         M     W     X</span></a>
 <a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt;    &lt;chr&gt;       &lt;int&gt; &lt;int&gt; &lt;int&gt;</span></a>
@@ -192,32 +198,34 @@
 <a href="#iii--format" class="anchor"></a>III. Format</h3>
 <p>A particularly common hangup with country data is presentation. While “Yemen, Rep.” may be fine for exploratory work, to create a plot to share, such names need to be changed to something more palatable either by editing the data or manually overriding the labels directly on the plot.</p>
 <p>If the existing format is already standardized, <code>passport</code> offers another option: use a formatter function created with <code>country_format</code>, just like for thousands separators or currency formatting. Reorder simply with <code>order_countries</code>:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">living_longer &lt;-<span class="st"> </span>gap <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="st">    </span><span class="kw">group_by</span>(country_code) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="st">    </span><span class="kw">summarise</span>(<span class="dt">start_life_exp =</span> lifeExp[<span class="kw">which.min</span>(year)], </a>
-<a class="sourceLine" id="cb9-4" data-line-number="4">              <span class="dt">stop_life_exp =</span> lifeExp[<span class="kw">which.max</span>(year)], </a>
-<a class="sourceLine" id="cb9-5" data-line-number="5">              <span class="dt">diff_life_exp =</span> stop_life_exp <span class="op">-</span><span class="st"> </span>start_life_exp) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="st">    </span><span class="kw">top_n</span>(<span class="dv">10</span>, diff_life_exp) </a>
-<a class="sourceLine" id="cb9-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co"># Plot country codes...</span></a>
-<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="kw">ggplot</span>(living_longer, <span class="kw">aes</span>(<span class="dt">x =</span> country_code, <span class="dt">y =</span> stop_life_exp <span class="op">-</span><span class="st"> </span><span class="fl">3.3</span>,</a>
-<a class="sourceLine" id="cb9-10" data-line-number="10">                          <span class="dt">ymin =</span> start_life_exp, </a>
-<a class="sourceLine" id="cb9-11" data-line-number="11">                          <span class="dt">ymax =</span> stop_life_exp <span class="op">-</span><span class="st"> </span><span class="fl">3.3</span>, </a>
-<a class="sourceLine" id="cb9-12" data-line-number="12">                          <span class="dt">colour =</span> <span class="kw">factor</span>(diff_life_exp))) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb9-13" data-line-number="13"><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">pch =</span> <span class="dv">17</span>, <span class="dt">size =</span> <span class="dv">15</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb9-14" data-line-number="14"><span class="st">    </span><span class="kw">geom_linerange</span>(<span class="dt">size =</span> <span class="dv">10</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb9-15" data-line-number="15"><span class="st">                     </span><span class="co"># ...just pass `labels` a formatter function!</span></a>
-<a class="sourceLine" id="cb9-16" data-line-number="16"><span class="st">    </span><span class="kw">scale_x_discrete</span>(<span class="dt">labels =</span> <span class="kw"><a href="reference/country_format.html">country_format</a></span>(),</a>
-<a class="sourceLine" id="cb9-17" data-line-number="17">                     <span class="co"># Easily change order</span></a>
-<a class="sourceLine" id="cb9-18" data-line-number="18">                     <span class="dt">limits =</span> <span class="kw"><a href="reference/order_countries.html">order_countries</a></span>(living_longer<span class="op">$</span>country_code, </a>
-<a class="sourceLine" id="cb9-19" data-line-number="19">                                              living_longer<span class="op">$</span>diff_life_exp)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb9-20" data-line-number="20"><span class="st">    </span><span class="kw">scale_y_continuous</span>(<span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">30</span>, <span class="dv">80</span>)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb9-21" data-line-number="21"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">"Life gets better"</span>,</a>
-<a class="sourceLine" id="cb9-22" data-line-number="22">         <span class="dt">subtitle =</span> <span class="st">"Largest increase in life expectancy"</span>,</a>
-<a class="sourceLine" id="cb9-23" data-line-number="23">         <span class="dt">x =</span> <span class="ot">NULL</span>, <span class="dt">y =</span> <span class="st">"Life expectancy"</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb9-24" data-line-number="24"><span class="st">    </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">30</span>, <span class="dt">hjust =</span> <span class="dv">1</span>), </a>
-<a class="sourceLine" id="cb9-25" data-line-number="25">          <span class="dt">legend.position =</span> <span class="st">"none"</span>)</a></code></pre></div>
-<p><img src="reference/figures/README-format-1.png" width="2100"></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">library</span>(ggplot2)</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3">living_longer &lt;-<span class="st"> </span>gap <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="st">    </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(country_code) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="st">    </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span>(<span class="dt">start_life_exp =</span> lifeExp[<span class="kw">which.min</span>(year)], </a>
+<a class="sourceLine" id="cb9-6" data-line-number="6">              <span class="dt">stop_life_exp =</span> lifeExp[<span class="kw">which.max</span>(year)], </a>
+<a class="sourceLine" id="cb9-7" data-line-number="7">              <span class="dt">diff_life_exp =</span> stop_life_exp <span class="op">-</span><span class="st"> </span>start_life_exp) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="st">    </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/top_n.html">top_n</a></span>(<span class="dv">10</span>, diff_life_exp) </a>
+<a class="sourceLine" id="cb9-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="co"># Plot country codes...</span></a>
+<a class="sourceLine" id="cb9-11" data-line-number="11"><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(living_longer, <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x =</span> country_code, <span class="dt">y =</span> stop_life_exp <span class="op">-</span><span class="st"> </span><span class="fl">3.3</span>,</a>
+<a class="sourceLine" id="cb9-12" data-line-number="12">                          <span class="dt">ymin =</span> start_life_exp, </a>
+<a class="sourceLine" id="cb9-13" data-line-number="13">                          <span class="dt">ymax =</span> stop_life_exp <span class="op">-</span><span class="st"> </span><span class="fl">3.3</span>, </a>
+<a class="sourceLine" id="cb9-14" data-line-number="14">                          <span class="dt">colour =</span> <span class="kw">factor</span>(diff_life_exp))) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb9-15" data-line-number="15"><span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/geom_point">geom_point</a></span>(<span class="dt">pch =</span> <span class="dv">17</span>, <span class="dt">size =</span> <span class="dv">15</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb9-16" data-line-number="16"><span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/geom_linerange">geom_linerange</a></span>(<span class="dt">size =</span> <span class="dv">10</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb9-17" data-line-number="17"><span class="st">                     </span><span class="co"># ...just pass `labels` a formatter function!</span></a>
+<a class="sourceLine" id="cb9-18" data-line-number="18"><span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/scale_discrete">scale_x_discrete</a></span>(<span class="dt">labels =</span> <span class="kw"><a href="reference/country_format.html">country_format</a></span>(),</a>
+<a class="sourceLine" id="cb9-19" data-line-number="19">                     <span class="co"># Easily change order</span></a>
+<a class="sourceLine" id="cb9-20" data-line-number="20">                     <span class="dt">limits =</span> <span class="kw"><a href="reference/order_countries.html">order_countries</a></span>(living_longer<span class="op">$</span>country_code, </a>
+<a class="sourceLine" id="cb9-21" data-line-number="21">                                              living_longer<span class="op">$</span>diff_life_exp)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb9-22" data-line-number="22"><span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/scale_continuous">scale_y_continuous</a></span>(<span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">30</span>, <span class="dv">80</span>)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb9-23" data-line-number="23"><span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/labs">labs</a></span>(<span class="dt">title =</span> <span class="st">"Life gets better"</span>,</a>
+<a class="sourceLine" id="cb9-24" data-line-number="24">         <span class="dt">subtitle =</span> <span class="st">"Largest increase in life expectancy"</span>,</a>
+<a class="sourceLine" id="cb9-25" data-line-number="25">         <span class="dt">x =</span> <span class="ot">NULL</span>, <span class="dt">y =</span> <span class="st">"Life expectancy"</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb9-26" data-line-number="26"><span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/theme">theme</a></span>(<span class="dt">axis.text.x =</span> <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/element">element_text</a></span>(<span class="dt">angle =</span> <span class="dv">30</span>, <span class="dt">hjust =</span> <span class="dv">1</span>), </a>
+<a class="sourceLine" id="cb9-27" data-line-number="27">          <span class="dt">legend.position =</span> <span class="st">"none"</span>)</a></code></pre></div>
+<p><img src="reference/figures/README-format-1.png" width="2187.5"></p>
 <p>By default <code>country_format</code> will use Unicode CLDR (see below) English names, which are intelligible and suitable for most purposes. If desired, other languages or formats can be specified just like in <code>as_country_name</code>.</p>
 <hr>
 </div>
@@ -248,26 +256,36 @@
 <p><code>passport</code> is licenced as open-source software under <a href="https://www.gnu.org/licenses/gpl.html">GPL-3</a>. Unicode CLDR data is licensed according to <a href="https://github.com/unicode-cldr/cldr-json/blob/master/LICENSE">its own license</a>, a copy of which is included. <code>countrycode</code> regex are used as a modification under GPL-3; see the included aggregation script for modifiying code and date.</p>
 </div>
 </div>
-</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2 class="hasAnchor">
-<a href="#sidebar" class="anchor"></a>Links</h2>
+    <div class="links">
+<h2>Links</h2>
 <ul class="list-unstyled">
-<li>Download from CRAN at <br><a href="https://cran.r-project.org/package=passport">https://​cran.r-project.org/​package=passport</a>
+<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=passport">https://​cloud.r-project.org/​package=passport</a>
 </li>
 <li>Browse source code at <br><a href="https://github.com/alistaire47/passport">https://​github.com/​alistaire47/​passport</a>
 </li>
 <li>Report a bug at <br><a href="https://github.com/alistaire47/passport/issues">https://​github.com/​alistaire47/​passport/​issues</a>
 </li>
 </ul>
+</div>
+<div class="license">
 <h2>License</h2>
-<p><a href="https://www.r-project.org/Licenses/GPL-3">GPL-3</a> | file <a href="LICENSE-text.html">LICENSE</a></p>
+<ul class="list-unstyled">
+<li>
+<a href="https://www.r-project.org/Licenses/GPL-3">GPL-3</a> | file <a href="LICENSE-text.html">LICENSE</a>
+</li>
+</ul>
+</div>
+<div class="developers">
 <h2>Developers</h2>
 <ul class="list-unstyled">
 <li>Edward Visel <br><small class="roles"> Author, maintainer </small>  </li>
 </ul>
+</div>
+
+      <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://travis-ci.org/alistaire47/passport"><img src="https://travis-ci.org/alistaire47/passport.svg?branch=master" alt="Travis-CI Build Status"></a></li>
@@ -275,6 +293,7 @@
 <li><a href="https://codecov.io/gh/alistaire47/passport"><img src="https://codecov.io/gh/alistaire47/passport/branch/master/graph/badge.svg" alt="Coverage Status"></a></li>
 <li><a href="https://cran.r-project.org/package=passport"><img src="https://www.r-pkg.org/badges/version/passport" alt="CRAN_Status_Badge"></a></li>
 </ul>
+</div>
 </div>
 
 </div>
@@ -290,6 +309,8 @@
 
       </footer>
 </div>
+
+  
 
   </body>
 </html>
