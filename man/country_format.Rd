@@ -4,8 +4,13 @@
 \alias{country_format}
 \title{Construct formatter function to format country codes as country names}
 \usage{
-country_format(from = "iso2c", to = "en", short = TRUE, variant = FALSE,
-  factor)
+country_format(
+  from = "iso2c",
+  to = "en",
+  short = TRUE,
+  variant = FALSE,
+  factor
+)
 }
 \arguments{
 \item{from}{Code format from which to convert. Defaults to \code{"iso2c"};

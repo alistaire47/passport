@@ -1,6 +1,10 @@
-pandoc: 2.1.3
-pkgdown: 0.1.0.9000
-pkgdown_sha: b074c575119c35459f544f15e3dae3a6d617d9bb
+pandoc: 2.9.2.1
+pkgdown: 1.5.1
+pkgdown_sha: ~
 articles:
   passport: passport.html
+last_built: 2020-04-19T23:35Z
+urls:
+  reference: https://alistaire47.github.io/passport//reference
+  article: https://alistaire47.github.io/passport//articles
 

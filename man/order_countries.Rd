@@ -4,8 +4,15 @@
 \alias{order_countries}
 \title{Order a vector of countries}
 \usage{
-order_countries(x, by, ..., from = "iso2c", short = TRUE, variant = FALSE,
-  factor = is.factor(x))
+order_countries(
+  x,
+  by,
+  ...,
+  from = "iso2c",
+  short = TRUE,
+  variant = FALSE,
+  factor = is.factor(x)
+)
 }
 \arguments{
 \item{x}{A character, factor, or numeric vector of country codes or names}

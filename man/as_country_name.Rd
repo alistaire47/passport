@@ -4,8 +4,14 @@
 \alias{as_country_name}
 \title{Convert standardized country codes to country names}
 \usage{
-as_country_name(x, to = "en", from = "iso2c", short = TRUE,
-  variant = FALSE, factor = is.factor(x))
+as_country_name(
+  x,
+  to = "en",
+  from = "iso2c",
+  short = TRUE,
+  variant = FALSE,
+  factor = is.factor(x)
+)
 }
 \arguments{
 \item{x}{A character, factor, or numeric vector of country codes or names}

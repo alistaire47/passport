@@ -70,24 +70,23 @@ gap %>%
     select(country, country_code, year, lifeExp) %>%
     sample_n(10)
 #> # A tibble: 10 x 4
-#>    country               country_code  year lifeExp
-#>    <fct>                 <fct>        <int>   <dbl>
-#>  1 West Bank and Gaza    PS            1992    69.7
-#>  2 Haiti                 HT            1952    37.6
-#>  3 Sao Tome and Principe ST            1952    46.5
-#>  4 Somalia               SO            1987    44.5
-#>  5 Mauritius             MU            1967    61.6
-#>  6 Pakistan              PK            2002    63.6
-#>  7 Hong Kong, China      HK            1952    61.0
-#>  8 Japan                 JP            1967    71.4
-#>  9 Madagascar            MG            1997    55.0
-#> 10 Tunisia               TN            1987    66.9
+#>    country                  country_code  year lifeExp
+#>    <fct>                    <fct>        <int>   <dbl>
+#>  1 France                   FR            2002    79.6
+#>  2 Ireland                  IE            1997    76.1
+#>  3 Honduras                 HN            1982    60.9
+#>  4 Iran                     IR            1967    52.5
+#>  5 Central African Republic CF            1972    43.5
+#>  6 Madagascar               MG            1997    55.0
+#>  7 Albania                  AL            1952    55.2
+#>  8 Jamaica                  JM            2002    72.0
+#>  9 Philippines              PH            1997    68.6
+#> 10 Libya                    LY            1972    52.8
 ```
 
 If country names are particularly irregular, in unsupported languages,
 or are even just unique location names, `parse_country` can use Google
-Maps or Data Science Toolkit geocoding APIs to parse instead of
-regex:
+Maps or Data Science Toolkit geocoding APIs to parse instead of regex:
 
 ``` r
 parse_country(c("somewhere in Japan", "日本", "Japon", "जापान"), how = "google")
@@ -122,7 +121,7 @@ olympics %>% count(country = as_country_code(NOC, from = "ioc"), sort = TRUE)
 #>  8 KR          9
 #>  9 AU          8
 #> 10 HU          8
-#> # ... with 49 more rows
+#> # … with 49 more rows
 ```
 
 or to convert to country names, use `as_country_name()`:
@@ -146,7 +145,7 @@ olympics %>%
 #>  8 Australia       3     5    NA
 #>  9 Germany        10     5     3
 #> 10 South Korea     4     5    NA
-#> # ... with 49 more rows
+#> # … with 49 more rows
 ```
 
 or translate to another language:
@@ -226,7 +225,7 @@ The data underlying `passport` comes from a number of sources, including
     many languages, from Afrikaans to Zulu. Even better, [CLDR aspires
     to use the most customary
     name](http://cldr.unicode.org/translation/country-names) instead of
-    formal or official ones, e.g. “Switzerland” instead of “Swiss
+    formal or official ones, e.g. “Switzerland” instead of “Swiss
     Confederation”.
   - [The United Nations Statistics
     Division](https://unstats.un.org/unsd/methodology/m49/overview/)
@@ -240,8 +239,7 @@ The data underlying `passport` comes from a number of sources, including
     organization responsible for standardizing US government use of
     country codes. It inherited the now-deprecated FIPS 10-4 from NIST,
     which it turned into the GEC, which is now also deprecated in favor
-    of GENC, a US government profile of ISO
-    3166.
+    of GENC, a US government profile of ISO 3166.
   - [Wikipedia](https://en.wikipedia.org/wiki/Category:Lists_of_country_codes)
     offers a rich set of country codes, some of which are aggregated
     here.

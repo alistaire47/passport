@@ -4,8 +4,13 @@
 \alias{parse_country}
 \title{Parse country names to standardized form}
 \usage{
-parse_country(x, to = "iso2c", how = c("regex", "google", "dstk"),
-  language = c("en", "de"), factor = is.factor(x))
+parse_country(
+  x,
+  to = "iso2c",
+  how = c("regex", "google", "dstk"),
+  language = c("en", "de"),
+  factor = is.factor(x)
+)
 }
 \arguments{
 \item{x}{A character or factor vector of country names to standardize}
@@ -13,12 +18,12 @@ parse_country(x, to = "iso2c", how = c("regex", "google", "dstk"),
 \item{to}{Format to which to convert. Defaults to \code{"iso2c"}; see \code{\link{codes}}
 for more options.}
 
-\item{how}{How to parse; defaults to \code{"regex"}. \code{"google"`` uses the Google Maps geocoding API;}"dstk"`` uses the Data Science Toolkit geocoding
+\item{how}{How to parse; defaults to \code{"regex"}. \verb{"google"`` uses the Google Maps geocoding API; }"dstk"`` uses the Data Science Toolkit geocoding
 API. See "Details" for more information.}
 
 \item{language}{If \code{how = "regex"}, the language from which to parse country
 names. Currently accepts \code{"en"} (default) and \code{"de"}. Ignored if
-\code{how = "google"} or \code{how = "dstk".}}
+\code{how = "google"} or \verb{how = "dstk".}}
 
 \item{factor}{If \code{TRUE}, returns factor instead of character vector. If not
 supplied, defaults to \code{is.factor(x)}}
@@ -58,7 +63,7 @@ parse_country(c("United States", "USA", "U.S.", "us", "United States of America"
 
 \dontrun{
 # Unicode support for parsing accented or non-Latin scripts
-parse_country(c("\\u65e5\\u672c", "Japon", "\\u0698\\u0627\\u067e\\u0646"), how = "google")
+parse_country(c("\u65e5\u672c", "Japon", "\u0698\u0627\u067e\u0646"), how = "google")
 #> [1] "JP" "JP" "JP" "JP"
 
 # Parse distinct place names via geocoding APIs
