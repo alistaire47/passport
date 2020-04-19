@@ -28,8 +28,8 @@ install.packages("passport")
 or the development version from GitHub with
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("alistaire47/passport")
+# install.packages("remotes")
+remotes::install_github("alistaire47/passport")
 ```
 
 -----
