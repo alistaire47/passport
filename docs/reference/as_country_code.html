@@ -73,7 +73,7 @@ country codes" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">passport</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.9001</span>
       </span>
     </div>
 
@@ -125,7 +125,7 @@ country codes" />
 country codes</p>
     </div>
 
-    <pre class="usage"><span class='fu'>as_country_code</span>(<span class='no'>x</span>, <span class='no'>from</span>, <span class='kw'>to</span> <span class='kw'>=</span> <span class='st'>"iso2c"</span>, <span class='kw'>factor</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>is.factor</a></span>(<span class='no'>x</span>))</pre>
+    <pre class="usage"><span class='fu'>as_country_code</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>from</span>, to <span class='op'>=</span> <span class='st'>"iso2c"</span>, factor <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>is.factor</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -171,10 +171,12 @@ country names to codes, use <code><a href='parse_country.html'>parse_country()</
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Codifies standardized names</span>
-<span class='fu'>as_country_code</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"US"</span>, <span class='st'>"Taiwan"</span>, <span class='st'>"Myanmar"</span>, <span class='st'>"Kosovo"</span>, <span class='st'>"South Korea"</span>), <span class='kw'>from</span> <span class='kw'>=</span> <span class='st'>"en"</span>)</div><div class='output co'>#&gt; [1] "US" "TW" "MM" "XK" "KR"</div><div class='input'>
+<span class='fu'>as_country_code</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"US"</span>, <span class='st'>"Taiwan"</span>, <span class='st'>"Myanmar"</span>, <span class='st'>"Kosovo"</span>, <span class='st'>"South Korea"</span><span class='op'>)</span>, from <span class='op'>=</span> <span class='st'>"en"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "US" "TW" "MM" "XK" "KR"</div><div class='input'>
 <span class='co'># Translates codes; if passed a factor, returns a releveled one</span>
-<span class='fu'>as_country_code</span>(<span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"SAH"</span>, <span class='st'>"PCN"</span>, <span class='st'>"OMA"</span>, <span class='st'>"JPN"</span>)),
-                <span class='kw'>from</span> <span class='kw'>=</span> <span class='st'>"fifa"</span>, <span class='kw'>to</span> <span class='kw'>=</span> <span class='st'>"iso4217_3c"</span>)</div><div class='output co'>#&gt; [1] MAD NZD OMR JPY
+<span class='fu'>as_country_code</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"SAH"</span>, <span class='st'>"PCN"</span>, <span class='st'>"OMA"</span>, <span class='st'>"JPN"</span><span class='op'>)</span><span class='op'>)</span>,
+                from <span class='op'>=</span> <span class='st'>"fifa"</span>, to <span class='op'>=</span> <span class='st'>"iso4217_3c"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] MAD NZD OMR JPY
 #&gt; Levels: JPY OMR NZD MAD</div><div class='input'>
 </div></pre>
   </div>
@@ -192,7 +194,7 @@ country names to codes, use <code><a href='parse_country.html'>parse_country()</
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

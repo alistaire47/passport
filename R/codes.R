@@ -13,21 +13,24 @@
 #'
 #' @format A data.frame of 427 rows and 9 variables.
 #'
-#' Structure:
+#' Variables:
 #'
-#' - `column`: The column name in the internal `passport:::countries`
-#'     data.frame. Valid for use in `from` and `to` parameters.
-#' - `code`: `column` with hyphens for underscores, which is a valid IANA
+#' \describe{
+#'     \item{`column`}{The column name in the internal `passport:::countries`
+#'     data.frame. Valid for use in `from` and `to` parameters.}
+#'     \item{`code`}{`column` with hyphens for underscores, which is a valid IANA
 #'     language tag for Unicode CLDR country names. Valid for use in `from` and
-#'     `to` parameters.
-#' - `name`: Full name or code name for non-CLDR options.
-#' - `notes`: Things to note, including deprecations, oddities, etc.
-#' - `language`: Full language name parsed from `code`.
-#' - `region`: Full country or region name parsed from `code`.
-#' - `script`: Full language script name parsed from `code`.
-#' - `variant`: Full variant parsed from `code`. Also used for
-#'     organization-standardized names.
-#' - `extension`: Further specification of name type.
+#'     `to` parameters.}
+#'     \item{`name`}{Full name or code name for non-CLDR options.}
+#'     \item{`notes`}{Things to note, including deprecations, oddities, etc.}
+#'     \item{`language`}{Full language name parsed from `code`.}
+#'     \item{`region`}{Full country or region name parsed from `code`.}
+#'     \item{`script`}{Full language script name parsed from `code`.}
+#'     \item{`variant`}{Full variant parsed from `code`. Also used for
+#'     organization-standardized names.}
+#'     \item{`extension`}{Further specification of name type.}
+#' }
+#'
 #'
 #' @examples
 #' # A searchable widget to find a code or name

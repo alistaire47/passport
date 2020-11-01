@@ -73,7 +73,7 @@ for passing to ggplot2's scale functions' limits parameters." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">passport</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.9001</span>
       </span>
     </div>
 
@@ -125,15 +125,15 @@ for passing to ggplot2's scale functions' limits parameters." />
 for passing to ggplot2's scale functions' <code>limits</code> parameters.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>order_countries</span>(
-  <span class='no'>x</span>,
-  <span class='no'>by</span>,
-  <span class='no'>...</span>,
-  <span class='kw'>from</span> <span class='kw'>=</span> <span class='st'>"iso2c"</span>,
-  <span class='kw'>short</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>variant</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>factor</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>is.factor</a></span>(<span class='no'>x</span>)
-)</pre>
+    <pre class="usage"><span class='fu'>order_countries</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  <span class='va'>by</span>,
+  <span class='va'>...</span>,
+  from <span class='op'>=</span> <span class='st'>"iso2c"</span>,
+  short <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  variant <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  factor <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>is.factor</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -194,24 +194,29 @@ to which to convert</p></li>
 <code><a href='country_format.html'>country_format()</a></code> to the <code>labels</code> parameter.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>countries</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"FR"</span>, <span class='st'>"CP"</span>, <span class='st'>"UZ"</span>, <span class='st'>"BH"</span>, <span class='st'>"BR"</span>)
+    <pre class="examples"><div class='input'><span class='va'>countries</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"FR"</span>, <span class='st'>"CP"</span>, <span class='st'>"UZ"</span>, <span class='st'>"BH"</span>, <span class='st'>"BR"</span><span class='op'>)</span>
 
-<span class='fu'>order_countries</span>(<span class='no'>countries</span>)</div><div class='output co'>#&gt; [1] "BH" "BR" "CP" "FR" "UZ"</div><div class='input'>
-<span class='fu'>order_countries</span>(<span class='no'>countries</span>, <span class='st'>"ja"</span>)</div><div class='output co'>#&gt; [1] "UZ" "CP" "BH" "BR" "FR"</div><div class='input'>
-<span class='fu'>order_countries</span>(<span class='no'>countries</span>, <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>5</span>))</div><div class='output co'>#&gt; [1] "UZ" "FR" "BH" "CP" "BR"</div><div class='input'>
-<span class='fu'>order_countries</span>(<span class='no'>countries</span>, <span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grepl</a></span>(<span class='st'>"F"</span>, <span class='no'>countries</span>), <span class='fl'>1</span>:<span class='fl'>5</span>, <span class='kw'>decreasing</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; [1] "FR" "BR" "BH" "UZ" "CP"</div><div class='input'>
-<span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>ggplot2</span>, <span class='kw'>quietly</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)) {
-    <span class='no'>df_countries</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>country</span> <span class='kw'>=</span> <span class='no'>countries</span>,
-                               <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span>(<span class='fl'>1</span>:<span class='fl'>5</span>))
+<span class='fu'>order_countries</span><span class='op'>(</span><span class='va'>countries</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "BH" "BR" "CP" "FR" "UZ"</div><div class='input'>
+<span class='fu'>order_countries</span><span class='op'>(</span><span class='va'>countries</span>, <span class='st'>"ja"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "UZ" "CP" "BH" "BR" "FR"</div><div class='input'>
+<span class='fu'>order_countries</span><span class='op'>(</span><span class='va'>countries</span>, <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "UZ" "FR" "BH" "CP" "BR"</div><div class='input'>
+<span class='fu'>order_countries</span><span class='op'>(</span><span class='va'>countries</span>, <span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grepl</a></span><span class='op'>(</span><span class='st'>"F"</span>, <span class='va'>countries</span><span class='op'>)</span>, <span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span>, decreasing <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "FR" "BR" "BH" "UZ" "CP"</div><div class='input'>
+<span class='kw'>if</span> <span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='http://ggplot2.tidyverse.org'>ggplot2</a></span>, quietly <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+    <span class='va'>df_countries</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>country <span class='op'>=</span> <span class='va'>countries</span>,
+                               y <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span>
 
-    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>df_countries</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>country</span>, <span class='no'>y</span>)) +
-        <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_col</a></span>() +
-        <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_discrete.html'>scale_x_discrete</a></span>(
-            <span class='kw'>limits</span> <span class='kw'>=</span> <span class='fu'>order_countries</span>(<span class='no'>df_countries</span>$<span class='no'>country</span>,
-                                     <span class='no'>df_countries</span>$<span class='no'>y</span>)[<span class='no'>df_countries</span>$<span class='no'>y</span> <span class='kw'>&gt;</span> <span class='fl'>5</span>],
-            <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fu'><a href='country_format.html'>country_format</a></span>(<span class='kw'>to</span> <span class='kw'>=</span> <span class='st'>"en-cia-local"</span>)
-        )
-}</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (position_stack).</span></div><div class='img'><img src='order_countries-1.png' alt='' width='700' height='433' /></div><div class='input'>
+    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>df_countries</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span><span class='va'>country</span>, <span class='va'>y</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+        <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_col</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+        <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_discrete.html'>scale_x_discrete</a></span><span class='op'>(</span>
+            limits <span class='op'>=</span> <span class='fu'>order_countries</span><span class='op'>(</span><span class='va'>df_countries</span><span class='op'>$</span><span class='va'>country</span>,
+                                     <span class='va'>df_countries</span><span class='op'>$</span><span class='va'>y</span><span class='op'>)</span><span class='op'>[</span><span class='va'>df_countries</span><span class='op'>$</span><span class='va'>y</span> <span class='op'>&gt;</span> <span class='fl'>5</span><span class='op'>]</span>,
+            labels <span class='op'>=</span> <span class='fu'><a href='country_format.html'>country_format</a></span><span class='op'>(</span>to <span class='op'>=</span> <span class='st'>"en-cia-local"</span><span class='op'>)</span>
+        <span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (position_stack).</span></div><div class='img'><img src='order_countries-1.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -228,7 +233,7 @@ to which to convert</p></li>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

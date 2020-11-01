@@ -71,37 +71,26 @@ parse_country(c("1600 Pennsylvania Ave, DC", "Eiffel Tower"), how = "google")
 ```
 
 
-## II. Convert
+### II. Convert
 
-If data comes with countries already coded, convert them with 
-`as_country_code()`:
+If data comes with countries already coded, 
+
+- convert them to ISO or other codes with `as_country_code()`
+- convert them to country names with `as_country_name()`
+- convert them to other languages with `as_country_name()`
 
 ```{r convert-1, message = FALSE}
-# 2016 Olympic gold medal data
-olympics <- read.table("https://raw.githubusercontent.com/nbremer/olympicfeathers/gh-pages/data/raw%20medal%20data/Rio%202016%20gold%20medal%20winners.txt", 
-                       sep = "\t", header = TRUE, na.strings = "", 
-                       stringsAsFactors = FALSE)
+# NATO member defense expenditure data; see `?nato`
+data("nato", package = "passport")
 
-olympics %>% count(country = as_country_code(NOC, from = "ioc"), sort = TRUE)
-```
-
-or to convert to country names, use `as_country_name()`:
-
-```{r convert-2}
-olympics %>% 
-    count(country = as_country_name(NOC, from = "ioc"), 
-          Event_gender) %>% 
-    spread(Event_gender, n) %>% 
-    arrange(desc(W))
-```
-
-or translate to another language:
-
-```{r convert-3}
-olympics$NOC %>% 
-    unique() %>% 
-    as_country_name(from = "ioc", to = "ta-my") %>% 
-    head(10)
+nato %>% 
+    select(country_stanag) %>% 
+    distinct() %>%
+    mutate(
+        country_iso = as_country_code(country_stanag, from = "stanag"),
+        country_name = as_country_name(country_stanag, from = "stanag", short = FALSE),
+        country_name_thai = as_country_name(country_stanag, from = "stanag", to = "ta-my")
+    )
 ```
 
 Language formats largely follow [IETF language tag BCP

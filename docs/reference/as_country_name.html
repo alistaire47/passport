@@ -73,7 +73,7 @@ country names." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">passport</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.9001</span>
       </span>
     </div>
 
@@ -125,14 +125,14 @@ country names." />
 country names.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>as_country_name</span>(
-  <span class='no'>x</span>,
-  <span class='kw'>to</span> <span class='kw'>=</span> <span class='st'>"en"</span>,
-  <span class='kw'>from</span> <span class='kw'>=</span> <span class='st'>"iso2c"</span>,
-  <span class='kw'>short</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>variant</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>factor</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>is.factor</a></span>(<span class='no'>x</span>)
-)</pre>
+    <pre class="usage"><span class='fu'>as_country_name</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  to <span class='op'>=</span> <span class='st'>"en"</span>,
+  from <span class='op'>=</span> <span class='st'>"iso2c"</span>,
+  short <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  variant <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  factor <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>is.factor</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -208,13 +208,16 @@ For standardizing names to codes, use <code><a href='parse_country.html'>parse_c
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Usable names for tough-to-standardize places</span>
-<span class='fu'>as_country_name</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"US"</span>, <span class='st'>"TW"</span>, <span class='st'>"MM"</span>, <span class='st'>"XK"</span>, <span class='st'>"KR"</span>))</div><div class='output co'>#&gt; [1] "US"          "Taiwan"      "Myanmar"     "Kosovo"      "South Korea"</div><div class='input'>
+<span class='fu'>as_country_name</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"US"</span>, <span class='st'>"TW"</span>, <span class='st'>"MM"</span>, <span class='st'>"XK"</span>, <span class='st'>"KR"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "US"          "Taiwan"      "Myanmar"     "Kosovo"      "South Korea"</div><div class='input'>
 <span class='co'># If passed a factor, will return a releveled one</span>
-<span class='fu'>as_country_name</span>(<span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"US"</span>, <span class='st'>"NF"</span>, <span class='st'>"CD"</span>, <span class='st'>"SJ"</span>)), <span class='kw'>short</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>variant</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; [1] United States        Norfolk Island       Congo (DRC)         
+<span class='fu'>as_country_name</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"US"</span>, <span class='st'>"NF"</span>, <span class='st'>"CD"</span>, <span class='st'>"SJ"</span><span class='op'>)</span><span class='op'>)</span>, short <span class='op'>=</span> <span class='cn'>FALSE</span>, variant <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] United States        Norfolk Island       Congo (DRC)         
 #&gt; [4] Svalbard &amp; Jan Mayen
 #&gt; Levels: Congo (DRC) Norfolk Island Svalbard &amp; Jan Mayen United States</div><div class='input'>
 <span class='co'># Speaks a lot of languages, knows a lot of codes</span>
-<span class='fu'>as_country_name</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"SAH"</span>, <span class='st'>"PCN"</span>, <span class='st'>"OMA"</span>, <span class='st'>"JPN"</span>), <span class='kw'>from</span> <span class='kw'>=</span> <span class='st'>"fifa"</span>, <span class='kw'>to</span> <span class='kw'>=</span> <span class='st'>"cy"</span>)    <span class='co'># to Welsh</span></div><div class='output co'>#&gt; [1] "Gorllewin Sahara"  "Ynysoedd Pitcairn" "Oman"             
+<span class='fu'>as_country_name</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"SAH"</span>, <span class='st'>"PCN"</span>, <span class='st'>"OMA"</span>, <span class='st'>"JPN"</span><span class='op'>)</span>, from <span class='op'>=</span> <span class='st'>"fifa"</span>, to <span class='op'>=</span> <span class='st'>"cy"</span><span class='op'>)</span>    <span class='co'># to Welsh</span>
+</div><div class='output co'>#&gt; [1] "Gorllewin Sahara"  "Ynysoedd Pitcairn" "Oman"             
 #&gt; [4] "Japan"            </div><div class='input'>
 </div></pre>
   </div>
@@ -232,7 +235,7 @@ For standardizing names to codes, use <code><a href='parse_country.html'>parse_c
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

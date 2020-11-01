@@ -43,14 +43,14 @@ test_that("parsing country names with simulated geocoding APIs works", {
     expect_error(
         with_mock(
             requireNamespace = function(...) { FALSE },
-            parse_country("Sverige", how = "dstk")
+            parse_country("Sverige", how = "google")
         ),
         "jsonlite"
     )
     expect_error(
         mockr::with_mock(
             fromJSON = function(...) { list(status = "not OK") },
-            parse_country("Sverige", how = "dstk")
+            parse_country("Sverige", how = "google")
         ),
         "not OK"
     )
@@ -61,7 +61,7 @@ test_that("parsing country names with simulated geocoding APIs works", {
                     list(short_name = "SE", types = "country")
                 )), status = "OK")
             },
-            parse_country("Sverige", to = "en", how = "dstk")),
+            parse_country("Sverige", to = "en", how = "google")),
         "Sweden"
     )
     expect_s3_class(
@@ -71,7 +71,7 @@ test_that("parsing country names with simulated geocoding APIs works", {
                     list(short_name = "SE", types = "country")
                 )), status = "OK")
             },
-            parse_country(factor("Sverige"), how = "dstk")),
+            parse_country(factor("Sverige"), how = "google")),
         "factor"
     )
     expect_equal(
@@ -93,9 +93,9 @@ test_that("parsing country names with live geocoding APIs works", {
 
     expect_equal(parse_country("\u65e5\u672c", how = "google"),
                  "JP")
-    expect_equal(parse_country("\u65e5\u672c", to = "en", how = "dstk"),
+    expect_equal(parse_country("\u65e5\u672c", to = "en", how = "google"),
                 "Japan")
     expect_equal(parse_country(c("\u65e5\u672c", "Japon", NA, "Burma"),
-                               how = "dstk"),
+                               how = "google"),
                  c("JP", "JP", NA, "MM"))
 })
