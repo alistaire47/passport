@@ -1,9 +1,9 @@
-# passport 0.2.0.9001
+# passport 0.3.0
 
 * Add `nato` dataset of NATO/OTAN member defense expenditures.
 * Remove `"dstk"` option for `parse_country()` as the Data Science Tookit API 
     appears dead.
-* Refactor README and vigette to use explicit packages instead of tidyverse.
+* Refactor README and vignette to use explicit packages instead of tidyverse.
 
 # passport 0.2.0
 

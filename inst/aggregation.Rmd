@@ -160,6 +160,9 @@ unstats <- 'https://unstats.un.org/unsd/methodology/m49/overview/' %>%
 ```
 
 ### OKFN
+
+This data seems to have moved [here](https://www.datahub.io/core/country-codes).
+
 ```{r okfn}
 okfn <- read_csv('https://github.com/datasets/country-codes/raw/master/data/country-codes.csv')
 ```

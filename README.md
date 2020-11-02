@@ -217,9 +217,9 @@ The data underlying `passport` comes from a number of sources, including
 -   [Wikipedia](https://en.wikipedia.org/wiki/Category:Lists_of_country_codes)
     offers a rich set of country codes, some of which are aggregated
     here.
--   [Open Knowledge International’s Frictionless
-    Data](https://data.okfn.org/data/core/country-codes) supplies a set
-    of codes collated from a number of sources.
+-   Open Knowledge International’s Frictionless Data supplies [a set of
+    codes collated from a number of
+    sources](https://www.datahub.io/core/country-codes) on datahub.io.
 -   The regex powering `parse_country()` are from
     [`countrycode`](https://github.com/vincentarelbundock/countrycode).
     If you would like to improve both packages, please contribute regex
@@ -227,10 +227,10 @@ The data underlying `passport` comes from a number of sources, including
 
 ## Licensing
 
-`passport` is licenced as open-source software under
+`passport` is licensed as open-source software under
 [GPL-3](https://www.gnu.org/licenses/gpl.html). Unicode CLDR data is
 licensed according to [its own
 license](https://github.com/unicode-cldr/cldr-json/blob/master/LICENSE),
 a copy of which is included. `countrycode` regex are used as a
 modification under GPL-3; see the included aggregation script for
-modifiying code and date.
+modifying code and date.

@@ -30,7 +30,7 @@
 #'         rates.
 #'     }
 #'     \item{`GDP per capita (USD)`}{
-#'         Gross demestic product per capita in 2015 US dollars and at 2015
+#'         Gross domestic product per capita in 2015 US dollars and at 2015
 #'         exchange rates.
 #'     }
 #'     \item{`Defense expenditure per capita (USD)`}{
