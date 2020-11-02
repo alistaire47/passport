@@ -3,7 +3,7 @@ pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   passport: passport.html
-last_built: 2020-11-01T22:32Z
+last_built: 2020-11-02T00:36Z
 urls:
   reference: https://alistaire47.github.io/passport//reference
   article: https://alistaire47.github.io/passport//articles

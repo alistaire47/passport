@@ -47,7 +47,7 @@ existing set of names, see \code{\link[=parse_country]{parse_country()}}.
 
 The default \code{"en"} is
 from \href{http://cldr.unicode.org/}{Unicode Common Locale Data Repository (CLDR)},
-which \href{http://cldr.unicode.org/translation/country-names}{aspires to use the most customary name}
+which \href{http://cldr.unicode.org/translation/displaynames/country-names}{aspires to use the most customary name}
 e.g. "Switzerland" instead of official ones, which are frequently awkward for
 common usage, e.g. "Swiss Confederation". CLDR also supplies names in a huge
 variety of languages, allowing for easy translation. Short and variant
@@ -60,7 +60,7 @@ Other name sets are available from
 which maintains standardized names in English, Chinese, Russian, French,
 Spanish, and Arabic, here named as \code{"en_un"} etc.
 \item \href{https://www.iso.org/home.html}{the ISO}, \code{"en_iso"} and \code{"fr_iso"}, and
-\item \href{https://www.cia.gov/library/publications/the-world-factbook/fields/2142.html#af}{the CIA World Factbook}:
+\item \href{https://www.cia.gov/library/publications/the-world-factbook/}{the CIA World Factbook}:
 \itemize{
 \item \code{"en_cia"}, which include many longer official forms and shorter
 practical forms,

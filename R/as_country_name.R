@@ -10,7 +10,7 @@
 #'
 #' The default `"en"` is
 #' from [Unicode Common Locale Data Repository (CLDR)](http://cldr.unicode.org/),
-#' which [aspires to use the most customary name](http://cldr.unicode.org/translation/country-names)
+#' which [aspires to use the most customary name](http://cldr.unicode.org/translation/displaynames/country-names)
 #' e.g. "Switzerland" instead of official ones, which are frequently awkward for
 #' common usage, e.g. "Swiss Confederation". CLDR also supplies names in a huge
 #' variety of languages, allowing for easy translation. Short and variant
@@ -23,7 +23,7 @@
 #'     which maintains standardized names in English, Chinese, Russian, French,
 #'     Spanish, and Arabic, here named as `"en_un"` etc.
 #' - [the ISO](https://www.iso.org/home.html), `"en_iso"` and `"fr_iso"`, and
-#' - [the CIA World Factbook](https://www.cia.gov/library/publications/the-world-factbook/fields/2142.html#af):
+#' - [the CIA World Factbook](https://www.cia.gov/library/publications/the-world-factbook/):
 #'   - `"en_cia"`, which include many longer official forms and shorter
 #' practical forms,
 #'   - `"en_cia_local"`, which includes transliterations, and

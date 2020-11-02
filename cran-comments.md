@@ -6,9 +6,9 @@
 ## Test environments
 
 * local macOS install, R 4.0.3
-* ubuntu 12.04 (on travis-ci), R 3.4.2
-* Windows Server 2012 R2 x64 (on appveyor), R 3.4.2
-* win-builder (devel and release)
+* ubuntu 16.04 (on travis-ci), R oldrel, release, and devel
+* Windows Server 2012 R2 x64 (on appveyor), R 4.0.3
+* win-builder, R devel and release
 
 ## R CMD check results
 

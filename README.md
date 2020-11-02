@@ -198,9 +198,9 @@ The data underlying `passport` comes from a number of sources, including
     Project](http://cldr.unicode.org/) supplies country names in many,
     many languages, from Afrikaans to Zulu. Even better, [CLDR aspires
     to use the most customary
-    name](http://cldr.unicode.org/translation/country-names) instead of
-    formal or official ones, e.g. “Switzerland” instead of “Swiss
-    Confederation”.
+    name](http://cldr.unicode.org/translation/displaynames/country-names)
+    instead of formal or official ones, e.g. “Switzerland” instead of
+    “Swiss Confederation”.
 -   [The United Nations Statistics
     Division](https://unstats.un.org/unsd/methodology/m49/overview/)
     maintains and publishes the M.49 region code and the UN geoscheme
@@ -218,7 +218,7 @@ The data underlying `passport` comes from a number of sources, including
     offers a rich set of country codes, some of which are aggregated
     here.
 -   [Open Knowledge International’s Frictionless
-    Data](http://data.okfn.org/data/core/country-codes) supplies a set
+    Data](https://data.okfn.org/data/core/country-codes) supplies a set
     of codes collated from a number of sources.
 -   The regex powering `parse_country()` are from
     [`countrycode`](https://github.com/vincentarelbundock/countrycode).

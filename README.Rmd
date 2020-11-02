@@ -174,7 +174,7 @@ The data underlying `passport` comes from a number of sources, including
 - [The Unicode Common Locale Data Repository (CLDR)
 Project](http://cldr.unicode.org/) supplies country names in many, many
 languages, from Afrikaans to Zulu. Even better, [CLDR aspires to use the most
-customary name](http://cldr.unicode.org/translation/country-names) instead of
+customary name](http://cldr.unicode.org/translation/displaynames/country-names) instead of
 formal or official ones, e.g. "Switzerland" instead of "Swiss Confederation".
 - [The United Nations Statistics 
 Division](https://unstats.un.org/unsd/methodology/m49/overview/) maintains and 
@@ -189,7 +189,7 @@ the now-deprecated FIPS 10-4 from NIST, which it turned into the GEC, which is
 now also deprecated in favor of GENC, a US government profile of ISO 3166.
 - [Wikipedia](https://en.wikipedia.org/wiki/Category:Lists_of_country_codes) 
 offers a rich set of country codes, some of which are aggregated here.
-- [Open Knowledge International's Frictionless Data](http://data.okfn.org/data/core/country-codes) 
+- [Open Knowledge International's Frictionless Data](https://data.okfn.org/data/core/country-codes) 
 supplies a set of codes collated from a number of sources.
 - The regex powering `parse_country()` are from
 [`countrycode`](https://github.com/vincentarelbundock/countrycode). If you 
