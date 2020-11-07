@@ -2,6 +2,7 @@
 
 * Fixes CRAN check errors due to stale URLs in vignette.
 * Adds a dataset
+* Resubmission to revert maintainer email to original
 
 ## Test environments
 

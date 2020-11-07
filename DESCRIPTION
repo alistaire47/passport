@@ -6,7 +6,7 @@ Authors@R:
     person(given = "Edward",
            family = "Visel",
            role = c("aut", "cre"),
-           email = "alistaire@gmail.com",
+           email = "edward.visel@gmail.com",
            comment = c(ORCID = "0000-0002-2811-6254"))
 Description: Smooths the process of working with country names and codes via 
     powerful parsing, standardization, and conversion utilities arranged in a 
