@@ -78,7 +78,7 @@ names (e.g. &quot;iso2c&quot;) for country codes." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">passport</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -135,38 +135,41 @@ similar approximations for institutional names (e.g. <code>"en-iso"</code>), and
 names (e.g. <code>"iso2c"</code>) for country codes.</p>
     </div>
 
-    <pre class="usage"><span class='no'>codes</span></pre>
+    <pre class="usage"><span class='va'>codes</span></pre>
 
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
     <p>A data.frame of 427 rows and 9 variables.</p>
-<p>Structure:</p><ul>
-<li><p><code>column</code>: The column name in the internal <code>passport:::countries</code>
-data.frame. Valid for use in <code>from</code> and <code>to</code> parameters.</p></li>
-<li><p><code>code</code>: <code>column</code> with hyphens for underscores, which is a valid IANA
+<p>Variables:</p>
+<dl>
+<dt><code>column</code></dt><dd><p>The column name in the internal <code>passport:::countries</code>
+data.frame. Valid for use in <code>from</code> and <code>to</code> parameters.</p></dd>
+<dt><code>code</code></dt><dd><p><code>column</code> with hyphens for underscores, which is a valid IANA
 language tag for Unicode CLDR country names. Valid for use in <code>from</code> and
-<code>to</code> parameters.</p></li>
-<li><p><code>name</code>: Full name or code name for non-CLDR options.</p></li>
-<li><p><code>notes</code>: Things to note, including deprecations, oddities, etc.</p></li>
-<li><p><code>language</code>: Full language name parsed from <code>code</code>.</p></li>
-<li><p><code>region</code>: Full country or region name parsed from <code>code</code>.</p></li>
-<li><p><code>script</code>: Full language script name parsed from <code>code</code>.</p></li>
-<li><p><code>variant</code>: Full variant parsed from <code>code</code>. Also used for
-organization-standardized names.</p></li>
-<li><p><code>extension</code>: Further specification of name type.</p></li>
-</ul>
+<code>to</code> parameters.</p></dd>
+<dt><code>name</code></dt><dd><p>Full name or code name for non-CLDR options.</p></dd>
+<dt><code>notes</code></dt><dd><p>Things to note, including deprecations, oddities, etc.</p></dd>
+<dt><code>language</code></dt><dd><p>Full language name parsed from <code>code</code>.</p></dd>
+<dt><code>region</code></dt><dd><p>Full country or region name parsed from <code>code</code>.</p></dd>
+<dt><code>script</code></dt><dd><p>Full language script name parsed from <code>code</code>.</p></dd>
+<dt><code>variant</code></dt><dd><p>Full variant parsed from <code>code</code>. Also used for
+organization-standardized names.</p></dd>
+<dt><code>extension</code></dt><dd><p>Further specification of name type.</p></dd>
+
+</dl>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>All functions can accept codes separated with underscores <code>_</code>, hyphens <code>-</code>,
+    <p>All functions can accept codes separated with underscores <code>_</code>, hyphens <code><a href='https://rdrr.io/r/base/Arithmetic.html'>-</a></code>,
 or periods <code>.</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># A searchable widget to find a code or name</span>
-<span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span>(<span class='st'>"DT"</span>, <span class='kw'>quietly</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)) {
-    <span class='kw pkg'>DT</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/DT/man/datatable.html'>datatable</a></span>(<span class='no'>codes</span>)
-}</div></pre>
+<span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span><span class='op'>(</span><span class='st'>"DT"</span>, quietly <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+    <span class='fu'>DT</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/DT/man/datatable.html'>datatable</a></span><span class='op'>(</span><span class='va'>codes</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -182,7 +185,7 @@ or periods <code>.</code>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

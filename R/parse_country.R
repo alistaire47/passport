@@ -28,20 +28,18 @@ fromJSON <- function(...) {
     jsonlite::fromJSON(...)
 }
 
-parse_by_geocoding <- function(location, source = c("google", "dstk")) {
+parse_by_geocoding <- function(location, source = c("google")) {
     query <- vapply(location, utils::URLencode, character(1), reserved = TRUE)
     source <- match.arg(source)
 
-    base_url <- c("google" = "https://maps.googleapis.com",
-                  "dstk" = "http://www.datasciencetoolkit.org")[source]
+    base_url <- c("google" = "https://maps.googleapis.com")[source]
     urls <- paste0(base_url, "/maps/api/geocode/json?&address=", query)
     vapply(
         urls,
         function(url) {
             response <- fromJSON(url)
             if (response$status != "OK") {
-                message <- c("google" = "Google Maps geocoding API call failed; status = %s. Free usage tier is limited to 2500 queries per day.",
-                             "dstk" = "Data Science Toolkit geocoding API call failed; status = %s")[source]
+                message <- c("google" = "Google Maps geocoding API call failed; status = %s. Free usage tier is limited to 2500 queries per day.")[source]
                 stop(sprintf(message, response$status))
             }
             components <- response$results$address_components[[1]]
@@ -76,12 +74,8 @@ parse_by_geocoding <- function(location, source = c("google", "dstk")) {
 #' input. For more calls, see options that allow passing an API key like
 #' `ggmap::geocode()` with `output = "all"` or `googleway::google_geocode()`.
 #'
-#' If `how = "dstk"`, `parse_country` will use the Data Science Toolkit
-#' geocoding API.
-#'
 #' Note that due to their flexibility, the APIs may fail unpredictably, e.g.
-#' `parse_country("foo", how = "google")` returns `"CH"` and
-#' `parse_country("foo", how = "dstk")` returns `"DJ"` whereas `how = "regex"`
+#' `parse_country("foo", how = "google")` returns `"CH"` whereas `how = "regex"`
 #' fails with a graceful `NA` and warning.
 #'
 #'
@@ -90,11 +84,10 @@ parse_by_geocoding <- function(location, source = c("google", "dstk")) {
 #' @param to Format to which to convert. Defaults to `"iso2c"`; see [`codes`]
 #'     for more options.
 #' @param  how How to parse; defaults to `"regex"`. `"google"`` uses the Google
-#'     Maps geocoding API; `"dstk"`` uses the Data Science Toolkit geocoding
-#'     API. See "Details" for more information.
+#'     Maps geocoding API. See "Details" for more information.
 #' @param language If `how = "regex"`, the language from which to parse country
 #'     names. Currently accepts `"en"` (default) and `"de"`. Ignored if
-#'     `how = "google"` or `how = "dstk".`
+#'     `how = "google"`.
 #'
 #' @return A character vector or factor of ISO 2-character country codes or
 #' other specified codes or names. Warns of any parsing failure.
@@ -115,7 +108,7 @@ parse_by_geocoding <- function(location, source = c("google", "dstk")) {
 #' @export
 parse_country <- function(x,
                           to = "iso2c",
-                          how = c("regex", "google", "dstk"),
+                          how = c("regex", "google"),
                           language = c("en", "de"),
                           factor = is.factor(x)) {
     # parameter checking

@@ -73,7 +73,7 @@ or other standardized code or name format." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">passport</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -125,13 +125,13 @@ or other standardized code or name format." />
 or other standardized code or name format.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>parse_country</span>(
-  <span class='no'>x</span>,
-  <span class='kw'>to</span> <span class='kw'>=</span> <span class='st'>"iso2c"</span>,
-  <span class='kw'>how</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"regex"</span>, <span class='st'>"google"</span>, <span class='st'>"dstk"</span>),
-  <span class='kw'>language</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"en"</span>, <span class='st'>"de"</span>),
-  <span class='kw'>factor</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>is.factor</a></span>(<span class='no'>x</span>)
-)</pre>
+    <pre class="usage"><span class='fu'>parse_country</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  to <span class='op'>=</span> <span class='st'>"iso2c"</span>,
+  how <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"regex"</span>, <span class='st'>"google"</span><span class='op'>)</span>,
+  language <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"en"</span>, <span class='st'>"de"</span><span class='op'>)</span>,
+  factor <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>is.factor</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -147,14 +147,14 @@ for more options.</p></td>
     </tr>
     <tr>
       <th>how</th>
-      <td><p>How to parse; defaults to <code>"regex"</code>. <code>"google"`` uses the Google Maps geocoding API; </code>"dstk"`` uses the Data Science Toolkit geocoding
-API. See "Details" for more information.</p></td>
+      <td><p>How to parse; defaults to <code>"regex"</code>. `"google"`` uses the Google
+Maps geocoding API. See "Details" for more information.</p></td>
     </tr>
     <tr>
       <th>language</th>
       <td><p>If <code>how = "regex"</code>, the language from which to parse country
 names. Currently accepts <code>"en"</code> (default) and <code>"de"</code>. Ignored if
-<code>how = "google"</code> or <code>how = "dstk".</code></p></td>
+<code>how = "google"</code>.</p></td>
     </tr>
     <tr>
       <th>factor</th>
@@ -179,24 +179,24 @@ input formats and languages. The API allows 2500 calls per day, and should
 thus be called judiciously. <code>parse_country</code> will make one call per unique
 input. For more calls, see options that allow passing an API key like
 <code>ggmap::geocode()</code> with <code>output = "all"</code> or <code>googleway::google_geocode()</code>.</p>
-<p>If <code>how = "dstk"</code>, <code>parse_country</code> will use the Data Science Toolkit
-geocoding API.</p>
 <p>Note that due to their flexibility, the APIs may fail unpredictably, e.g.
-<code>parse_country("foo", how = "google")</code> returns <code>"CH"</code> and
-<code>parse_country("foo", how = "dstk")</code> returns <code>"DJ"</code> whereas <code>how = "regex"</code>
+<code>parse_country("foo", how = "google")</code> returns <code>"CH"</code> whereas <code>how = "regex"</code>
 fails with a graceful <code>NA</code> and warning.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>parse_country</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"United States"</span>, <span class='st'>"USA"</span>, <span class='st'>"U.S."</span>, <span class='st'>"us"</span>, <span class='st'>"United States of America"</span>))</div><div class='output co'>#&gt; [1] "US" "US" "US" "US" "US"</div><div class='input'>
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+    <pre class="examples"><div class='input'><span class='fu'>parse_country</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"United States"</span>, <span class='st'>"USA"</span>, <span class='st'>"U.S."</span>, <span class='st'>"us"</span>, <span class='st'>"United States of America"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "US" "US" "US" "US" "US"</div><div class='input'>
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='co'># Unicode support for parsing accented or non-Latin scripts</span>
-<span class='fu'>parse_country</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"\u65e5\u672c"</span>, <span class='st'>"Japon"</span>, <span class='st'>"\u0698\u0627\u067e\u0646"</span>), <span class='kw'>how</span> <span class='kw'>=</span> <span class='st'>"google"</span>)
+<span class='fu'>parse_country</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"\u65e5\u672c"</span>, <span class='st'>"Japon"</span>, <span class='st'>"\u0698\u0627\u067e\u0646"</span><span class='op'>)</span>, how <span class='op'>=</span> <span class='st'>"google"</span><span class='op'>)</span>
 <span class='co'>#&gt; [1] "JP" "JP" "JP" "JP"</span>
 
 <span class='co'># Parse distinct place names via geocoding APIs</span>
-<span class='fu'>parse_country</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"1600 Pennsylvania Ave, DC"</span>, <span class='st'>"Eiffel Tower"</span>), <span class='kw'>how</span> <span class='kw'>=</span> <span class='st'>"google"</span>)
+<span class='fu'>parse_country</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"1600 Pennsylvania Ave, DC"</span>, <span class='st'>"Eiffel Tower"</span><span class='op'>)</span>, how <span class='op'>=</span> <span class='st'>"google"</span><span class='op'>)</span>
 <span class='co'>#&gt; [1] "US" "FR"</span>
-}</div></pre>
+<span class='op'>}</span>
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -212,7 +212,7 @@ fails with a graceful <code>NA</code> and warning.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

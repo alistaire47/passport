@@ -7,7 +7,7 @@
 parse_country(
   x,
   to = "iso2c",
-  how = c("regex", "google", "dstk"),
+  how = c("regex", "google"),
   language = c("en", "de"),
   factor = is.factor(x)
 )
@@ -18,12 +18,12 @@ parse_country(
 \item{to}{Format to which to convert. Defaults to \code{"iso2c"}; see \code{\link{codes}}
 for more options.}
 
-\item{how}{How to parse; defaults to \code{"regex"}. \verb{"google"`` uses the Google Maps geocoding API; }"dstk"`` uses the Data Science Toolkit geocoding
-API. See "Details" for more information.}
+\item{how}{How to parse; defaults to \code{"regex"}. `"google"`` uses the Google
+Maps geocoding API. See "Details" for more information.}
 
 \item{language}{If \code{how = "regex"}, the language from which to parse country
 names. Currently accepts \code{"en"} (default) and \code{"de"}. Ignored if
-\code{how = "google"} or \verb{how = "dstk".}}
+\code{how = "google"}.}
 
 \item{factor}{If \code{TRUE}, returns factor instead of character vector. If not
 supplied, defaults to \code{is.factor(x)}}
@@ -50,12 +50,8 @@ thus be called judiciously. \code{parse_country} will make one call per unique
 input. For more calls, see options that allow passing an API key like
 \code{ggmap::geocode()} with \code{output = "all"} or \code{googleway::google_geocode()}.
 
-If \code{how = "dstk"}, \code{parse_country} will use the Data Science Toolkit
-geocoding API.
-
 Note that due to their flexibility, the APIs may fail unpredictably, e.g.
-\code{parse_country("foo", how = "google")} returns \code{"CH"} and
-\code{parse_country("foo", how = "dstk")} returns \code{"DJ"} whereas \code{how = "regex"}
+\code{parse_country("foo", how = "google")} returns \code{"CH"} whereas \code{how = "regex"}
 fails with a graceful \code{NA} and warning.
 }
 \examples{

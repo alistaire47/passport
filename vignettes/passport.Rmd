@@ -71,37 +71,26 @@ parse_country(c("1600 Pennsylvania Ave, DC", "Eiffel Tower"), how = "google")
 ```
 
 
-## II. Convert
+### II. Convert
 
-If data comes with countries already coded, convert them with 
-`as_country_code()`:
+If data comes with countries already coded, 
+
+- convert them to ISO or other codes with `as_country_code()`
+- convert them to country names with `as_country_name()`
+- convert them to other languages with `as_country_name()`
 
 ```{r convert-1, message = FALSE}
-# 2016 Olympic gold medal data
-olympics <- read.table("https://raw.githubusercontent.com/nbremer/olympicfeathers/gh-pages/data/raw%20medal%20data/Rio%202016%20gold%20medal%20winners.txt", 
-                       sep = "\t", header = TRUE, na.strings = "", 
-                       stringsAsFactors = FALSE)
+# NATO member defense expenditure data; see `?nato`
+data("nato", package = "passport")
 
-olympics %>% count(country = as_country_code(NOC, from = "ioc"), sort = TRUE)
-```
-
-or to convert to country names, use `as_country_name()`:
-
-```{r convert-2}
-olympics %>% 
-    count(country = as_country_name(NOC, from = "ioc"), 
-          Event_gender) %>% 
-    spread(Event_gender, n) %>% 
-    arrange(desc(W))
-```
-
-or translate to another language:
-
-```{r convert-3}
-olympics$NOC %>% 
-    unique() %>% 
-    as_country_name(from = "ioc", to = "ta-my") %>% 
-    head(10)
+nato %>% 
+    select(country_stanag) %>% 
+    distinct() %>%
+    mutate(
+        country_iso = as_country_code(country_stanag, from = "stanag"),
+        country_name = as_country_name(country_stanag, from = "stanag", short = FALSE),
+        country_name_thai = as_country_name(country_stanag, from = "stanag", to = "ta-my")
+    )
 ```
 
 Language formats largely follow [IETF language tag BCP
@@ -165,7 +154,7 @@ The data underlying `passport` comes from a number of sources, including
 - [The Unicode Common Locale Data Repository (CLDR)
 Project](http://cldr.unicode.org/) supplies country names in many, many
 languages, from Afrikaans to Zulu. Even better, [CLDR aspires to use the most
-customary name](http://cldr.unicode.org/translation/country-names) instead of
+customary name](http://cldr.unicode.org/translation/displaynames/country-names) instead of
 formal or official ones, e.g. "Switzerland" instead of "Swiss Confederation".
 - [The United Nations Statistics 
 Division](https://unstats.un.org/unsd/methodology/m49/overview/) maintains and 
@@ -180,8 +169,9 @@ the now-deprecated FIPS 10-4 from NIST, which it turned into the GEC, which is
 now also deprecated in favor of GENC, a US government profile of ISO 3166.
 - [Wikipedia](https://en.wikipedia.org/wiki/Category:Lists_of_country_codes) 
 offers a rich set of country codes, some of which are aggregated here.
-- [Open Knowledge International's Frictionless Data](http://data.okfn.org/data/core/country-codes) 
-supplies a set of codes collated from a number of sources.
+- Open Knowledge International's Frictionless Data supplies [a set of codes 
+collated from a number of sources](https://www.datahub.io/core/country-codes) on 
+datahub.io.
 - The regex powering `parse_country()` are from
 [`countrycode`](https://github.com/vincentarelbundock/countrycode). If you 
 would like to improve both packages, please contribute regex there!
@@ -189,7 +179,7 @@ would like to improve both packages, please contribute regex there!
 
 ## Licensing
 
-`passport` is licenced as open-source software under
+`passport` is licensed as open-source software under
 [GPL-3](https://www.gnu.org/licenses/gpl.html). Unicode CLDR data is licensed 
 according to [its own 
 license](https://github.com/unicode-cldr/cldr-json/blob/master/LICENSE), a copy 

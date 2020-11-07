@@ -36,7 +36,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">passport</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -86,38 +86,42 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>Install from CRAN with</p>
-<div class="sourceCode" id="cb1"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"passport"</span>)</pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"passport"</span><span class="op">)</span></pre></div>
 <p>or the development version from GitHub with</p>
-<div class="sourceCode" id="cb2"><pre class="r"><span class="co"># install.packages("remotes")</span>
-<span class="kw pkg">remotes</span><span class="kw ns">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span>(<span class="st">"alistaire47/passport"</span>)</pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="co"># install.packages("remotes")</span>
+<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"alistaire47/passport"</span><span class="op">)</span></pre></div>
 <hr>
 </div>
 <div id="travel-smoothly-between-country-name-and-code-formats" class="section level2">
 <h2 class="hasAnchor">
 <a href="#travel-smoothly-between-country-name-and-code-formats" class="anchor"></a>Travel smoothly between country name and code formats</h2>
 <p>Working with country data can be frustrating. Even with well-curated data like <a href="https://github.com/jennybc/gapminder"><code>gapminder</code></a>, there are some oddities:</p>
-<div class="sourceCode" id="cb3"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">passport</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">gapminder</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">dplyr</span>)    <span class="co"># Works equally well in any grammar.</span>
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tidyr</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">47</span>)
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/alistaire47/passport">passport</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jennybc/gapminder">gapminder</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>    <span class="co"># Works equally well in any grammar.</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org">tidyr</a></span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">47</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/grep.html">grep</a></span>(<span class="st">"Korea"</span>, <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(<span class="no">gapminder</span>$<span class="no">country</span>), <span class="kw">value</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/grep.html">grep</a></span><span class="op">(</span><span class="st">"Korea"</span>, <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">gapminder</span><span class="op">$</span><span class="va">country</span><span class="op">)</span>, value <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">#&gt; [1] "Korea, Dem. Rep." "Korea, Rep."</span>
-<span class="fu"><a href="https://rdrr.io/r/base/grep.html">grep</a></span>(<span class="st">"Yemen"</span>, <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(<span class="no">gapminder</span>$<span class="no">country</span>), <span class="kw">value</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/grep.html">grep</a></span><span class="op">(</span><span class="st">"Yemen"</span>, <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">gapminder</span><span class="op">$</span><span class="va">country</span><span class="op">)</span>, value <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">#&gt; [1] "Yemen, Rep."</span></pre></div>
 <p><code>passport</code> offers a framework for working with country names and codes without manually editing data or scraping codes from Wikipedia.</p>
 <div id="i-standardize" class="section level3">
 <h3 class="hasAnchor">
 <a href="#i-standardize" class="anchor"></a>I. Standardize</h3>
 <p>If data has non-standardized names, standardize them to an ISO 3166-1 code or other standardized code or name with <code>parse_country</code>:</p>
-<div class="sourceCode" id="cb4"><pre class="r"><span class="no">gap</span> <span class="kw">&lt;-</span> <span class="no">gapminder</span> <span class="kw">%&gt;%</span>
+<div class="sourceCode" id="cb4"><pre class="downlit">
+<span class="va">gap</span> <span class="op">&lt;-</span> <span class="va">gapminder</span> <span class="op">%&gt;%</span> 
     <span class="co"># standardize to ISO 3166 Alpha-2 code</span>
-    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="kw">country_code</span> <span class="kw">=</span> <span class="fu"><a href="reference/parse_country.html">parse_country</a></span>(<span class="no">country</span>))
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>country_code <span class="op">=</span> <span class="fu"><a href="reference/parse_country.html">parse_country</a></span><span class="op">(</span><span class="va">country</span><span class="op">)</span><span class="op">)</span>
 
-<span class="no">gap</span> <span class="kw">%&gt;%</span>
-    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="no">country</span>, <span class="no">country_code</span>, <span class="no">year</span>, <span class="no">lifeExp</span>) <span class="kw">%&gt;%</span>
-    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample.html">sample_n</a></span>(<span class="fl">10</span>)
+<span class="va">gap</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">country</span>, <span class="va">country_code</span>, <span class="va">year</span>, <span class="va">lifeExp</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_n</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 10 x 4</span>
 <span class="co">#&gt;    country                  country_code  year lifeExp</span>
 <span class="co">#&gt;    &lt;fct&gt;                    &lt;fct&gt;        &lt;int&gt;   &lt;dbl&gt;</span>
@@ -132,63 +136,51 @@
 <span class="co">#&gt;  9 Philippines              PH            1997    68.6</span>
 <span class="co">#&gt; 10 Libya                    LY            1972    52.8</span></pre></div>
 <p>If country names are particularly irregular, in unsupported languages, or are even just unique location names, <code>parse_country</code> can use Google Maps or Data Science Toolkit geocoding APIs to parse instead of regex:</p>
-<div class="sourceCode" id="cb5"><pre class="r"><span class="fu"><a href="reference/parse_country.html">parse_country</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"somewhere in Japan"</span>, <span class="st">"日本"</span>, <span class="st">"Japon"</span>, <span class="st">"जापान"</span>), <span class="kw">how</span> <span class="kw">=</span> <span class="st">"google"</span>)
+<div class="sourceCode" id="cb5"><pre class="downlit">
+<span class="fu"><a href="reference/parse_country.html">parse_country</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"somewhere in Japan"</span>, <span class="st">"日本"</span>, <span class="st">"Japon"</span>, <span class="st">"जापान"</span><span class="op">)</span>, how <span class="op">=</span> <span class="st">"google"</span><span class="op">)</span>
 <span class="co">#&gt; [1] "JP" "JP" "JP" "JP"</span>
 
-<span class="fu"><a href="reference/parse_country.html">parse_country</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"1600 Pennsylvania Ave, DC"</span>, <span class="st">"Eiffel Tower"</span>), <span class="kw">how</span> <span class="kw">=</span> <span class="st">"google"</span>)
+<span class="fu"><a href="reference/parse_country.html">parse_country</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"1600 Pennsylvania Ave, DC"</span>, <span class="st">"Eiffel Tower"</span><span class="op">)</span>, how <span class="op">=</span> <span class="st">"google"</span><span class="op">)</span>
 <span class="co">#&gt; [1] "US" "FR"</span></pre></div>
 </div>
 <div id="ii-convert" class="section level3">
 <h3 class="hasAnchor">
 <a href="#ii-convert" class="anchor"></a>II. Convert</h3>
-<p>If data comes with countries already coded, convert them with <code><a href="reference/as_country_code.html">as_country_code()</a></code>:</p>
-<div class="sourceCode" id="cb6"><pre class="r"><span class="co"># 2016 Olympic gold medal data</span>
-<span class="no">olympics</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.table</a></span>(<span class="st">"https://raw.githubusercontent.com/nbremer/olympicfeathers/gh-pages/data/raw%20medal%20data/Rio%202016%20gold%20medal%20winners.txt"</span>,
-                       <span class="kw">sep</span> <span class="kw">=</span> <span class="st">"\t"</span>, <span class="kw">header</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">na.strings</span> <span class="kw">=</span> <span class="st">""</span>,
-                       <span class="kw">stringsAsFactors</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
+<p>If data comes with countries already coded,</p>
+<ul>
+<li>convert them to ISO or other codes with <code><a href="reference/as_country_code.html">as_country_code()</a></code>
+</li>
+<li>convert them to country names with <code><a href="reference/as_country_name.html">as_country_name()</a></code>
+</li>
+<li>convert them to other languages with <code><a href="reference/as_country_name.html">as_country_name()</a></code>
+</li>
+</ul>
+<div class="sourceCode" id="cb6"><pre class="downlit">
+<span class="co"># NATO member defense expenditure data; see `?nato`</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"nato"</span>, package <span class="op">=</span> <span class="st">"passport"</span><span class="op">)</span>
 
-<span class="no">olympics</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/tally.html">count</a></span>(<span class="kw">country</span> <span class="kw">=</span> <span class="fu"><a href="reference/as_country_code.html">as_country_code</a></span>(<span class="no">NOC</span>, <span class="kw">from</span> <span class="kw">=</span> <span class="st">"ioc"</span>), <span class="kw">sort</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
-<span class="co">#&gt; # A tibble: 59 x 2</span>
-<span class="co">#&gt;    country     n</span>
-<span class="co">#&gt;    &lt;chr&gt;   &lt;int&gt;</span>
-<span class="co">#&gt;  1 US         46</span>
-<span class="co">#&gt;  2 GB         28</span>
-<span class="co">#&gt;  3 CN         26</span>
-<span class="co">#&gt;  4 RU         19</span>
-<span class="co">#&gt;  5 DE         18</span>
-<span class="co">#&gt;  6 JP         12</span>
-<span class="co">#&gt;  7 FR         11</span>
-<span class="co">#&gt;  8 KR          9</span>
-<span class="co">#&gt;  9 AU          8</span>
-<span class="co">#&gt; 10 HU          8</span>
-<span class="co">#&gt; # … with 49 more rows</span></pre></div>
-<p>or to convert to country names, use <code><a href="reference/as_country_name.html">as_country_name()</a></code>:</p>
-<div class="sourceCode" id="cb7"><pre class="r"><span class="no">olympics</span> <span class="kw">%&gt;%</span>
-    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/tally.html">count</a></span>(<span class="kw">country</span> <span class="kw">=</span> <span class="fu"><a href="reference/as_country_name.html">as_country_name</a></span>(<span class="no">NOC</span>, <span class="kw">from</span> <span class="kw">=</span> <span class="st">"ioc"</span>),
-          <span class="no">Event_gender</span>) <span class="kw">%&gt;%</span>
-    <span class="fu"><a href="https://tidyr.tidyverse.org/reference/spread.html">spread</a></span>(<span class="no">Event_gender</span>, <span class="no">n</span>) <span class="kw">%&gt;%</span>
-    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span>(<span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html">desc</a></span>(<span class="no">W</span>))
-<span class="co">#&gt; # A tibble: 59 x 4</span>
-<span class="co">#&gt;    country         M     W     X</span>
-<span class="co">#&gt;    &lt;chr&gt;       &lt;int&gt; &lt;int&gt; &lt;int&gt;</span>
-<span class="co">#&gt;  1 US             17    27     2</span>
-<span class="co">#&gt;  2 China          12    14    NA</span>
-<span class="co">#&gt;  3 Russia          9    10    NA</span>
-<span class="co">#&gt;  4 Hungary         1     7    NA</span>
-<span class="co">#&gt;  5 Japan           5     7    NA</span>
-<span class="co">#&gt;  6 UK             19     7     2</span>
-<span class="co">#&gt;  7 Netherlands     2     6    NA</span>
-<span class="co">#&gt;  8 Australia       3     5    NA</span>
-<span class="co">#&gt;  9 Germany        10     5     3</span>
-<span class="co">#&gt; 10 South Korea     4     5    NA</span>
-<span class="co">#&gt; # … with 49 more rows</span></pre></div>
-<p>or translate to another language:</p>
-<div class="sourceCode" id="cb8"><pre class="r"><span class="no">olympics</span>$<span class="no">NOC</span> <span class="kw">%&gt;%</span>
-    <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>() <span class="kw">%&gt;%</span>
-    <span class="fu"><a href="reference/as_country_name.html">as_country_name</a></span>(<span class="kw">from</span> <span class="kw">=</span> <span class="st">"ioc"</span>, <span class="kw">to</span> <span class="kw">=</span> <span class="st">"ta-my"</span>) <span class="kw">%&gt;%</span>
-    <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="fl">10</span>)
-<span class="co">#&gt;  [1] "சீனா"        "யூகே"       "யூஎஸ்"       "ஹங்கேரி"     "ஸ்வீடன்"      </span>
-<span class="co">#&gt;  [6] "கனடா"       "நெதர்லாந்து"  "ஜப்பான்"      "ஸ்பெயின்"     "ஆஸ்திரேலியா"</span></pre></div>
+<span class="va">nato</span> <span class="op">%&gt;%</span> 
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">country_stanag</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html">distinct</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>
+        country_iso <span class="op">=</span> <span class="fu"><a href="reference/as_country_code.html">as_country_code</a></span><span class="op">(</span><span class="va">country_stanag</span>, from <span class="op">=</span> <span class="st">"stanag"</span><span class="op">)</span>,
+        country_name <span class="op">=</span> <span class="fu"><a href="reference/as_country_name.html">as_country_name</a></span><span class="op">(</span><span class="va">country_stanag</span>, from <span class="op">=</span> <span class="st">"stanag"</span>, short <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>,
+        country_name_thai <span class="op">=</span> <span class="fu"><a href="reference/as_country_name.html">as_country_name</a></span><span class="op">(</span><span class="va">country_stanag</span>, from <span class="op">=</span> <span class="st">"stanag"</span>, to <span class="op">=</span> <span class="st">"ta-my"</span><span class="op">)</span>
+    <span class="op">)</span>
+<span class="co">#&gt; # A tibble: 29 x 4</span>
+<span class="co">#&gt;    country_stanag country_iso country_name country_name_thai</span>
+<span class="co">#&gt;    &lt;chr&gt;          &lt;chr&gt;       &lt;chr&gt;        &lt;chr&gt;            </span>
+<span class="co">#&gt;  1 ALB            AL          Albania      அல்பேனியா         </span>
+<span class="co">#&gt;  2 BEL            BE          Belgium      பெல்ஜியம்          </span>
+<span class="co">#&gt;  3 BGR            BG          Bulgaria     பல்கேரியா         </span>
+<span class="co">#&gt;  4 CAN            CA          Canada       கனடா             </span>
+<span class="co">#&gt;  5 CZE            CZ          Czechia      செசியா           </span>
+<span class="co">#&gt;  6 DEU            DE          Germany      ஜெர்மனி           </span>
+<span class="co">#&gt;  7 DNK            DK          Denmark      டென்மார்க்          </span>
+<span class="co">#&gt;  8 ESP            ES          Spain        ஸ்பெயின்           </span>
+<span class="co">#&gt;  9 EST            EE          Estonia      எஸ்டோனியா         </span>
+<span class="co">#&gt; 10 FRA            FR          France       பிரான்ஸ்           </span>
+<span class="co">#&gt; # … with 19 more rows</span></pre></div>
 <p>Language formats largely follow <a href="https://en.wikipedia.org/wiki/IETF_language_tag">IETF language tag BCP 47</a> format. For all available formats, run <code><a href="https://rdrr.io/pkg/DT/man/datatable.html">DT::datatable(codes)</a></code> for an interactive widget of format names and further information.</p>
 </div>
 <div id="iii-format" class="section level3">
@@ -196,33 +188,35 @@
 <a href="#iii-format" class="anchor"></a>III. Format</h3>
 <p>A particularly common hangup with country data is presentation. While “Yemen, Rep.” may be fine for exploratory work, to create a plot to share, such names need to be changed to something more palatable either by editing the data or manually overriding the labels directly on the plot.</p>
 <p>If the existing format is already standardized, <code>passport</code> offers another option: use a formatter function created with <code>country_format</code>, just like for thousands separators or currency formatting. Reorder simply with <code>order_countries</code>:</p>
-<div class="sourceCode" id="cb9"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggplot2</span>)
+<div class="sourceCode" id="cb7"><pre class="downlit">
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
 
-<span class="no">living_longer</span> <span class="kw">&lt;-</span> <span class="no">gap</span> <span class="kw">%&gt;%</span>
-    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="no">country_code</span>) <span class="kw">%&gt;%</span>
-    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span>(<span class="kw">start_life_exp</span> <span class="kw">=</span> <span class="no">lifeExp</span>[<span class="fu"><a href="https://rdrr.io/r/base/which.min.html">which.min</a></span>(<span class="no">year</span>)],
-              <span class="kw">stop_life_exp</span> <span class="kw">=</span> <span class="no">lifeExp</span>[<span class="fu"><a href="https://rdrr.io/r/base/which.min.html">which.max</a></span>(<span class="no">year</span>)],
-              <span class="kw">diff_life_exp</span> <span class="kw">=</span> <span class="no">stop_life_exp</span> - <span class="no">start_life_exp</span>) <span class="kw">%&gt;%</span>
-    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/top_n.html">top_n</a></span>(<span class="fl">10</span>, <span class="no">diff_life_exp</span>)
+<span class="va">living_longer</span> <span class="op">&lt;-</span> <span class="va">gap</span> <span class="op">%&gt;%</span> 
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">country_code</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>start_life_exp <span class="op">=</span> <span class="va">lifeExp</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.min.html">which.min</a></span><span class="op">(</span><span class="va">year</span><span class="op">)</span><span class="op">]</span>, 
+              stop_life_exp <span class="op">=</span> <span class="va">lifeExp</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.min.html">which.max</a></span><span class="op">(</span><span class="va">year</span><span class="op">)</span><span class="op">]</span>, 
+              diff_life_exp <span class="op">=</span> <span class="va">stop_life_exp</span> <span class="op">-</span> <span class="va">start_life_exp</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/top_n.html">top_n</a></span><span class="op">(</span><span class="fl">10</span>, <span class="va">diff_life_exp</span><span class="op">)</span> 
+<span class="co">#&gt; `summarise()` ungrouping output (override with `.groups` argument)</span>
 
 <span class="co"># Plot country codes...</span>
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">living_longer</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">country_code</span>, <span class="kw">y</span> <span class="kw">=</span> <span class="no">stop_life_exp</span> - <span class="fl">3.3</span>,
-                          <span class="kw">ymin</span> <span class="kw">=</span> <span class="no">start_life_exp</span>,
-                          <span class="kw">ymax</span> <span class="kw">=</span> <span class="no">stop_life_exp</span> - <span class="fl">3.3</span>,
-                          <span class="kw">colour</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="no">diff_life_exp</span>))) +
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>(<span class="kw">pch</span> <span class="kw">=</span> <span class="fl">17</span>, <span class="kw">size</span> <span class="kw">=</span> <span class="fl">15</span>) +
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_linerange.html">geom_linerange</a></span>(<span class="kw">size</span> <span class="kw">=</span> <span class="fl">10</span>) +
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">living_longer</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">country_code</span>, y <span class="op">=</span> <span class="va">stop_life_exp</span> <span class="op">-</span> <span class="fl">3.3</span>,
+                          ymin <span class="op">=</span> <span class="va">start_life_exp</span>, 
+                          ymax <span class="op">=</span> <span class="va">stop_life_exp</span> <span class="op">-</span> <span class="fl">3.3</span>, 
+                          colour <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">diff_life_exp</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>pch <span class="op">=</span> <span class="fl">17</span>, size <span class="op">=</span> <span class="fl">15</span><span class="op">)</span> <span class="op">+</span> 
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_linerange.html">geom_linerange</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">10</span><span class="op">)</span> <span class="op">+</span> 
                      <span class="co"># ...just pass `labels` a formatter function!</span>
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_discrete.html">scale_x_discrete</a></span>(<span class="kw">labels</span> <span class="kw">=</span> <span class="fu"><a href="reference/country_format.html">country_format</a></span>(),
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_discrete.html">scale_x_discrete</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="fu"><a href="reference/country_format.html">country_format</a></span><span class="op">(</span><span class="op">)</span>,
                      <span class="co"># Easily change order</span>
-                     <span class="kw">limits</span> <span class="kw">=</span> <span class="fu"><a href="reference/order_countries.html">order_countries</a></span>(<span class="no">living_longer</span>$<span class="no">country_code</span>,
-                                              <span class="no">living_longer</span>$<span class="no">diff_life_exp</span>)) +
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a></span>(<span class="kw">limits</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">30</span>, <span class="fl">80</span>)) +
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span>(<span class="kw">title</span> <span class="kw">=</span> <span class="st">"Life gets better"</span>,
-         <span class="kw">subtitle</span> <span class="kw">=</span> <span class="st">"Largest increase in life expectancy"</span>,
-         <span class="kw">x</span> <span class="kw">=</span> <span class="kw">NULL</span>, <span class="kw">y</span> <span class="kw">=</span> <span class="st">"Life expectancy"</span>) +
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(<span class="kw">axis.text.x</span> <span class="kw">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span>(<span class="kw">angle</span> <span class="kw">=</span> <span class="fl">30</span>, <span class="kw">hjust</span> <span class="kw">=</span> <span class="fl">1</span>),
-          <span class="kw">legend.position</span> <span class="kw">=</span> <span class="st">"none"</span>)</pre></div>
+                     limits <span class="op">=</span> <span class="fu"><a href="reference/order_countries.html">order_countries</a></span><span class="op">(</span><span class="va">living_longer</span><span class="op">$</span><span class="va">country_code</span>, 
+                                              <span class="va">living_longer</span><span class="op">$</span><span class="va">diff_life_exp</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a></span><span class="op">(</span>limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">30</span>, <span class="fl">80</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Life gets better"</span>,
+         subtitle <span class="op">=</span> <span class="st">"Largest increase in life expectancy"</span>,
+         x <span class="op">=</span> <span class="cn">NULL</span>, y <span class="op">=</span> <span class="st">"Life expectancy"</span><span class="op">)</span> <span class="op">+</span> 
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>axis.text.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">30</span>, hjust <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>, 
+          legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></pre></div>
 <p><img src="reference/figures/README-format-1.png"><!-- --></p>
 <p>By default <code>country_format</code> will use Unicode CLDR (see below) English names, which are intelligible and suitable for most purposes. If desired, other languages or formats can be specified just like in <code>as_country_name</code>.</p>
 <hr>
@@ -234,7 +228,7 @@
 <p>The data underlying <code>passport</code> comes from a number of sources, including</p>
 <ul>
 <li>
-<a href="http://cldr.unicode.org/">The Unicode Common Locale Data Repository (CLDR) Project</a> supplies country names in many, many languages, from Afrikaans to Zulu. Even better, <a href="http://cldr.unicode.org/translation/country-names">CLDR aspires to use the most customary name</a> instead of formal or official ones, e.g. “Switzerland” instead of “Swiss Confederation”.</li>
+<a href="http://cldr.unicode.org/">The Unicode Common Locale Data Repository (CLDR) Project</a> supplies country names in many, many languages, from Afrikaans to Zulu. Even better, <a href="http://cldr.unicode.org/translation/displaynames/country-names">CLDR aspires to use the most customary name</a> instead of formal or official ones, e.g. “Switzerland” instead of “Swiss Confederation”.</li>
 <li>
 <a href="https://unstats.un.org/unsd/methodology/m49/overview/">The United Nations Statistics Division</a> maintains and publishes the M.49 region code and the UN geoscheme region codes and names.</li>
 <li>
@@ -243,15 +237,14 @@
 <a href="http://geonames.nga.mil/gns/html/countrycodes.html">The National Geospatial-Intelligence Agency (NGA)</a> is the organization responsible for standardizing US government use of country codes. It inherited the now-deprecated FIPS 10-4 from NIST, which it turned into the GEC, which is now also deprecated in favor of GENC, a US government profile of ISO 3166.</li>
 <li>
 <a href="https://en.wikipedia.org/wiki/Category:Lists_of_country_codes">Wikipedia</a> offers a rich set of country codes, some of which are aggregated here.</li>
-<li>
-<a href="http://data.okfn.org/data/core/country-codes">Open Knowledge International’s Frictionless Data</a> supplies a set of codes collated from a number of sources.</li>
+<li>Open Knowledge International’s Frictionless Data supplies <a href="https://www.datahub.io/core/country-codes">a set of codes collated from a number of sources</a> on datahub.io.</li>
 <li>The regex powering <code><a href="reference/parse_country.html">parse_country()</a></code> are from <a href="https://github.com/vincentarelbundock/countrycode"><code>countrycode</code></a>. If you would like to improve both packages, please contribute regex there!</li>
 </ul>
 </div>
 <div id="licensing" class="section level2">
 <h2 class="hasAnchor">
 <a href="#licensing" class="anchor"></a>Licensing</h2>
-<p><code>passport</code> is licenced as open-source software under <a href="https://www.gnu.org/licenses/gpl.html">GPL-3</a>. Unicode CLDR data is licensed according to <a href="https://github.com/unicode-cldr/cldr-json/blob/master/LICENSE">its own license</a>, a copy of which is included. <code>countrycode</code> regex are used as a modification under GPL-3; see the included aggregation script for modifiying code and date.</p>
+<p><code>passport</code> is licensed as open-source software under <a href="https://www.gnu.org/licenses/gpl.html">GPL-3</a>. Unicode CLDR data is licensed according to <a href="https://github.com/unicode-cldr/cldr-json/blob/master/LICENSE">its own license</a>, a copy of which is included. <code>countrycode</code> regex are used as a modification under GPL-3; see the included aggregation script for modifying code and date.</p>
 </div>
 </div>
   </div>
@@ -302,7 +295,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
