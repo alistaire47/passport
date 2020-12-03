@@ -3,6 +3,8 @@ title: "passport"
 subtitle: "Travel smoothly between country name and code formats"
 author: "Edward Visel"
 date: "`r format(Sys.Date(), '%d %B %Y')`"
+pkgdown:
+  as_is: true
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{passport}
@@ -10,13 +12,12 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-<!-- passport.md is generated from README.Rmd. Please edit that file -->
+<!-- passport.md is generated from passport.Rmd. Please edit that file -->
 
 ```{r setup, echo = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>",
-  fig.path = "passport-"
+  comment = "#>"
 )
 ```
 

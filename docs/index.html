@@ -21,7 +21,13 @@
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
+<![endif]--><!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-GFED6LXBBW"></script><script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-GFED6LXBBW');
+</script>
 </head>
 <body data-spy="scroll" data-target="#toc">
     <div class="container template-home">
@@ -86,20 +92,20 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>Install from CRAN with</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"passport"</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"passport"</span><span class="op">)</span></code></pre></div>
 <p>or the development version from GitHub with</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="co"># install.packages("remotes")</span>
-<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"alistaire47/passport"</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># install.packages("remotes")</span>
+<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"alistaire47/passport"</span><span class="op">)</span></code></pre></div>
 <hr>
 </div>
 <div id="travel-smoothly-between-country-name-and-code-formats" class="section level2">
 <h2 class="hasAnchor">
 <a href="#travel-smoothly-between-country-name-and-code-formats" class="anchor"></a>Travel smoothly between country name and code formats</h2>
 <p>Working with country data can be frustrating. Even with well-curated data like <a href="https://github.com/jennybc/gapminder"><code>gapminder</code></a>, there are some oddities:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/alistaire47/passport">passport</a></span><span class="op">)</span>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/alistaire47/passport">passport</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jennybc/gapminder">gapminder</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>    <span class="co"># Works equally well in any grammar.</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org">tidyr</a></span><span class="op">)</span>
@@ -108,14 +114,14 @@
 <span class="fu"><a href="https://rdrr.io/r/base/grep.html">grep</a></span><span class="op">(</span><span class="st">"Korea"</span>, <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">gapminder</span><span class="op">$</span><span class="va">country</span><span class="op">)</span>, value <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">#&gt; [1] "Korea, Dem. Rep." "Korea, Rep."</span>
 <span class="fu"><a href="https://rdrr.io/r/base/grep.html">grep</a></span><span class="op">(</span><span class="st">"Yemen"</span>, <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">gapminder</span><span class="op">$</span><span class="va">country</span><span class="op">)</span>, value <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="co">#&gt; [1] "Yemen, Rep."</span></pre></div>
+<span class="co">#&gt; [1] "Yemen, Rep."</span></code></pre></div>
 <p><code>passport</code> offers a framework for working with country names and codes without manually editing data or scraping codes from Wikipedia.</p>
 <div id="i-standardize" class="section level3">
 <h3 class="hasAnchor">
 <a href="#i-standardize" class="anchor"></a>I. Standardize</h3>
 <p>If data has non-standardized names, standardize them to an ISO 3166-1 code or other standardized code or name with <code>parse_country</code>:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="va">gap</span> <span class="op">&lt;-</span> <span class="va">gapminder</span> <span class="op">%&gt;%</span> 
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">gap</span> <span class="op">&lt;-</span> <span class="va">gapminder</span> <span class="op">%&gt;%</span> 
     <span class="co"># standardize to ISO 3166 Alpha-2 code</span>
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>country_code <span class="op">=</span> <span class="fu"><a href="reference/parse_country.html">parse_country</a></span><span class="op">(</span><span class="va">country</span><span class="op">)</span><span class="op">)</span>
 
@@ -134,14 +140,14 @@
 <span class="co">#&gt;  7 Albania                  AL            1952    55.2</span>
 <span class="co">#&gt;  8 Jamaica                  JM            2002    72.0</span>
 <span class="co">#&gt;  9 Philippines              PH            1997    68.6</span>
-<span class="co">#&gt; 10 Libya                    LY            1972    52.8</span></pre></div>
+<span class="co">#&gt; 10 Libya                    LY            1972    52.8</span></code></pre></div>
 <p>If country names are particularly irregular, in unsupported languages, or are even just unique location names, <code>parse_country</code> can use Google Maps or Data Science Toolkit geocoding APIs to parse instead of regex:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="fu"><a href="reference/parse_country.html">parse_country</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"somewhere in Japan"</span>, <span class="st">"日本"</span>, <span class="st">"Japon"</span>, <span class="st">"जापान"</span><span class="op">)</span>, how <span class="op">=</span> <span class="st">"google"</span><span class="op">)</span>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="reference/parse_country.html">parse_country</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"somewhere in Japan"</span>, <span class="st">"日本"</span>, <span class="st">"Japon"</span>, <span class="st">"जापान"</span><span class="op">)</span>, how <span class="op">=</span> <span class="st">"google"</span><span class="op">)</span>
 <span class="co">#&gt; [1] "JP" "JP" "JP" "JP"</span>
 
 <span class="fu"><a href="reference/parse_country.html">parse_country</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"1600 Pennsylvania Ave, DC"</span>, <span class="st">"Eiffel Tower"</span><span class="op">)</span>, how <span class="op">=</span> <span class="st">"google"</span><span class="op">)</span>
-<span class="co">#&gt; [1] "US" "FR"</span></pre></div>
+<span class="co">#&gt; [1] "US" "FR"</span></code></pre></div>
 </div>
 <div id="ii-convert" class="section level3">
 <h3 class="hasAnchor">
@@ -155,8 +161,8 @@
 <li>convert them to other languages with <code><a href="reference/as_country_name.html">as_country_name()</a></code>
 </li>
 </ul>
-<div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="co"># NATO member defense expenditure data; see `?nato`</span>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># NATO member defense expenditure data; see `?nato`</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"nato"</span>, package <span class="op">=</span> <span class="st">"passport"</span><span class="op">)</span>
 
 <span class="va">nato</span> <span class="op">%&gt;%</span> 
@@ -180,7 +186,7 @@
 <span class="co">#&gt;  8 ESP            ES          Spain        ஸ்பெயின்           </span>
 <span class="co">#&gt;  9 EST            EE          Estonia      எஸ்டோனியா         </span>
 <span class="co">#&gt; 10 FRA            FR          France       பிரான்ஸ்           </span>
-<span class="co">#&gt; # … with 19 more rows</span></pre></div>
+<span class="co">#&gt; # … with 19 more rows</span></code></pre></div>
 <p>Language formats largely follow <a href="https://en.wikipedia.org/wiki/IETF_language_tag">IETF language tag BCP 47</a> format. For all available formats, run <code><a href="https://rdrr.io/pkg/DT/man/datatable.html">DT::datatable(codes)</a></code> for an interactive widget of format names and further information.</p>
 </div>
 <div id="iii-format" class="section level3">
@@ -188,8 +194,8 @@
 <a href="#iii-format" class="anchor"></a>III. Format</h3>
 <p>A particularly common hangup with country data is presentation. While “Yemen, Rep.” may be fine for exploratory work, to create a plot to share, such names need to be changed to something more palatable either by editing the data or manually overriding the labels directly on the plot.</p>
 <p>If the existing format is already standardized, <code>passport</code> offers another option: use a formatter function created with <code>country_format</code>, just like for thousands separators or currency formatting. Reorder simply with <code>order_countries</code>:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
 
 <span class="va">living_longer</span> <span class="op">&lt;-</span> <span class="va">gap</span> <span class="op">%&gt;%</span> 
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">country_code</span><span class="op">)</span> <span class="op">%&gt;%</span> 
@@ -216,7 +222,7 @@
          subtitle <span class="op">=</span> <span class="st">"Largest increase in life expectancy"</span>,
          x <span class="op">=</span> <span class="cn">NULL</span>, y <span class="op">=</span> <span class="st">"Life expectancy"</span><span class="op">)</span> <span class="op">+</span> 
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>axis.text.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">30</span>, hjust <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>, 
-          legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></pre></div>
+          legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-format-1.png"><!-- --></p>
 <p>By default <code>country_format</code> will use Unicode CLDR (see below) English names, which are intelligible and suitable for most purposes. If desired, other languages or formats can be specified just like in <code>as_country_name</code>.</p>
 <hr>

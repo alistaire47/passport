@@ -2,3 +2,6 @@ url: https://alistaire47.github.io/passport/
 authors:
   Edward Visel:
     href: https://alistaire.rbind.io/
+template:
+  params:
+    ganalytics: G-GFED6LXBBW
